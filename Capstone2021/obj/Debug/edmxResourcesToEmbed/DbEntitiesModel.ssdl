@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_capstone_prototypeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cv">
+    <Key>
+      <PropertyRef Name="student_id" />
+    </Key>
+    <Property Name="student_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="sex" Type="bit" />
+    <Property Name="dob" Type="date" />
+    <Property Name="avatar" Type="text" />
+    <Property Name="school" Type="nvarchar" MaxLength="100" />
+    <Property Name="experience" Type="nvarchar" MaxLength="500" />
+    <Property Name="foreign_language" Type="nvarchar" MaxLength="10" />
+    <Property Name="desired_salary_minimum" Type="int" />
+    <Property Name="working_form" Type="int" />
+    <Property Name="create_date" Type="date" />
+    <Property Name="is_subscribed" Type="bit" />
+  </EntityType>
+  <EntityType Name="job">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="ntext" Nullable="false" />
+    <Property Name="working_form" Type="int" Nullable="false" />
+    <Property Name="location" Type="int" Nullable="false" />
+    <Property Name="working_place" Type="ntext" Nullable="false" />
+    <Property Name="description" Type="ntext" Nullable="false" />
+    <Property Name="requirement" Type="ntext" Nullable="false" />
+    <Property Name="type" Type="bit" Nullable="false" />
+    <Property Name="offer" Type="ntext" Nullable="false" />
+    <Property Name="sex" Type="bit" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="salary_min" Type="int" Nullable="false" />
+    <Property Name="salary_max" Type="int" Nullable="false" />
+    <Property Name="recruiter_id" Type="int" Nullable="false" />
+    <Property Name="staff_id" Type="int" Nullable="false" />
+    <Property Name="create_date" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="recruiter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="company_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="phone" Type="text" Nullable="false" />
+    <Property Name="headquarters" Type="ntext" Nullable="false" />
+    <Property Name="website" Type="varchar" MaxLength="50" />
+    <Property Name="description" Type="ntext" />
+    <Property Name="avatar" Type="text" />
+    <Property Name="create_date" Type="date" />
+    <Property Name="admin_id" Type="int" />
+  </EntityType>
+  <EntityType Name="staff">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="username" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="full_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="admin_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="admin_id" Type="int" />
+    <Property Name="is_deleted" Type="bit" />
+    <Property Name="create_date" Type="date" Nullable="false" />
+    <Property Name="profile_status" Type="bit" Nullable="false" />
+    <Property Name="avatar" Type="text" />
+  </EntityType>
+  <EntityType Name="student_apply_job">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="job_id" Type="int" Nullable="false" />
+    <Property Name="student_id" Type="int" Nullable="false" />
+    <Property Name="create_date" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_cv_student">
+    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="cv" Type="Self.cv" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cv">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_job_recruiter">
+    <End Role="recruiter" Type="Self.recruiter" Multiplicity="1" />
+    <End Role="job" Type="Self.job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="recruiter">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job">
+        <PropertyRef Name="recruiter_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_job_staff">
+    <End Role="staff" Type="Self.staff" Multiplicity="1" />
+    <End Role="job" Type="Self.job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="staff">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job">
+        <PropertyRef Name="staff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_recruiter_admin">
+    <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
+    <End Role="recruiter" Type="Self.recruiter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="admin">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="recruiter">
+        <PropertyRef Name="admin_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_staff_admin">
+    <End Role="admin" Type="Self.admin" Multiplicity="1" />
+    <End Role="staff" Type="Self.staff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="admin">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="staff">
+        <PropertyRef Name="admin_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_admin">
+    <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
+    <End Role="student" Type="Self.student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="admin">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="student">
+        <PropertyRef Name="admin_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_apply_job_job">
+    <End Role="job" Type="Self.job" Multiplicity="1" />
+    <End Role="student_apply_job" Type="Self.student_apply_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="job">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="student_apply_job">
+        <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_apply_job_student">
+    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="student_apply_job" Type="Self.student_apply_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="student_apply_job">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="db_capstone_prototypeModelStoreContainer">
+    <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="staff" EntityType="Self.staff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_cv_student" Association="Self.FK_cv_student">
+      <End Role="student" EntitySet="student" />
+      <End Role="cv" EntitySet="cv" />
+    </AssociationSet>
+    <AssociationSet Name="FK_job_recruiter" Association="Self.FK_job_recruiter">
+      <End Role="recruiter" EntitySet="recruiter" />
+      <End Role="job" EntitySet="job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_job_staff" Association="Self.FK_job_staff">
+      <End Role="staff" EntitySet="staff" />
+      <End Role="job" EntitySet="job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_recruiter_admin" Association="Self.FK_recruiter_admin">
+      <End Role="admin" EntitySet="admin" />
+      <End Role="recruiter" EntitySet="recruiter" />
+    </AssociationSet>
+    <AssociationSet Name="FK_staff_admin" Association="Self.FK_staff_admin">
+      <End Role="admin" EntitySet="admin" />
+      <End Role="staff" EntitySet="staff" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_admin" Association="Self.FK_student_admin">
+      <End Role="admin" EntitySet="admin" />
+      <End Role="student" EntitySet="student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_apply_job_job" Association="Self.FK_student_apply_job_job">
+      <End Role="job" EntitySet="job" />
+      <End Role="student_apply_job" EntitySet="student_apply_job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_apply_job_student" Association="Self.FK_student_apply_job_student">
+      <End Role="student" EntitySet="student" />
+      <End Role="student_apply_job" EntitySet="student_apply_job" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

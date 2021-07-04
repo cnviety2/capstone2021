@@ -13,9 +13,7 @@
         <EntityTypeShape EntityType="db_capstone_prototypeModel.student" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="db_capstone_prototypeModel.student_apply_job" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="db_capstone_prototypeModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="db_capstone_prototypeModel.FK_recruiter_admin" ManuallyRouted="false" />
         <AssociationConnector Association="db_capstone_prototypeModel.FK_staff_admin" ManuallyRouted="false" />
-        <AssociationConnector Association="db_capstone_prototypeModel.FK_student_admin" ManuallyRouted="false" />
         <AssociationConnector Association="db_capstone_prototypeModel.FK_cv_student" ManuallyRouted="false" />
         <AssociationConnector Association="db_capstone_prototypeModel.FK_job_recruiter" ManuallyRouted="false" />
         <AssociationConnector Association="db_capstone_prototypeModel.FK_job_staff" ManuallyRouted="false" />

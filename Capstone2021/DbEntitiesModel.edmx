@@ -260,9 +260,7 @@
           <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="recruiters" Relationship="Self.FK_recruiter_admin" FromRole="admin" ToRole="recruiter" />
           <NavigationProperty Name="staffs" Relationship="Self.FK_staff_admin" FromRole="admin" ToRole="staff" />
-          <NavigationProperty Name="students" Relationship="Self.FK_student_admin" FromRole="admin" ToRole="student" />
         </EntityType>
         <EntityType Name="cv">
           <Key>
@@ -321,8 +319,6 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="create_date" Type="DateTime" Precision="0" />
-          <Property Name="admin_id" Type="Int32" />
-          <NavigationProperty Name="admin" Relationship="Self.FK_recruiter_admin" FromRole="recruiter" ToRole="admin" />
           <NavigationProperty Name="jobs" Relationship="Self.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
         </EntityType>
         <EntityType Name="staff">
@@ -344,12 +340,10 @@
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="gmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="admin_id" Type="Int32" />
           <Property Name="is_deleted" Type="Boolean" />
           <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="profile_status" Type="Boolean" Nullable="false" />
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="admin" Relationship="Self.FK_student_admin" FromRole="student" ToRole="admin" />
           <NavigationProperty Name="cv" Relationship="Self.FK_cv_student" FromRole="student" ToRole="cv" />
           <NavigationProperty Name="student_apply_job" Relationship="Self.FK_student_apply_job_student" FromRole="student" ToRole="student_apply_job" />
         </EntityType>
@@ -374,18 +368,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK_recruiter_admin">
-          <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
-          <End Role="recruiter" Type="Self.recruiter" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="recruiter">
-              <PropertyRef Name="admin_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_staff_admin">
           <End Role="admin" Type="Self.admin" Multiplicity="1" />
           <End Role="staff" Type="Self.staff" Multiplicity="*" />
@@ -394,18 +376,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="staff">
-              <PropertyRef Name="admin_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_student_admin">
-          <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
-          <End Role="student" Type="Self.student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="student">
               <PropertyRef Name="admin_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -479,17 +449,9 @@
           <EntitySet Name="students" EntityType="Self.student" />
           <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK_recruiter_admin" Association="Self.FK_recruiter_admin">
-            <End Role="admin" EntitySet="admins" />
-            <End Role="recruiter" EntitySet="recruiters" />
-          </AssociationSet>
           <AssociationSet Name="FK_staff_admin" Association="Self.FK_staff_admin">
             <End Role="admin" EntitySet="admins" />
             <End Role="staff" EntitySet="staffs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_student_admin" Association="Self.FK_student_admin">
-            <End Role="admin" EntitySet="admins" />
-            <End Role="student" EntitySet="students" />
           </AssociationSet>
           <AssociationSet Name="FK_cv_student" Association="Self.FK_cv_student">
             <End Role="student" EntitySet="students" />
@@ -581,7 +543,6 @@
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="avatar" ColumnName="avatar" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
-                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -602,7 +563,6 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="gmail" ColumnName="gmail" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
                 <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="profile_status" ColumnName="profile_status" />

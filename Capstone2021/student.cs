@@ -23,13 +23,11 @@ namespace Capstone2021
         public int id { get; set; }
         public string gmail { get; set; }
         public string phone { get; set; }
-        public Nullable<int> admin_id { get; set; }
         public Nullable<bool> is_deleted { get; set; }
         public System.DateTime create_date { get; set; }
         public bool profile_status { get; set; }
         public string avatar { get; set; }
     
-        public virtual admin admin { get; set; }
         public virtual cv cv { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_apply_job> student_apply_job { get; set; }

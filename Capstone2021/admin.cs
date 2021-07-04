@@ -17,9 +17,7 @@ namespace Capstone2021
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public admin()
         {
-            this.recruiters = new HashSet<recruiter>();
             this.staffs = new HashSet<staff>();
-            this.students = new HashSet<student>();
         }
     
         public string username { get; set; }
@@ -27,10 +25,6 @@ namespace Capstone2021
         public int id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<recruiter> recruiters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<staff> staffs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<student> students { get; set; }
     }
 }

@@ -9,11 +9,26 @@ namespace Capstone2021.Test.Controller
     [RoutePrefix("test/Orders")]
     public class OdersController : ApiController
     {
+        private List<Order> listOrder = Order.CreateOrders();
+
         [Authorize]
         [Route("")]
         public IHttpActionResult Get()
         {
-            return Ok(Order.CreateOrders());
+            return Ok(listOrder);
+        }
+
+        [Authorize]
+        [Route("{id}")]
+        public IHttpActionResult GetAnOrder(int id)
+        {
+            Order order = null;
+            listOrder.ForEach(o =>
+            {
+                if (o.OrderID == id) { order = o; }
+            });
+            if (order == null) return Ok("Not exist");
+            return Ok(order);
         }
 
     }

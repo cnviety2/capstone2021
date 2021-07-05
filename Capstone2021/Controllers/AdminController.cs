@@ -10,6 +10,7 @@ using System.Web.Http;
 namespace Capstone2021.Controllers
 {
     [RoutePrefix("admin")]
+    [Authorize(Roles = "ROLE_ADMIN")]
     public class AdminController : ApiController
     {
         private ManagerService managerService = null;
@@ -19,7 +20,6 @@ namespace Capstone2021.Controllers
             managerService = new ManagerServiceImpl();
         }
 
-        [Authorize]
         [Route("{id}")]
         public IHttpActionResult getAnAdmin([FromUri] int id)
         {

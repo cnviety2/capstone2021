@@ -45,8 +45,8 @@ namespace Capstone2021.Test.Providers
                     return;
             }
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim("role", manager.role));
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.Role, manager.role));
 
             context.Validated(identity);
 

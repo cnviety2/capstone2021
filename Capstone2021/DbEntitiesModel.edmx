@@ -4,15 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="db_capstone_prototypeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="admin">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
+    <Schema Namespace="DbCapstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cv">
           <Key>
             <PropertyRef Name="student_id" />
@@ -48,8 +40,19 @@
           <Property Name="salary_min" Type="int" Nullable="false" />
           <Property Name="salary_max" Type="int" Nullable="false" />
           <Property Name="recruiter_id" Type="int" Nullable="false" />
-          <Property Name="staff_id" Type="int" Nullable="false" />
           <Property Name="create_date" Type="date" Nullable="false" />
+          <Property Name="manager_id" Type="int" />
+        </EntityType>
+        <EntityType Name="manager">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="create_date" Type="date" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="recruiter">
           <Key>
@@ -66,17 +69,6 @@
           <Property Name="description" Type="ntext" />
           <Property Name="avatar" Type="text" />
           <Property Name="create_date" Type="date" />
-          <Property Name="admin_id" Type="int" />
-        </EntityType>
-        <EntityType Name="staff">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="username" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="full_name" Type="nvarchar" MaxLength="50" />
-          <Property Name="admin_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="student">
           <Key>
@@ -85,7 +77,6 @@
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="admin_id" Type="int" />
           <Property Name="is_deleted" Type="bit" />
           <Property Name="create_date" Type="date" Nullable="false" />
           <Property Name="profile_status" Type="bit" Nullable="false" />
@@ -122,6 +113,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_job_manager">
+          <End Role="manager" Type="Self.manager" Multiplicity="0..1" />
+          <End Role="job" Type="Self.job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manager">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_job_recruiter">
           <End Role="recruiter" Type="Self.recruiter" Multiplicity="1" />
           <End Role="job" Type="Self.job" Multiplicity="*" />
@@ -131,54 +134,6 @@
             </Principal>
             <Dependent Role="job">
               <PropertyRef Name="recruiter_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_job_staff">
-          <End Role="staff" Type="Self.staff" Multiplicity="1" />
-          <End Role="job" Type="Self.job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="job">
-              <PropertyRef Name="staff_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_recruiter_admin">
-          <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
-          <End Role="recruiter" Type="Self.recruiter" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="recruiter">
-              <PropertyRef Name="admin_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_staff_admin">
-          <End Role="admin" Type="Self.admin" Multiplicity="1" />
-          <End Role="staff" Type="Self.staff" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="staff">
-              <PropertyRef Name="admin_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_student_admin">
-          <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
-          <End Role="student" Type="Self.student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="student">
-              <PropertyRef Name="admin_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -206,12 +161,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="db_capstone_prototypeModelStoreContainer">
-          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="DbCapstoneModelStoreContainer">
           <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="manager" EntityType="Self.manager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="staff" EntityType="Self.staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -219,25 +173,13 @@
             <End Role="student" EntitySet="student" />
             <End Role="cv" EntitySet="cv" />
           </AssociationSet>
+          <AssociationSet Name="FK_job_manager" Association="Self.FK_job_manager">
+            <End Role="manager" EntitySet="manager" />
+            <End Role="job" EntitySet="job" />
+          </AssociationSet>
           <AssociationSet Name="FK_job_recruiter" Association="Self.FK_job_recruiter">
             <End Role="recruiter" EntitySet="recruiter" />
             <End Role="job" EntitySet="job" />
-          </AssociationSet>
-          <AssociationSet Name="FK_job_staff" Association="Self.FK_job_staff">
-            <End Role="staff" EntitySet="staff" />
-            <End Role="job" EntitySet="job" />
-          </AssociationSet>
-          <AssociationSet Name="FK_recruiter_admin" Association="Self.FK_recruiter_admin">
-            <End Role="admin" EntitySet="admin" />
-            <End Role="recruiter" EntitySet="recruiter" />
-          </AssociationSet>
-          <AssociationSet Name="FK_staff_admin" Association="Self.FK_staff_admin">
-            <End Role="admin" EntitySet="admin" />
-            <End Role="staff" EntitySet="staff" />
-          </AssociationSet>
-          <AssociationSet Name="FK_student_admin" Association="Self.FK_student_admin">
-            <End Role="admin" EntitySet="admin" />
-            <End Role="student" EntitySet="student" />
           </AssociationSet>
           <AssociationSet Name="FK_student_apply_job_job" Association="Self.FK_student_apply_job_job">
             <End Role="job" EntitySet="job" />
@@ -248,20 +190,10 @@
             <End Role="student_apply_job" EntitySet="student_apply_job" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="db_capstone_prototypeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="admin">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="staffs" Relationship="Self.FK_staff_admin" FromRole="admin" ToRole="staff" />
-        </EntityType>
+      <Schema Namespace="DbCapstoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="cv">
           <Key>
             <PropertyRef Name="student_id" />
@@ -298,11 +230,11 @@
           <Property Name="salary_min" Type="Int32" Nullable="false" />
           <Property Name="salary_max" Type="Int32" Nullable="false" />
           <Property Name="recruiter_id" Type="Int32" Nullable="false" />
-          <Property Name="staff_id" Type="Int32" Nullable="false" />
           <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="recruiter" Relationship="Self.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
-          <NavigationProperty Name="staff" Relationship="Self.FK_job_staff" FromRole="job" ToRole="staff" />
           <NavigationProperty Name="student_apply_job" Relationship="Self.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
+          <Property Name="manager_id" Type="Int32" />
+          <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
         </EntityType>
         <EntityType Name="recruiter">
           <Key>
@@ -320,18 +252,6 @@
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="create_date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="jobs" Relationship="Self.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
-        </EntityType>
-        <EntityType Name="staff">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="username" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="admin_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="admin" Relationship="Self.FK_staff_admin" FromRole="staff" ToRole="admin" />
-          <NavigationProperty Name="jobs" Relationship="Self.FK_job_staff" FromRole="staff" ToRole="job" />
         </EntityType>
         <EntityType Name="student">
           <Key>
@@ -368,18 +288,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK_staff_admin">
-          <End Role="admin" Type="Self.admin" Multiplicity="1" />
-          <End Role="staff" Type="Self.staff" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="admin">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="staff">
-              <PropertyRef Name="admin_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_cv_student">
           <End Role="student" Type="Self.student" Multiplicity="1" />
           <End Role="cv" Type="Self.cv" Multiplicity="0..1" />
@@ -401,18 +309,6 @@
             </Principal>
             <Dependent Role="job">
               <PropertyRef Name="recruiter_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_job_staff">
-          <End Role="staff" Type="Self.staff" Multiplicity="1" />
-          <End Role="job" Type="Self.job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="job">
-              <PropertyRef Name="staff_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -440,29 +336,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DbCapstonePrototypeEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="admins" EntityType="Self.admin" />
+        <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cvs" EntityType="Self.cv" />
           <EntitySet Name="jobs" EntityType="Self.job" />
           <EntitySet Name="recruiters" EntityType="Self.recruiter" />
-          <EntitySet Name="staffs" EntityType="Self.staff" />
           <EntitySet Name="students" EntityType="Self.student" />
           <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK_staff_admin" Association="Self.FK_staff_admin">
-            <End Role="admin" EntitySet="admins" />
-            <End Role="staff" EntitySet="staffs" />
-          </AssociationSet>
           <AssociationSet Name="FK_cv_student" Association="Self.FK_cv_student">
             <End Role="student" EntitySet="students" />
             <End Role="cv" EntitySet="cvs" />
           </AssociationSet>
           <AssociationSet Name="FK_job_recruiter" Association="Self.FK_job_recruiter">
             <End Role="recruiter" EntitySet="recruiters" />
-            <End Role="job" EntitySet="jobs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_job_staff" Association="Self.FK_job_staff">
-            <End Role="staff" EntitySet="staffs" />
             <End Role="job" EntitySet="jobs" />
           </AssociationSet>
           <AssociationSet Name="FK_student_apply_job_job" Association="Self.FK_student_apply_job_job">
@@ -473,24 +359,44 @@
             <End Role="student" EntitySet="students" />
             <End Role="student_apply_job" EntitySet="student_apply_job" />
           </AssociationSet>
+          <EntitySet Name="managers" EntityType="DbCapstoneModel.manager" />
+          <AssociationSet Name="FK_job_manager" Association="DbCapstoneModel.FK_job_manager">
+            <End Role="manager" EntitySet="managers" />
+            <End Role="job" EntitySet="jobs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="manager">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="create_date" Type="DateTime" Precision="0" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_manager" FromRole="manager" ToRole="job" />
+        </EntityType>
+        <Association Name="FK_job_manager">
+          <End Type="DbCapstoneModel.manager" Role="manager" Multiplicity="0..1" />
+          <End Type="DbCapstoneModel.job" Role="job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manager">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="db_capstone_prototypeModelStoreContainer" CdmEntityContainer="DbCapstonePrototypeEntities">
-          <EntitySetMapping Name="admins">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.admin">
-              <MappingFragment StoreEntitySet="admin">
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="DbCapstoneModelStoreContainer" CdmEntityContainer="DbEntities">
           <EntitySetMapping Name="cvs">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.cv">
+            <EntityTypeMapping TypeName="DbCapstoneModel.cv">
               <MappingFragment StoreEntitySet="cv">
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -508,8 +414,9 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="jobs">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.job">
+            <EntityTypeMapping TypeName="DbCapstoneModel.job">
               <MappingFragment StoreEntitySet="job">
+                <ScalarProperty Name="manager_id" ColumnName="manager_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="working_form" ColumnName="working_form" />
@@ -524,13 +431,12 @@
                 <ScalarProperty Name="salary_min" ColumnName="salary_min" />
                 <ScalarProperty Name="salary_max" ColumnName="salary_max" />
                 <ScalarProperty Name="recruiter_id" ColumnName="recruiter_id" />
-                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="recruiters">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.recruiter">
+            <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
               <MappingFragment StoreEntitySet="recruiter">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
@@ -546,19 +452,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="staffs">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.staff">
-              <MappingFragment StoreEntitySet="staff">
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="full_name" ColumnName="full_name" />
-                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="students">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.student">
+            <EntityTypeMapping TypeName="DbCapstoneModel.student">
               <MappingFragment StoreEntitySet="student">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="gmail" ColumnName="gmail" />
@@ -571,7 +466,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="student_apply_job">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.student_apply_job">
+            <EntityTypeMapping TypeName="DbCapstoneModel.student_apply_job">
               <MappingFragment StoreEntitySet="student_apply_job">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="job_id" ColumnName="job_id" />
@@ -581,13 +476,25 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="db_capstone_prototypeModel.sysdiagram">
+            <EntityTypeMapping TypeName="DbCapstoneModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="managers">
+            <EntityTypeMapping TypeName="DbCapstoneModel.manager">
+              <MappingFragment StoreEntitySet="manager">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

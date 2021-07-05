@@ -13,10 +13,10 @@ namespace Capstone2021
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DbCapstonePrototypeEntities : DbContext
+    public partial class DbEntities : DbContext
     {
-        public DbCapstonePrototypeEntities()
-            : base("name=DbCapstonePrototypeEntities")
+        public DbEntities()
+            : base("name=DbEntities")
         {
         }
     
@@ -25,13 +25,12 @@ namespace Capstone2021
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<admin> admins { get; set; }
         public virtual DbSet<cv> cvs { get; set; }
         public virtual DbSet<job> jobs { get; set; }
         public virtual DbSet<recruiter> recruiters { get; set; }
-        public virtual DbSet<staff> staffs { get; set; }
         public virtual DbSet<student> students { get; set; }
         public virtual DbSet<student_apply_job> student_apply_job { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<manager> managers { get; set; }
     }
 }

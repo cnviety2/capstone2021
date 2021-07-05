@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="db_capstone_prototypeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="admin">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
+<Schema Namespace="DbCapstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="cv">
     <Key>
       <PropertyRef Name="student_id" />
@@ -43,8 +35,19 @@
     <Property Name="salary_min" Type="int" Nullable="false" />
     <Property Name="salary_max" Type="int" Nullable="false" />
     <Property Name="recruiter_id" Type="int" Nullable="false" />
-    <Property Name="staff_id" Type="int" Nullable="false" />
     <Property Name="create_date" Type="date" Nullable="false" />
+    <Property Name="manager_id" Type="int" />
+  </EntityType>
+  <EntityType Name="manager">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="full_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="create_date" Type="date" />
+    <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="recruiter">
     <Key>
@@ -61,17 +64,6 @@
     <Property Name="description" Type="ntext" />
     <Property Name="avatar" Type="text" />
     <Property Name="create_date" Type="date" />
-    <Property Name="admin_id" Type="int" />
-  </EntityType>
-  <EntityType Name="staff">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="username" Type="varchar" MaxLength="10" Nullable="false" />
-    <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="full_name" Type="nvarchar" MaxLength="50" />
-    <Property Name="admin_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="student">
     <Key>
@@ -80,7 +72,6 @@
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
-    <Property Name="admin_id" Type="int" />
     <Property Name="is_deleted" Type="bit" />
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="profile_status" Type="bit" Nullable="false" />
@@ -117,6 +108,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_job_manager">
+    <End Role="manager" Type="Self.manager" Multiplicity="0..1" />
+    <End Role="job" Type="Self.job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manager">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job">
+        <PropertyRef Name="manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_job_recruiter">
     <End Role="recruiter" Type="Self.recruiter" Multiplicity="1" />
     <End Role="job" Type="Self.job" Multiplicity="*" />
@@ -126,54 +129,6 @@
       </Principal>
       <Dependent Role="job">
         <PropertyRef Name="recruiter_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_job_staff">
-    <End Role="staff" Type="Self.staff" Multiplicity="1" />
-    <End Role="job" Type="Self.job" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="staff">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="job">
-        <PropertyRef Name="staff_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_recruiter_admin">
-    <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
-    <End Role="recruiter" Type="Self.recruiter" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="admin">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="recruiter">
-        <PropertyRef Name="admin_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_staff_admin">
-    <End Role="admin" Type="Self.admin" Multiplicity="1" />
-    <End Role="staff" Type="Self.staff" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="admin">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="staff">
-        <PropertyRef Name="admin_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_student_admin">
-    <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
-    <End Role="student" Type="Self.student" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="admin">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="student">
-        <PropertyRef Name="admin_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -201,12 +156,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="db_capstone_prototypeModelStoreContainer">
-    <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+  <EntityContainer Name="DbCapstoneModelStoreContainer">
     <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="manager" EntityType="Self.manager" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="staff" EntityType="Self.staff" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -214,25 +168,13 @@
       <End Role="student" EntitySet="student" />
       <End Role="cv" EntitySet="cv" />
     </AssociationSet>
+    <AssociationSet Name="FK_job_manager" Association="Self.FK_job_manager">
+      <End Role="manager" EntitySet="manager" />
+      <End Role="job" EntitySet="job" />
+    </AssociationSet>
     <AssociationSet Name="FK_job_recruiter" Association="Self.FK_job_recruiter">
       <End Role="recruiter" EntitySet="recruiter" />
       <End Role="job" EntitySet="job" />
-    </AssociationSet>
-    <AssociationSet Name="FK_job_staff" Association="Self.FK_job_staff">
-      <End Role="staff" EntitySet="staff" />
-      <End Role="job" EntitySet="job" />
-    </AssociationSet>
-    <AssociationSet Name="FK_recruiter_admin" Association="Self.FK_recruiter_admin">
-      <End Role="admin" EntitySet="admin" />
-      <End Role="recruiter" EntitySet="recruiter" />
-    </AssociationSet>
-    <AssociationSet Name="FK_staff_admin" Association="Self.FK_staff_admin">
-      <End Role="admin" EntitySet="admin" />
-      <End Role="staff" EntitySet="staff" />
-    </AssociationSet>
-    <AssociationSet Name="FK_student_admin" Association="Self.FK_student_admin">
-      <End Role="admin" EntitySet="admin" />
-      <End Role="student" EntitySet="student" />
     </AssociationSet>
     <AssociationSet Name="FK_student_apply_job_job" Association="Self.FK_student_apply_job_job">
       <End Role="job" EntitySet="job" />

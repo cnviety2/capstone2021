@@ -34,12 +34,12 @@ namespace Capstone2021
         public int salary_min { get; set; }
         public int salary_max { get; set; }
         public int recruiter_id { get; set; }
-        public int staff_id { get; set; }
         public System.DateTime create_date { get; set; }
+        public Nullable<int> manager_id { get; set; }
     
         public virtual recruiter recruiter { get; set; }
-        public virtual staff staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_apply_job> student_apply_job { get; set; }
+        public virtual manager manager { get; set; }
     }
 }

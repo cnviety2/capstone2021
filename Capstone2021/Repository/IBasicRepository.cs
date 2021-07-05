@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Capstone2021.Repository
+{
+    /**
+     * Interface này dùng để mô tả những action cơ bản crud với 1 table
+     */
+    interface IBasicRepository<T>
+    {
+        /**
+         * Lấy tất cả từ 1 table
+         */
+        List<T> getAll();
+
+        /**
+         * Lấy 1 record dựa trên primary key (id) của table đó
+         */
+        T get(int id);
+
+        /**
+         * Thêm mới 1 record vào trong table
+         */
+        bool create(T obj);
+
+        /**
+         * Update lại obj,nếu chưa có obj thì thêm mới
+         */
+        bool update(T obj);
+
+        /**
+         * Xóa 1 record trong bảng(hoặc đổi status hoặc remove vĩnh viễn) dựa trên primary key
+         */
+        bool remove(int id);
+    }
+}

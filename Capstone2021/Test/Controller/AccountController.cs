@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace Capstone2021.Test.Controller
 {
-    [RoutePrefix("test/Account")]
+    //[RoutePrefix("test/Account")]
     public class AccountController : ApiController
     {
         private AuthRepository _repo = null;
@@ -21,8 +21,8 @@ namespace Capstone2021.Test.Controller
         }
 
         // POST test/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
+        /*[AllowAnonymous]
+        [Route("Register")]*/
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
             if (!ModelState.IsValid)

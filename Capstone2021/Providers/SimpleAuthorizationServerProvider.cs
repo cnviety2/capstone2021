@@ -1,14 +1,9 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Service;
-using Capstone2021.Test.Repository;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.OAuth;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Capstone2021.Test.Providers
 {
@@ -29,7 +24,23 @@ namespace Capstone2021.Test.Providers
             //lấy ra uri của request từ client
             Uri uri = context.Request.Uri;
             //tách phần query phía sau để biết đang cần xác thực ở table nào,VD:/token?role=manager là đang cần xác thực ở bảng manager,lúc đó sẽ gọi managerService để xác thực
-            String query = uri.PathAndQuery.Split('=')[1];
+            String query;
+            String role;
+            try
+            {
+                query = uri.PathAndQuery.Split('=')[1];
+                role = uri.PathAndQuery.Split('=')[0];
+            }
+            catch (Exception e)
+            {
+                context.SetError("invalid_uri", "The uri is incorrect");
+                return;
+            }
+            if (!role.Contains("role"))
+            {
+                context.SetError("invalid_uri", "The uri is incorrect");
+                return;
+            }
             switch (query)
             {
                 case "manager":
@@ -41,12 +52,12 @@ namespace Capstone2021.Test.Providers
                     }
                     break;
                 default:
-                    context.SetError("invalid_grant", "The syntax of query is incorrect");
+                    context.SetError("invalid_uri", "The syntax of query is incorrect");
                     return;
             }
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-            identity.AddClaim(new Claim(ClaimTypes.Role, manager.role));
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));//set username vào HttpContext để biết được user nào đang gửi request 
+            identity.AddClaim(new Claim(ClaimTypes.Role, manager.role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
 
             context.Validated(identity);
 

@@ -1,0 +1,141 @@
+﻿using Capstone2021.DTO;
+using Capstone2021.Repository.AdminRepository;
+using Microsoft.AspNet.Identity;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Helpers;
+
+namespace Capstone2021.Service
+{
+    /**
+     * Class này hiện thực interface AdminService
+     */
+    public class ManagerServiceImpl : ManagerService, IDisposable
+    {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private DbEntities context;
+
+        public ManagerServiceImpl()
+        {
+            context = new DbEntities();//DbEntities là class đc Entity Framework tạo ra dùng để kết nối tới db,quản lý db đơn giản hơn
+        }
+        public void Dispose()
+        {
+            context.Dispose();
+        }
+        public bool create(Manager obj)
+        {
+            String username = obj.username;
+            using (context)
+            {
+                Manager checkManager = context.managers.AsEnumerable().Where(s => s.username.Equals(obj.username)).Select(s => new Manager()
+                {
+                    id = s.id,
+                    username = s.username
+                }).FirstOrDefault<Manager>();
+                if (checkManager != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    try
+                    {
+                        manager saveObj = new manager();
+                        saveObj.create_date = DateTime.Now;
+                        saveObj.username = obj.username;
+                        saveObj.password = obj.password;
+                        saveObj.role = obj.role;
+                        saveObj.full_name = obj.fullName;
+                        context.managers.Add(saveObj);
+                        context.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public Manager get(int id)
+        {
+            Manager result = null;
+            using (context)
+            {
+                //context.admins sẽ lấy ra DataSet của table admins ở phía dưới db
+                result = context.managers.AsEnumerable().Where(s => s.id == id).Select(s => new Manager()
+                {
+                    id = s.id,
+                    username = s.username,
+                    password = s.password,
+                    role = s.role,
+                    createDate = s.create_date != null ? s.create_date.Value.ToString("dd/MM/yyyy") : "null",
+                    fullName = s.full_name
+                }).FirstOrDefault<Manager>();
+            }
+            return result;
+        }
+
+        public IList<Manager> getAll()
+        {
+            IList<Manager> listResult = new List<Manager>();
+            using (context)
+            {
+                listResult = context.managers.AsEnumerable().Select(s =>
+                    new Manager()
+                    {
+                        id = s.id,
+                        createDate = s.create_date != null ? s.create_date.Value.ToString("dd/MM/yyyy") : "null",
+                        fullName = s.full_name,
+                        username = s.username,
+                        role = s.role
+                    }
+                ).ToList<Manager>();
+            }
+            return listResult;
+        }
+
+        public Manager login(Manager manager)
+        {
+            Manager result = null;
+            using (context)
+            {
+                Manager checkManager = context.managers.AsEnumerable().Where(s => s.username.Equals(manager.username)).Select(s => new Manager()
+                {
+                    id = s.id,
+                    username = s.username,
+                    password = s.password,
+                    createDate = s.create_date != null ? s.create_date.Value.ToString("dd/MM/yyyy") : "null",
+                    fullName = s.full_name,
+                    role = s.role
+                }).FirstOrDefault<Manager>();
+                if (checkManager == null)
+                {
+                    return null;
+                }
+                if (Crypto.VerifyHashedPassword(checkManager.password, manager.password))
+                {
+                    result = checkManager;
+                }
+            }
+            return result;
+        }
+
+        public bool remove(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool update(Manager obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

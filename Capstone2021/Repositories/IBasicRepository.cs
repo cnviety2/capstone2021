@@ -14,7 +14,7 @@ namespace Capstone2021.Repository
         /**
          * Lấy tất cả từ 1 table
          */
-        List<T> getAll();
+        IList<T> getAll();
 
         /**
          * Lấy 1 record dựa trên primary key (id) của table đó

@@ -44,7 +44,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="150" Nullable="false" />
     <Property Name="full_name" Type="nvarchar" MaxLength="50" />
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />

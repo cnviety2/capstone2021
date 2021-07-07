@@ -1,8 +1,8 @@
+using Capstone2021.Areas.HelpPage.ModelDescriptions;
+using Capstone2021.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Capstone2021.Areas.HelpPage.ModelDescriptions;
-using Capstone2021.Areas.HelpPage.Models;
 
 namespace Capstone2021.Areas.HelpPage.Controllers
 {

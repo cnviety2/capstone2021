@@ -55,7 +55,7 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="150" Nullable="false" />
     <Property Name="company_name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="phone" Type="text" Nullable="false" />
@@ -64,6 +64,7 @@
     <Property Name="description" Type="ntext" />
     <Property Name="avatar" Type="text" />
     <Property Name="create_date" Type="date" />
+    <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="student">
     <Key>

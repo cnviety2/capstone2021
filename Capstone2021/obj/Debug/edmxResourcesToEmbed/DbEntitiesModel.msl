@@ -44,6 +44,7 @@
     <EntitySetMapping Name="recruiters">
       <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
         <MappingFragment StoreEntitySet="recruiter">
+          <ScalarProperty Name="role" ColumnName="role" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="password" ColumnName="password" />

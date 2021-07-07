@@ -1,18 +1,14 @@
 ﻿using Capstone2021.DTO;
-using Capstone2021.Repository.AdminRepository;
-using Microsoft.AspNet.Identity;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Helpers;
 
 namespace Capstone2021.Service
 {
     /**
-     * Class này hiện thực interface AdminService
+     * Class này hiện thực interface ManagerService
      */
     public class ManagerServiceImpl : ManagerService, IDisposable
     {
@@ -102,25 +98,23 @@ namespace Capstone2021.Service
             return listResult;
         }
 
-        public Manager login(Manager manager)
+        public Manager login(string username, string password)
         {
             Manager result = null;
             using (context)
             {
-                Manager checkManager = context.managers.AsEnumerable().Where(s => s.username.Equals(manager.username)).Select(s => new Manager()
+                Manager checkManager = context.managers.AsEnumerable().Where(s => s.username.Equals(username)).Select(s => new Manager()
                 {
                     id = s.id,
                     username = s.username,
                     password = s.password,
-                    createDate = s.create_date != null ? s.create_date.Value.ToString("dd/MM/yyyy") : "null",
-                    fullName = s.full_name,
                     role = s.role
                 }).FirstOrDefault<Manager>();
                 if (checkManager == null)
                 {
                     return null;
                 }
-                if (Crypto.VerifyHashedPassword(checkManager.password, manager.password))
+                if (Crypto.VerifyHashedPassword(checkManager.password, password))
                 {
                     result = checkManager;
                 }

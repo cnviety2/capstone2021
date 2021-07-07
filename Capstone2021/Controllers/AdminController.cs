@@ -2,9 +2,7 @@
 using Capstone2021.Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;

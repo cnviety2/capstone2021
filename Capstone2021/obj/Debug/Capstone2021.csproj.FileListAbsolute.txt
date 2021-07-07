@@ -1,5 +1,9 @@
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache
+F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache
+F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
+F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
+F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Capstone2021.dll.config
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Capstone2021.pdb
@@ -214,7 +218,3 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.CodeDom.Provi
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CopyComplete
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
-F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache
-F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
-F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
-F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb

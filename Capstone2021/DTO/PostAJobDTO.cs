@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 
 namespace Capstone2021.DTO
@@ -18,7 +15,7 @@ namespace Capstone2021.DTO
         public string requirement { get; set; }
         public bool type { get; set; }
         public string offer { get; set; }
-        public bool sex { get; set;}
+        public bool sex { get; set; }
         public int quantity { get; set; }
         public int salaryMin { get; set; }
         public int salaryMax { get; set; }

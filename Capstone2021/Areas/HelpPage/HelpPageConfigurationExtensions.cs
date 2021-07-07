@@ -1,3 +1,5 @@
+using Capstone2021.Areas.HelpPage.ModelDescriptions;
+using Capstone2021.Areas.HelpPage.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,8 +13,6 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using Capstone2021.Areas.HelpPage.ModelDescriptions;
-using Capstone2021.Areas.HelpPage.Models;
 
 namespace Capstone2021.Areas.HelpPage
 {

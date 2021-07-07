@@ -60,7 +60,7 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="company_name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="phone" Type="text" Nullable="false" />
@@ -69,6 +69,7 @@
           <Property Name="description" Type="ntext" />
           <Property Name="avatar" Type="text" />
           <Property Name="create_date" Type="date" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="student">
           <Key>
@@ -242,7 +243,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="company_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="gmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
@@ -252,6 +253,7 @@
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="create_date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="jobs" Relationship="Self.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="student">
           <Key>
@@ -438,6 +440,7 @@
           <EntitySetMapping Name="recruiters">
             <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
               <MappingFragment StoreEntitySet="recruiter">
+                <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />

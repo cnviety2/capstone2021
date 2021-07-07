@@ -373,6 +373,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RecruiterController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="cv.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
@@ -393,7 +394,9 @@
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DTO\CreateManagerDTO.cs" />
+    <Compile Include="DTO\Job.cs" />
     <Compile Include="DTO\Manager.cs" />
+    <Compile Include="DTO\PostAJobDTO.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
@@ -497,6 +500,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Utils\" />
+    <Folder Include="Views\Recruiter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

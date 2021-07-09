@@ -65,12 +65,12 @@ namespace Capstone2021.Service
             Manager result = null;
             using (context)
             {
-                //context.admins sẽ lấy ra DataSet của table admins ở phía dưới db
+                //context.managers sẽ lấy ra DataSet của table manager ở phía dưới db
                 result = context.managers.AsEnumerable().Where(s => s.id == id).Select(s => new Manager()
                 {
                     id = s.id,
                     username = s.username,
-                    password = s.password,
+                    password = "***",
                     role = s.role,
                     createDate = s.create_date != null ? s.create_date.Value.ToString("dd/MM/yyyy") : "null",
                     fullName = s.full_name
@@ -91,7 +91,8 @@ namespace Capstone2021.Service
                         createDate = s.create_date != null ? s.create_date.Value.ToString("dd/MM/yyyy") : "null",
                         fullName = s.full_name,
                         username = s.username,
-                        role = s.role
+                        role = s.role,
+                        password = "***"
                     }
                 ).ToList<Manager>();
             }

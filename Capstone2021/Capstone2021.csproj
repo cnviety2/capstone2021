@@ -374,6 +374,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecruiterController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="cv.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>

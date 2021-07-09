@@ -20,5 +20,26 @@ namespace Capstone2021.Service
         ///Method update fullName của admin hoặc staff,return true nếu thành công
         ///</summary>
         bool updateFullName(string fullName, string username);
+
+        /// <summary>
+        /// Method ban 1 staff,chỉ role admin mới được sử dụng
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        bool banAStaff(string username);
+
+        /// <summary>
+        /// Method ban 1 recruiter,chỉ role admin mới được sử dụng
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        bool banARecruiter(string username);
+
+        /// <summary>
+        /// Method ban 1 student,chỉ role admin mới được sử dụng
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        bool banAStudent(string username);
     }
 }

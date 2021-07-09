@@ -23,13 +23,9 @@ namespace Capstone2021.Repository
         bool create(T obj);
 
         /**
-         * Update lại obj,nếu chưa có obj thì thêm mới
-         */
-        bool update(T obj);
-
-        /**
          * Xóa 1 record trong bảng(hoặc đổi status hoặc remove vĩnh viễn) dựa trên primary key
          */
         bool remove(int id);
+
     }
 }

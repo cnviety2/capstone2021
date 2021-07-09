@@ -127,12 +127,6 @@ namespace Capstone2021.Service
             throw new NotImplementedException();
         }
 
-        public bool update(Manager obj)
-        {
-            throw new NotImplementedException();
-
-        }
-
         public bool updatePassword(string password, string username)
         {
             bool result = false;
@@ -176,5 +170,19 @@ namespace Capstone2021.Service
             return result;
         }
 
+        public bool banAStaff(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool banARecruiter(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool banAStudent(string username)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

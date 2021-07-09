@@ -130,6 +130,51 @@ namespace Capstone2021.Service
         public bool update(Manager obj)
         {
             throw new NotImplementedException();
+
         }
+
+        public bool updatePassword(string password, string username)
+        {
+            bool result = false;
+            using (context)
+            {
+                var checkManager = context.managers.SingleOrDefault(b => b.username.Equals(username));
+                if (checkManager == null)
+                {
+                    return result;
+                }
+                else
+                {
+                    checkManager.password = Crypto.HashPassword(password);
+                    context.SaveChanges();
+                    result = true;
+                }
+
+
+            }
+            return result;
+        }
+
+        public bool updateFullName(string fullName, string username)
+        {
+            bool result = false;
+            using (context)
+            {
+                var checkManager = context.managers.SingleOrDefault(b => b.username.Equals(username));
+                if (checkManager == null)
+                {
+                    return result;
+                }
+                else
+                {
+                    checkManager.full_name = fullName;
+                    context.SaveChanges();
+                    result = true;
+                }
+
+            }
+            return result;
+        }
+
     }
 }

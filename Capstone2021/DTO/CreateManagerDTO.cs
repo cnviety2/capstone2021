@@ -12,6 +12,7 @@ namespace Capstone2021.DTO
         [Required]
         [Display(Name = "password")]
         [DataType(DataType.Password)]
+        [RegularExpression("^[a-zA-Z0-9_]{6,20}$", ErrorMessage = "Password can only contain alphabet's characters and numbers")]
         [StringLength(20, ErrorMessage = "Password's length minimum is 6 and maximum is 20", MinimumLength = 6)]
         public string password { get; set; }
 
@@ -24,6 +25,7 @@ namespace Capstone2021.DTO
         [RegularExpression("ROLE_ADMIN|ROLE_STAFF", ErrorMessage = "Error syntax of a role")]
         public string role { get; set; }
 
+        [StringLength(50, ErrorMessage = "Full name's maximum length is 50")]
         public string fullName { get; set; }
 
         public string createDate { get; set; }

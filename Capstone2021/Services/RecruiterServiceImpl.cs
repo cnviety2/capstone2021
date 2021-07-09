@@ -36,11 +36,6 @@ namespace Capstone2021.Services
                     try
                     {
                         recruiter saveObj = new recruiter();
-                        /*saveObj.create_date = DateTime.Now;
-                        saveObj.username = obj.username;
-                        saveObj.password = obj.password;
-                        saveObj.role = obj.role;
-                        saveObj.*/
                         saveObj = RecruiterMapper.map(obj);
                         context.recruiters.Add(saveObj);
                         context.SaveChanges();
@@ -104,7 +99,6 @@ namespace Capstone2021.Services
                 {
                     id = s.id,
                     username = s.username,
-                    password = s.password,
                     role = s.role
                 }).FirstOrDefault<Recruiter>();
                 if (checkRecruiter == null)

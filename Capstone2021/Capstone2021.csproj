@@ -398,6 +398,8 @@
     <Compile Include="DTO\PostAJobDTO.cs" />
     <Compile Include="DTO\Recruiter.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />
+    <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
+    <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
     <Compile Include="job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
@@ -431,6 +433,7 @@
     <Compile Include="Test\Model\UserModel.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Test\Repository\AuthRepository.cs" />
+    <Compile Include="Utils\HttpContextUtils.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />
   </ItemGroup>
   <ItemGroup>

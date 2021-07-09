@@ -69,10 +69,6 @@ namespace Capstone2021.Test.Providers
                     context.SetError("invalid_uri", "The syntax of query is incorrect");
                     return;
             }
-            /*identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));//set username vào HttpContext để biết được user nào đang gửi request 
-            identity.AddClaim(new Claim(ClaimTypes.Role, manager.role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào*/
-
-
             context.Validated(identity);
 
         }
@@ -83,5 +79,6 @@ namespace Capstone2021.Test.Providers
             identity.AddClaim(new Claim(ClaimTypes.Role, role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
 
         }
+
     }
 }

@@ -14,25 +14,8 @@ namespace Capstone2021.Controllers
         {
             _recruiterService = new RecruiterServiceImpl();
         }
-        /*
-                [Route("{id}")]
-                [HttpGet]
-                public IHttpActionResult getAllJob([FromUri] int id)
-                {
-                    ResponseDTO response = new ResponseDTO();
-                    IList<Job> list = (IList<Job>)_recruiterService.getAllJob(id);
-                    if (list.Count == 0)
-                    {
-                        response.message = "Bạn không có tin tuyển dụng công việc";
-                        return Ok(response);
-                    }
-                    response.message = "OK";
-                    response.data = list;
-                    return Ok(response);
-                }*/
-
-        [Route("create")]
         [HttpPost]
+        [Route("create")]
         [AllowAnonymous]
         public IHttpActionResult create([FromBody] Recruiter recruiter)
         {
@@ -55,11 +38,21 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("")]
-        public IHttpActionResult test()
+        [HttpPut]
+        [Route("update")]
+        public IHttpActionResult update([FromBody] Recruiter recruiter)
         {
-            return Ok();
+            ResponseDTO response = new ResponseDTO();
+            bool saveState = _recruiterService.update(recruiter);
+            if (saveState)
+            {
+                response.message = "OK";
+            }
+            else
+            {
+                response.message = "Error occured";
+            }
+            return Ok(response);
         }
     }
 }

@@ -5,9 +5,6 @@ namespace Capstone2021.Services
 {
     interface RecruiterService : IRecruiterRepository
     {
-        /*Job PostAJob(PostAJobDTO model);
-        Job getAllJob(int id);*/
-
         Recruiter login(string username, string password);
     }
 }

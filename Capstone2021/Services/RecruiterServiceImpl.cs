@@ -1,6 +1,4 @@
 ﻿using Capstone2021.DTO;
-using Capstone2021.Interfaces;
-using Capstone2021.Repositories.RecruiterRepository;
 using Capstone2021.Utils;
 using NLog;
 using System;
@@ -12,14 +10,14 @@ namespace Capstone2021.Services
 {
     public class RecruiterServiceImpl : RecruiterService, IDisposable
     {
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private DbEntities context;
-        private readonly IRecruiterRepository _recruiterrepository;
-        public RecruiterServiceImpl(IUnitOfWork unitOfWork)
+        //private readonly IRecruiterRepository _recruiterrepository;
+        public RecruiterServiceImpl()
         {
             context = new DbEntities();
-            _unitOfWork = unitOfWork;
+            //_unitOfWork = unitOfWork;
         }
 
         public bool create(Recruiter obj)
@@ -40,10 +38,6 @@ namespace Capstone2021.Services
                 {
                     try
                     {
-<<<<<<< HEAD
-                        recruiter saveObj = new recruiter();
-=======
->>>>>>> c5d3466a62a8b1f7ce5929072bb874f2c89d1662
                         saveObj = RecruiterMapper.map(obj);
                         context.recruiters.Add(saveObj);
                         context.SaveChanges();
@@ -150,8 +144,8 @@ namespace Capstone2021.Services
 
         public bool update(Recruiter obj)
         {
-            Recruiter recruiter = _unitOfWork.RecruiterRepository.GetByID(obj.id);
-            if(recruiter == null)
+            /*Recruiter recruiter = _unitOfWork.RecruiterRepository.GetByID(obj.id);
+            if (recruiter == null)
             {
                 return false;
             }
@@ -162,7 +156,8 @@ namespace Capstone2021.Services
             recruiter.website = obj.website;
             recruiter.description = obj.description;
             _unitOfWork.RecruiterRepository.Update(recruiter);
-            return true;
+            return true;*/
+            return false;
         }
 
 

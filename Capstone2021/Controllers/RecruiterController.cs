@@ -1,5 +1,7 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Services;
+using Capstone2021.Utils;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
 
@@ -17,7 +19,7 @@ namespace Capstone2021.Controllers
         [HttpPost]
         [Route("create")]
         [AllowAnonymous]
-        public IHttpActionResult create([FromBody] Recruiter recruiter)
+        public IHttpActionResult create([FromBody] CreateRecruiterDTO recruiter)
         {
             ResponseDTO response = new ResponseDTO();
             if (!ModelState.IsValid)
@@ -40,7 +42,7 @@ namespace Capstone2021.Controllers
 
         [HttpPut]
         [Route("update")]
-        public IHttpActionResult update([FromBody] Recruiter recruiter)
+        public IHttpActionResult updateInformation([FromBody] UpdateInformationRecruiterDTO recruiter)
         {
             ResponseDTO response = new ResponseDTO();
             bool saveState = _recruiterService.update(recruiter);
@@ -51,6 +53,27 @@ namespace Capstone2021.Controllers
             else
             {
                 response.message = "Error occured";
+            }
+            return Ok(response);
+        }
+        [Route("update/password")]
+        [HttpPut]
+        public IHttpActionResult updatePassword([FromBody] UpdatePasswordRecruiterDTO dto)
+        {
+            ResponseDTO response = new ResponseDTO();
+            string currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            bool updateState = _recruiterService.updatePassword(dto.password, currentUser);
+            if (updateState)
+            {
+                response.message = "OK";
+            }
+            else
+            {
+                return InternalServerError();
             }
             return Ok(response);
         }

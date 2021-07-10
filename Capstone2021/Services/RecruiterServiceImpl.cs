@@ -8,6 +8,9 @@ using System.Web.Helpers;
 
 namespace Capstone2021.Services
 {
+    /**
+     * Class này hiện thực interface RecruiterService
+     */
     public class RecruiterServiceImpl : RecruiterService, IDisposable
     {
         //private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +19,7 @@ namespace Capstone2021.Services
         //private readonly IRecruiterRepository _recruiterrepository;
         public RecruiterServiceImpl()
         {
-            context = new DbEntities();
+            context = new DbEntities();//DbEntities là class đc Entity Framework tạo ra dùng để kết nối tới db,quản lý db đơn giản hơn
             //_unitOfWork = unitOfWork;
         }
 
@@ -50,6 +53,11 @@ namespace Capstone2021.Services
                 }
             }
             return true;
+        }
+
+        public bool create(CreateRecruiterDTO obj)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
@@ -130,7 +138,7 @@ namespace Capstone2021.Services
 
         public bool remove(int id)
         {
-            var recruiter = context.recruiters.Where(c => c.id == id).FirstOrDefault();
+          /*  var recruiter = context.recruiters.Where(c => c.id == id).FirstOrDefault();
             if (recruiter == null)
             {
                 return false;
@@ -138,28 +146,55 @@ namespace Capstone2021.Services
             else
             {
                 context.recruiters.Remove(recruiter);
-            }
+            }*/
             return true;
         }
 
-        public bool update(Recruiter obj)
+       
+
+        public bool update(UpdateInformationRecruiterDTO obj)
         {
-            /*Recruiter recruiter = _unitOfWork.RecruiterRepository.GetByID(obj.id);
-            if (recruiter == null)
+            bool result = false;
+            using (context)
             {
-                return false;
+                var recruiter = context.recruiters.SingleOrDefault(c => c.id.Equals(obj.id));
+                if (recruiter == null)
+                {
+                    return result;
+                }
+                else
+                {
+                    recruiter.company_name = obj.companyName;
+                    recruiter.gmail = obj.gmail;
+                    recruiter.headquarters = obj.headquarter;
+                    recruiter.phone = obj.phone;
+                    recruiter.website = obj.website;
+                    recruiter.description = obj.description;
+                    context.SaveChanges();
+                    result = true;
+                }
             }
-            recruiter.companyName = obj.companyName;
-            recruiter.gmail = obj.gmail;
-            recruiter.headquarter = obj.headquarter;
-            recruiter.phone = obj.phone;
-            recruiter.website = obj.website;
-            recruiter.description = obj.description;
-            _unitOfWork.RecruiterRepository.Update(recruiter);
-            return true;*/
-            return false;
+            return result;
         }
 
-
+        public bool updatePassword(string password, string username)
+        {
+            bool result = false;
+            using (context)
+            {
+                var checkRecruiter = context.recruiters.SingleOrDefault(c => c.username.Equals(username));
+                if(checkRecruiter == null)
+                {
+                    return result;
+                }
+                else
+                {
+                    checkRecruiter.password = Crypto.HashPassword(password);
+                    context.SaveChanges();
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 }

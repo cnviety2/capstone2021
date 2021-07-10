@@ -394,6 +394,7 @@
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DTO\CreateManagerDTO.cs" />
+    <Compile Include="DTO\CreateRecruiterDTO.cs" />
     <Compile Include="DTO\Job.cs" />
     <Compile Include="DTO\Manager.cs" />
     <Compile Include="DTO\PostAJobDTO.cs" />
@@ -401,6 +402,7 @@
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
+    <Compile Include="DTO\UpdatePasswordRecruiterDTO.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="job.cs">

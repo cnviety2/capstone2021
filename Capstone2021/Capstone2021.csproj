@@ -402,18 +402,16 @@
     <Compile Include="DTO\Recruiter.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
+    <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
-<<<<<<< HEAD
     <Compile Include="Repositories\JobRepository\IJobRepository.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\JobServiceImpl.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IGenericRepository.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IUnitOfWork.cs" />
-=======
     <Compile Include="DTO\UpdatePasswordRecruiterDTO.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
->>>>>>> a049f92cdbbf014a6b6701e56b022c03f8ac02f3
     <Compile Include="job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>

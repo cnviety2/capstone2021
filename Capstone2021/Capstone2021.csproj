@@ -404,11 +404,14 @@
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
+<<<<<<< HEAD
     <Compile Include="Repositories\JobRepository\IJobRepository.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\JobServiceImpl.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IGenericRepository.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IUnitOfWork.cs" />
+=======
+>>>>>>> eaa2426da9d91ab76f0152f427d247d5540d9111
     <Compile Include="DTO\UpdatePasswordRecruiterDTO.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />

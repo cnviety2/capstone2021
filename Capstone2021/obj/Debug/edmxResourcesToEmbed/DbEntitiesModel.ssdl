@@ -30,13 +30,14 @@
     <Property Name="requirement" Type="ntext" Nullable="false" />
     <Property Name="type" Type="bit" Nullable="false" />
     <Property Name="offer" Type="ntext" Nullable="false" />
-    <Property Name="sex" Type="bit" />
+    <Property Name="sex" Type="int" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="salary_min" Type="int" Nullable="false" />
     <Property Name="salary_max" Type="int" Nullable="false" />
     <Property Name="recruiter_id" Type="int" Nullable="false" />
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="manager_id" Type="int" />
+    <Property Name="status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="manager">
     <Key>

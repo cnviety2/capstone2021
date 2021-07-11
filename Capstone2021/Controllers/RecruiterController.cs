@@ -22,7 +22,7 @@ namespace Capstone2021.Controllers
         public IHttpActionResult create([FromBody] CreateRecruiterDTO recruiter)
         {
             ResponseDTO response = new ResponseDTO();
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || recruiter == null)
             {
                 return BadRequest(ModelState);
             }
@@ -44,6 +44,11 @@ namespace Capstone2021.Controllers
         [Route("update")]
         public IHttpActionResult updateInformation([FromBody] UpdateInformationRecruiterDTO recruiter)
         {
+            if (!ModelState.IsValid || recruiter == null)
+            {
+                return BadRequest(ModelState);
+            }
+
             ResponseDTO response = new ResponseDTO();
             bool saveState = _recruiterService.update(recruiter);
             if (saveState)
@@ -60,12 +65,12 @@ namespace Capstone2021.Controllers
         [HttpPut]
         public IHttpActionResult updatePassword([FromBody] UpdatePasswordRecruiterDTO dto)
         {
-            ResponseDTO response = new ResponseDTO();
-            string currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
+            ResponseDTO response = new ResponseDTO();
+            string currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
             bool updateState = _recruiterService.updatePassword(dto.password, currentUser);
             if (updateState)
             {

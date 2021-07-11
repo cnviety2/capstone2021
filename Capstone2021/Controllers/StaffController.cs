@@ -65,7 +65,7 @@ namespace Capstone2021.Controllers
         {
             ResponseDTO response = new ResponseDTO();
             String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
@@ -87,7 +87,7 @@ namespace Capstone2021.Controllers
         {
             ResponseDTO response = new ResponseDTO();
             String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }

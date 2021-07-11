@@ -1,4 +1,7 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace Capstone2021.Utils
 {
@@ -15,6 +18,17 @@ namespace Capstone2021.Utils
         public static string getUsername(IIdentity identity)
         {
             return identity.Name;
+        }
+
+
+        /// <summary>
+        /// Trả về id của user hiện tại đã lưu vào token 
+        /// </summary>
+        /// <param name="identity"></param>
+        /// <returns></returns>
+        public static int getUserID(ClaimsPrincipal identity)
+        {
+            return Int32.Parse(identity.Claims.Where(c => c.Type.Equals("id")).Single().Value);
         }
     }
 }

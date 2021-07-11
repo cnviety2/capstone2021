@@ -12,11 +12,12 @@ namespace Capstone2021.Service
      */
     public class ManagerServiceImpl : ManagerService, IDisposable
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger;
         private DbEntities context;
 
         public ManagerServiceImpl()
         {
+            logger = LogManager.GetCurrentClassLogger();
             context = new DbEntities();//DbEntities là class đc Entity Framework tạo ra dùng để kết nối tới db,quản lý db đơn giản hơn
         }
         public void Dispose()

@@ -21,7 +21,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="ntext" Nullable="false" />
     <Property Name="working_form" Type="int" Nullable="false" />
     <Property Name="location" Type="int" Nullable="false" />

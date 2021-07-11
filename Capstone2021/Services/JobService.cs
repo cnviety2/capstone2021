@@ -1,13 +1,15 @@
 ﻿using Capstone2021.Repositories.JobRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Capstone2021.Services
 {
     interface JobService : IJobRepository
     {
+        /// <summary>
+        /// Method tạo mới 1 job,chỉ recruiter mới sử dụng 
+        /// </summary>
+        /// <param name="job"></param>
+        /// <param name="recruiterID"></param>
+        /// <returns></returns>
+        bool create(job job, int recruiterID);
     }
 }

@@ -87,12 +87,12 @@ namespace Capstone2021.Controllers
         [HttpPost]
         public IHttpActionResult create([FromBody] CreateManagerDTO dto)
         {
-            ResponseDTO response = new ResponseDTO();
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
 
+            ResponseDTO response = new ResponseDTO();
             Manager saveObj = new Manager();
             saveObj.fullName = dto.fullName.Trim();
             saveObj.username = dto.username.Trim();
@@ -114,12 +114,13 @@ namespace Capstone2021.Controllers
         [HttpPut]
         public IHttpActionResult updateFullName([FromBody] UpdateFullNameManagerDTO dto)
         {
-            ResponseDTO response = new ResponseDTO();
-            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
-            if (!ModelState.IsValid)
+
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
+            ResponseDTO response = new ResponseDTO();
+            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
             bool updateState = managerService.updateFullName(dto.fullName, currentUser);
             if (updateState)
             {
@@ -136,12 +137,13 @@ namespace Capstone2021.Controllers
         [HttpPut]
         public IHttpActionResult updatePassword([FromBody] UpdatePasswordManagerDTO dto)
         {
-            ResponseDTO response = new ResponseDTO();
-            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
-            if (!ModelState.IsValid)
+
+            if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
+            ResponseDTO response = new ResponseDTO();
+            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
             bool updateState = managerService.updatePassword(dto.password, currentUser);
             if (updateState)
             {

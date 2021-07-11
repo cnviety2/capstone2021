@@ -4,17 +4,17 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Capstone2021.Services
 {
     public class JobServiceImpl : JobService, IDisposable
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger;
         private DbEntities context;
 
         public JobServiceImpl()
         {
+            logger = LogManager.GetCurrentClassLogger();
             context = new DbEntities();
         }
 
@@ -48,6 +48,28 @@ namespace Capstone2021.Services
         public bool remove(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public bool create(job job, int recruiterID)
+        {
+            bool result = false;
+            using (context)
+            {
+                try
+                {
+                    job.recruiter_id = recruiterID;
+                    context.jobs.Add(job);
+                    context.SaveChanges();
+                    result = true;
+
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                    return result;
+                }
+            }
+            return result;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Capstone2021.Test.Providers
                         context.SetError("invalid_grant", "The user name or password is incorrect.");
                         return;
                     }
-                    addClaimsToIdentity(identity, context.UserName, recruiter.role);
+                    addClaimsToIdentity(identity, context.UserName, recruiter.role, recruiter.id.ToString());
                     break;
                 default:
                     context.SetError("invalid_uri", "The syntax of query is incorrect");
@@ -77,7 +77,13 @@ namespace Capstone2021.Test.Providers
         {
             identity.AddClaim(new Claim(ClaimTypes.Name, username));//set username vào HttpContext để biết được user nào đang gửi request 
             identity.AddClaim(new Claim(ClaimTypes.Role, role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
+        }
 
+        private void addClaimsToIdentity(ClaimsIdentity identity, string username, string role, string id)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.Name, username));//set username vào HttpContext để biết được user nào đang gửi request 
+            identity.AddClaim(new Claim(ClaimTypes.Role, role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
+            identity.AddClaim(new Claim("id", id));//set id vào claim,ko sử dụng HttpContext để lấy được,phải làm cách khác
         }
 
     }

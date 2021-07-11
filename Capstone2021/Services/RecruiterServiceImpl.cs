@@ -122,6 +122,7 @@ namespace Capstone2021.Services
                 {
                     id = s.id,
                     username = s.username,
+                    password = s.password,
                     role = s.role
                 }).FirstOrDefault<Recruiter>();
                 if (checkRecruiter == null)
@@ -138,19 +139,19 @@ namespace Capstone2021.Services
 
         public bool remove(int id)
         {
-          /*  var recruiter = context.recruiters.Where(c => c.id == id).FirstOrDefault();
-            if (recruiter == null)
-            {
-                return false;
-            }
-            else
-            {
-                context.recruiters.Remove(recruiter);
-            }*/
+            /*  var recruiter = context.recruiters.Where(c => c.id == id).FirstOrDefault();
+              if (recruiter == null)
+              {
+                  return false;
+              }
+              else
+              {
+                  context.recruiters.Remove(recruiter);
+              }*/
             return true;
         }
 
-       
+
 
         public bool update(UpdateInformationRecruiterDTO obj)
         {
@@ -183,7 +184,7 @@ namespace Capstone2021.Services
             using (context)
             {
                 var checkRecruiter = context.recruiters.SingleOrDefault(c => c.username.Equals(username));
-                if(checkRecruiter == null)
+                if (checkRecruiter == null)
                 {
                     return result;
                 }

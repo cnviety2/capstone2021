@@ -164,14 +164,23 @@ namespace Capstone2021.Services
                 }
                 else
                 {
-                    recruiter.company_name = obj.companyName;
-                    recruiter.gmail = obj.gmail;
-                    recruiter.headquarters = obj.headquarter;
-                    recruiter.phone = obj.phone;
-                    recruiter.website = obj.website;
-                    recruiter.description = obj.description;
-                    context.SaveChanges();
-                    result = true;
+                    try
+                    {
+                        recruiter.company_name = obj.companyName;
+                        recruiter.gmail = obj.gmail;
+                        recruiter.headquarters = obj.headquarter;
+                        recruiter.phone = obj.phone;
+                        recruiter.website = obj.website;
+                        recruiter.description = obj.description;
+                        context.SaveChanges();
+                        result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
+                        result = false;
+                    }
+                    
                 }
             }
             return result;
@@ -189,9 +198,18 @@ namespace Capstone2021.Services
                 }
                 else
                 {
-                    checkRecruiter.password = Crypto.HashPassword(password);
-                    context.SaveChanges();
-                    result = true;
+                    try
+                    {
+                        checkRecruiter.password = Crypto.HashPassword(password);
+                        context.SaveChanges();
+                        result = true;
+                    }
+                    catch(Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
+                        result = false;
+                    }
+                    
                 }
             }
             return result;

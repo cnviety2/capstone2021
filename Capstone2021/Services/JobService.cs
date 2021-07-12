@@ -1,4 +1,5 @@
-﻿using Capstone2021.Repositories.JobRepository;
+﻿using Capstone2021.DTO;
+using Capstone2021.Repositories.JobRepository;
 
 namespace Capstone2021.Services
 {
@@ -11,5 +12,13 @@ namespace Capstone2021.Services
         /// <param name="recruiterID"></param>
         /// <returns></returns>
         bool create(job job, int recruiterID);
+
+        /// <summary>
+        /// Update lại job,return 0 : OK,return 1 : Error,return -1 : không tồn tại,return 2 : đã update nên không thể update lại,return 3 : ràng buộc giữa salary max và salary min
+        /// chỉ recruiter mới sử dụng
+        /// </summary>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        int update(UpdateJobDTO dto, int id);
     }
 }

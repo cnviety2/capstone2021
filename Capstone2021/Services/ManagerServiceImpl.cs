@@ -141,11 +141,17 @@ namespace Capstone2021.Service
                 }
                 else
                 {
-                    checkManager.password = Crypto.HashPassword(password);
-                    context.SaveChanges();
-                    result = true;
+                    try
+                    {
+                        checkManager.password = Crypto.HashPassword(password);
+                        context.SaveChanges();
+                        result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                    }
                 }
-
 
             }
             return result;
@@ -163,9 +169,16 @@ namespace Capstone2021.Service
                 }
                 else
                 {
-                    checkManager.full_name = fullName;
-                    context.SaveChanges();
-                    result = true;
+                    try
+                    {
+                        checkManager.full_name = fullName;
+                        context.SaveChanges();
+                        result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                    }
                 }
 
             }

@@ -29,6 +29,11 @@ namespace Capstone2021.Services
             throw new NotImplementedException();
         }
 
+        public bool remove(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Job get(int id)
         {
             Job result = null;
@@ -42,12 +47,12 @@ namespace Capstone2021.Services
 
         public IList<Job> getAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool remove(int id)
-        {
-            throw new NotImplementedException();
+            IList<Job> listResult = new List<Job>();
+            using (context)
+            {
+                listResult = context.jobs.AsEnumerable().Select(s => JobMapper.getFromDbContext(s)).ToList<Job>();
+            }
+            return listResult;
         }
 
         public bool create(job job, int recruiterID)
@@ -71,5 +76,38 @@ namespace Capstone2021.Services
             }
             return result;
         }
+
+        public int update(UpdateJobDTO dto, int id)
+        {
+            using (context)
+            {
+                var checkJob = context.jobs.Find(id);
+                if (checkJob == null)
+                {
+                    return -1;// ko tìm thấy
+                }
+                if (checkJob.status == 3)
+                {
+                    return 2;//đã update
+                }
+                try
+                {
+                    checkJob = JobMapper.mapFromDtoToDbModelForUpdating(dto, checkJob);
+                    if (checkJob.salary_min > checkJob.salary_max || checkJob.salary_max < checkJob.salary_min)//kiểm tra lại ràng buộc giữa salary max và salary min
+                    {
+                        return 3;
+                    }
+                    checkJob.status = 3;
+                    context.SaveChanges();
+                    return 0;//ok
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                }
+            }
+            return 1;//lỗi
+        }
+
     }
 }

@@ -403,6 +403,7 @@
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
+    <Compile Include="DTO\UpdateJobDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
     <Compile Include="Repositories\JobRepository\IJobRepository.cs" />
     <Compile Include="Services\JobService.cs" />

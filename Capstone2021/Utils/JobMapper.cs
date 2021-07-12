@@ -1,5 +1,6 @@
 ﻿using Capstone2021.DTO;
 using System;
+using System.Web.WebPages;
 
 namespace Capstone2021.Utils
 {
@@ -56,6 +57,66 @@ namespace Capstone2021.Utils
             model.recruiter_id = dto.recruiterId;
             model.create_date = DateTime.Now;
             model.status = 1;
+            return model;
+        }
+
+        /// <summary>
+        /// Hàm map từ UpadteJobDTO sang model trong db để update,sẽ kiểm tra trong dto field nào khác null thì mới map sang model
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static job mapFromDtoToDbModelForUpdating(UpdateJobDTO dto, job model)
+        {
+            if (dto.name != null || !dto.name.IsEmpty())
+            {
+                model.name = dto.name;
+            }
+            if (dto.workingForm.HasValue && dto.workingForm != model.working_form && dto.workingForm != 0)
+            {
+                model.working_form = dto.workingForm.Value;
+            }
+            if (dto.location.HasValue && dto.location != model.location && dto.location != 0)
+            {
+                model.location = dto.location.Value;
+            }
+            if (dto.workingPlace != null || !dto.workingPlace.IsEmpty())
+            {
+                model.working_place = dto.workingPlace;
+            }
+            if (dto.description != null || !dto.description.IsEmpty())
+            {
+                model.description = dto.description;
+            }
+            if (dto.requirement != null || !dto.requirement.IsEmpty())
+            {
+                model.requirement = dto.requirement;
+            }
+            if (dto.type.HasValue && dto.type != model.type)
+            {
+                model.type = dto.type.Value;
+            }
+            if (dto.offer != null || !dto.offer.IsEmpty())
+            {
+                model.offer = dto.offer;
+            }
+            if (dto.sex.HasValue && dto.sex != model.sex && dto.sex != 0)
+            {
+                model.sex = dto.sex;
+            }
+            if (dto.quantity.HasValue && dto.quantity != model.quantity && dto.quantity != 0)
+            {
+                model.quantity = dto.quantity.Value;
+            }
+            if (dto.salaryMin.HasValue && dto.salaryMin != model.salary_min && dto.salaryMin != 0)
+            {
+                model.salary_min = dto.salaryMin.Value;
+            }
+            if (dto.salaryMax.HasValue && dto.salaryMax != model.salary_max && dto.salaryMax != 0)
+            {
+                model.salary_max = dto.salaryMax.Value;
+            }
+
             return model;
         }
     }

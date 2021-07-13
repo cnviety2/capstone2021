@@ -28,7 +28,9 @@ namespace Capstone2021.Services
             recruiter saveObj = new recruiter();
             using (context)
             {
-                Recruiter checkRecruiter = context.recruiters.AsEnumerable().Where(c => c.username.Equals(obj.username)).Select(c => new Recruiter()
+                Recruiter checkRecruiter = context.recruiters.AsEnumerable()
+                    .Where(c => c.username.Equals(obj.username))
+                    .Select(c => new Recruiter()
                 {
                     id = c.id,
                     username = c.username
@@ -71,7 +73,9 @@ namespace Capstone2021.Services
             using (context)
             {
                 //context.recruiters sẽ lấy ra DataSet của table recruiters ở phía dưới db
-                result = context.recruiters.AsEnumerable().Where(c => c.id == id).Select(c => new Recruiter()
+                result = context.recruiters.AsEnumerable()
+                    .Where(c => c.id == id)
+                    .Select(c => new Recruiter()
                 {
                     avatar = c.avatar,
                     companyName = c.company_name,
@@ -95,7 +99,8 @@ namespace Capstone2021.Services
             IList<Recruiter> listResult = new List<Recruiter>();
             using (context)
             {
-                listResult = context.recruiters.AsEnumerable().Select(c => new Recruiter()
+                listResult = context.recruiters.AsEnumerable()
+                    .Select(c => new Recruiter()
                 {
                     avatar = c.avatar,
                     companyName = c.company_name,
@@ -118,7 +123,9 @@ namespace Capstone2021.Services
             Recruiter result = null;
             using (context)
             {
-                Recruiter checkRecruiter = context.recruiters.AsEnumerable().Where(s => s.username.Equals(username)).Select(s => new Recruiter()
+                Recruiter checkRecruiter = context.recruiters.AsEnumerable()
+                    .Where(s => s.username.Equals(username))
+                    .Select(s => new Recruiter()
                 {
                     id = s.id,
                     username = s.username,

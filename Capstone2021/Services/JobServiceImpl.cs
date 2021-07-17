@@ -55,18 +55,18 @@ namespace Capstone2021.Services
             return listResult;
         }
 
-        public bool create(job job, int recruiterID)
+        public bool create(CreateJobDTO dto, int recruiterID)
         {
             bool result = false;
             using (context)
             {
                 try
                 {
-                    job.recruiter_id = recruiterID;
-                    context.jobs.Add(job);
+                    job model = JobMapper.mapToDatabaseModel(dto);
+                    model.recruiter_id = recruiterID;
+                    context.jobs.Add(model);
                     context.SaveChanges();
                     result = true;
-
                 }
                 catch (Exception e)
                 {

@@ -11,7 +11,7 @@ namespace Capstone2021.Services
         /// <param name="job"></param>
         /// <param name="recruiterID"></param>
         /// <returns></returns>
-        bool create(job job, int recruiterID);
+        bool create(CreateJobDTO dto, int recruiterID);
 
         /// <summary>
         /// Update lại job,return 0 : OK,return 1 : Error,return -1 : không tồn tại,return 2 : đã update nên không thể update lại,return 3 : ràng buộc giữa salary max và salary min

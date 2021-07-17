@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\build\MSBuild.Microsoft.VisualStudio.Web.targets.props" Condition="Exists('..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\build\MSBuild.Microsoft.VisualStudio.Web.targets.props')" />
   <Import Project="..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.props" Condition="Exists('..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.props')" />
   <Import Project="..\packages\Microsoft.Extensions.ApiDescription.Server.3.0.0\build\Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('..\packages\Microsoft.Extensions.ApiDescription.Server.3.0.0\build\Microsoft.Extensions.ApiDescription.Server.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
@@ -376,6 +375,7 @@
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\RecruiterController.cs" />
@@ -398,6 +398,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DTO\Company.cs" />
+    <Compile Include="DTO\CreateCompanyDTO.cs" />
     <Compile Include="DTO\CreateCvDTO.cs" />
     <Compile Include="DTO\CreateJobDTO.cs" />
     <Compile Include="DTO\CreateManagerDTO.cs" />
@@ -411,7 +413,11 @@
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdateJobDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
+    <Compile Include="Repositories\CompanyRepository\CompanyRepository.cs" />
     <Compile Include="Repositories\JobRepository\IJobRepository.cs" />
+    <Compile Include="Repositories\StudentRepository\ICvRepository.cs" />
+    <Compile Include="Services\CompanyService.cs" />
+    <Compile Include="Services\CompanyServiceImpl.cs" />
     <Compile Include="Services\CvService.cs" />
     <Compile Include="Services\CvServiceImpl.cs" />
     <Compile Include="Services\JobService.cs" />
@@ -453,6 +459,7 @@
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Test\Repository\AuthRepository.cs" />
     <Compile Include="Test\Maybe later\GenericRepository.cs" />
+    <Compile Include="Utils\CompanyMapper.cs" />
     <Compile Include="Utils\CvMapper.cs" />
     <Compile Include="Utils\HttpContextUtils.cs" />
     <Compile Include="Utils\JobMapper.cs" />
@@ -600,7 +607,6 @@
     <Error Condition="!Exists('..\packages\Microsoft.Extensions.ApiDescription.Server.3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.ApiDescription.Server.3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.targets'))" />
-    <Error Condition="!Exists('..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\build\MSBuild.Microsoft.VisualStudio.Web.targets.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\build\MSBuild.Microsoft.VisualStudio.Web.targets.props'))" />
   </Target>
   <Import Project="..\packages\Microsoft.Extensions.ApiDescription.Server.3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('..\packages\Microsoft.Extensions.ApiDescription.Server.3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
   <Import Project="..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.targets" Condition="Exists('..\packages\Microsoft.Extensions.FileProviders.Embedded.2.1.0\build\netstandard2.0\Microsoft.Extensions.FileProviders.Embedded.targets')" />

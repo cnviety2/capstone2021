@@ -71,8 +71,7 @@ namespace Capstone2021.Controllers
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;//claims đc lưu trong Request mà request có chứa token,từ token đó parse sang claims,
                                                                                               //có vài dữ liệu ko thể lấy đc từ HttpContext
             int id = HttpContextUtils.getUserID(claims);
-            job model = JobMapper.mapToDatabaseModel(dto);
-            bool createState = jobService.create(model, id);
+            bool createState = jobService.create(dto, id);
             if (createState)
             {
                 response.message = "OK";

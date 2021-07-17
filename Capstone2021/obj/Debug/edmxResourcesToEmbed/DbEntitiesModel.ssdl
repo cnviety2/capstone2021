@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DbCapstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="company">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="headquarters" Type="ntext" Nullable="false" />
+    <Property Name="website" Type="varchar" MaxLength="50" />
+    <Property Name="description" Type="ntext" />
+    <Property Name="avatar" Type="text" />
+    <Property Name="create_date" Type="date" />
+    <Property Name="recruiter_id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="cv">
     <Key>
       <PropertyRef Name="student_id" />
@@ -57,12 +70,8 @@
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="password" Type="varchar" MaxLength="150" Nullable="false" />
-    <Property Name="company_name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="phone" Type="text" Nullable="false" />
-    <Property Name="headquarters" Type="ntext" Nullable="false" />
-    <Property Name="website" Type="varchar" MaxLength="50" />
-    <Property Name="description" Type="ntext" />
     <Property Name="avatar" Type="text" />
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
@@ -98,6 +107,18 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <Association Name="FK_company_recruiter">
+    <End Role="recruiter" Type="Self.recruiter" Multiplicity="1" />
+    <End Role="company" Type="Self.company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="recruiter">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="company">
+        <PropertyRef Name="recruiter_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_cv_student">
     <End Role="student" Type="Self.student" Multiplicity="1" />
     <End Role="cv" Type="Self.cv" Multiplicity="0..1" />
@@ -159,6 +180,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="DbCapstoneModelStoreContainer">
+    <EntitySet Name="company" EntityType="Self.company" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="manager" EntityType="Self.manager" Schema="dbo" store:Type="Tables" />
@@ -166,6 +188,10 @@
     <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_company_recruiter" Association="Self.FK_company_recruiter">
+      <End Role="recruiter" EntitySet="recruiter" />
+      <End Role="company" EntitySet="company" />
+    </AssociationSet>
     <AssociationSet Name="FK_cv_student" Association="Self.FK_cv_student">
       <End Role="student" EntitySet="student" />
       <End Role="cv" EntitySet="cv" />

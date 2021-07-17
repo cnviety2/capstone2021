@@ -322,15 +322,15 @@
             <End Role="job" EntitySet="jobs" />
             <End Role="student_apply_job" EntitySet="student_apply_job" />
           </AssociationSet>
-          <EntitySet Name="companies" EntityType="DbCapstoneModel.company" />
           <EntitySet Name="recruiters" EntityType="DbCapstoneModel.recruiter" />
-          <AssociationSet Name="FK_company_recruiter" Association="DbCapstoneModel.FK_company_recruiter">
-            <End Role="recruiter" EntitySet="recruiters" />
-            <End Role="company" EntitySet="companies" />
-          </AssociationSet>
           <AssociationSet Name="FK_job_recruiter" Association="DbCapstoneModel.FK_job_recruiter">
             <End Role="recruiter" EntitySet="recruiters" />
             <End Role="job" EntitySet="jobs" />
+          </AssociationSet>
+          <EntitySet Name="companies" EntityType="DbCapstoneModel.company" />
+          <AssociationSet Name="FK_company_recruiter" Association="DbCapstoneModel.FK_company_recruiter">
+            <End Role="recruiter" EntitySet="recruiters" />
+            <End Role="company" EntitySet="companies" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="manager">
@@ -394,6 +394,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="recruiter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="gmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="create_date" Type="DateTime" Precision="0" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
+          <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
+        </EntityType>
+        <Association Name="FK_job_recruiter">
+          <End Type="DbCapstoneModel.recruiter" Role="recruiter" Multiplicity="1" />
+          <End Type="DbCapstoneModel.job" Role="job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="recruiter">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job">
+              <PropertyRef Name="recruiter_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="company">
           <Key>
             <PropertyRef Name="id" />
@@ -408,21 +435,6 @@
           <Property Name="recruiter_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="company" ToRole="recruiter" />
         </EntityType>
-        <EntityType Name="recruiter">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="gmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="create_date" Type="DateTime" Precision="0" />
-          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
-          <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
-        </EntityType>
         <Association Name="FK_company_recruiter">
           <End Type="DbCapstoneModel.recruiter" Role="recruiter" Multiplicity="1" />
           <End Type="DbCapstoneModel.company" Role="company" Multiplicity="*" />
@@ -431,18 +443,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="company">
-              <PropertyRef Name="recruiter_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_job_recruiter">
-          <End Type="DbCapstoneModel.recruiter" Role="recruiter" Multiplicity="1" />
-          <End Type="DbCapstoneModel.job" Role="job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="recruiter">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="job">
               <PropertyRef Name="recruiter_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -540,20 +540,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="companies">
-            <EntityTypeMapping TypeName="DbCapstoneModel.company">
-              <MappingFragment StoreEntitySet="company">
-                <ScalarProperty Name="recruiter_id" ColumnName="recruiter_id" />
-                <ScalarProperty Name="create_date" ColumnName="create_date" />
-                <ScalarProperty Name="avatar" ColumnName="avatar" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="website" ColumnName="website" />
-                <ScalarProperty Name="headquarters" ColumnName="headquarters" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="recruiters">
             <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
               <MappingFragment StoreEntitySet="recruiter">
@@ -564,6 +550,20 @@
                 <ScalarProperty Name="gmail" ColumnName="gmail" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="companies">
+            <EntityTypeMapping TypeName="DbCapstoneModel.company">
+              <MappingFragment StoreEntitySet="company">
+                <ScalarProperty Name="recruiter_id" ColumnName="recruiter_id" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="headquarters" ColumnName="headquarters" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

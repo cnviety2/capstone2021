@@ -31,7 +31,7 @@ namespace Capstone2021
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<manager> managers { get; set; }
         public virtual DbSet<job> jobs { get; set; }
-        public virtual DbSet<company> companies { get; set; }
         public virtual DbSet<recruiter> recruiters { get; set; }
+        public virtual DbSet<company> companies { get; set; }
     }
 }

@@ -9,17 +9,13 @@ namespace Capstone2021.Utils
         {
             recruiter result = new recruiter();
             result.avatar = recruiter.avatar;
-            result.company_name = recruiter.companyName;
             result.create_date = recruiter.createDate;
-            result.description = recruiter.description;
             result.gmail = recruiter.gmail;
-            result.headquarters = recruiter.headquarter;
             result.id = recruiter.id;
             result.password = recruiter.password;
             result.phone = recruiter.phone;
             result.role = recruiter.role;
             result.username = recruiter.username;
-            result.website = recruiter.website;
 
             return result;
         }

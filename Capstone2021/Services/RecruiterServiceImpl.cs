@@ -31,10 +31,10 @@ namespace Capstone2021.Services
                 Recruiter checkRecruiter = context.recruiters.AsEnumerable()
                     .Where(c => c.username.Equals(obj.username))
                     .Select(c => new Recruiter()
-                {
-                    id = c.id,
-                    username = c.username
-                }).FirstOrDefault<Recruiter>();
+                    {
+                        id = c.id,
+                        username = c.username
+                    }).FirstOrDefault<Recruiter>();
                 if (checkRecruiter != null)
                 {
                     return false;
@@ -76,20 +76,16 @@ namespace Capstone2021.Services
                 result = context.recruiters.AsEnumerable()
                     .Where(c => c.id == id)
                     .Select(c => new Recruiter()
-                {
-                    avatar = c.avatar,
-                    companyName = c.company_name,
-                    createDate = (DateTime)c.create_date,
-                    description = c.description,
-                    gmail = c.gmail,
-                    headquarter = c.headquarters,
-                    id = c.id,
-                    password = c.password,
-                    phone = c.phone,
-                    role = c.role,
-                    username = c.username,
-                    website = c.website
-                }).FirstOrDefault<Recruiter>();
+                    {
+                        avatar = c.avatar,
+                        createDate = (DateTime)c.create_date,
+                        gmail = c.gmail,
+                        id = c.id,
+                        password = c.password,
+                        phone = c.phone,
+                        role = c.role,
+                        username = c.username
+                    }).FirstOrDefault<Recruiter>();
             }
             return result;
         }
@@ -101,20 +97,16 @@ namespace Capstone2021.Services
             {
                 listResult = context.recruiters.AsEnumerable()
                     .Select(c => new Recruiter()
-                {
-                    avatar = c.avatar,
-                    companyName = c.company_name,
-                    createDate = (DateTime)c.create_date,
-                    description = c.description,
-                    gmail = c.gmail,
-                    headquarter = c.headquarters,
-                    id = c.id,
-                    password = c.password,
-                    phone = c.phone,
-                    role = c.role,
-                    username = c.username,
-                    website = c.website
-                }).ToList<Recruiter>();
+                    {
+                        avatar = c.avatar,
+                        createDate = (DateTime)c.create_date,
+                        gmail = c.gmail,
+                        id = c.id,
+                        password = c.password,
+                        phone = c.phone,
+                        role = c.role,
+                        username = c.username
+                    }).ToList<Recruiter>();
                 return listResult;
             }
         }
@@ -126,12 +118,12 @@ namespace Capstone2021.Services
                 Recruiter checkRecruiter = context.recruiters.AsEnumerable()
                     .Where(s => s.username.Equals(username))
                     .Select(s => new Recruiter()
-                {
-                    id = s.id,
-                    username = s.username,
-                    password = s.password,
-                    role = s.role
-                }).FirstOrDefault<Recruiter>();
+                    {
+                        id = s.id,
+                        username = s.username,
+                        password = s.password,
+                        role = s.role
+                    }).FirstOrDefault<Recruiter>();
                 if (checkRecruiter == null)
                 {
                     return null;
@@ -174,21 +166,17 @@ namespace Capstone2021.Services
                 {
                     try
                     {
-                        recruiter.company_name = obj.companyName;
                         recruiter.gmail = obj.gmail;
-                        recruiter.headquarters = obj.headquarter;
                         recruiter.phone = obj.phone;
-                        recruiter.website = obj.website;
-                        recruiter.description = obj.description;
                         context.SaveChanges();
                         result = true;
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
                         result = false;
                     }
-                    
+
                 }
             }
             return result;
@@ -212,7 +200,7 @@ namespace Capstone2021.Services
                         context.SaveChanges();
                         result = true;
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
                         result = false;

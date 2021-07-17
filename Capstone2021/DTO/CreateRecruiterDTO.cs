@@ -20,7 +20,6 @@ namespace Capstone2021.DTO
         [Display(Name = "confirm password")]
         [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
         public string confirmPassword { get; set; }
-        public string companyName { get; set; }
         [Required]
         [RegularExpression("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", ErrorMessage = "Email Invalid. Example: recruiter123@gmail.com ")]
         public string gmail { get; set; }
@@ -28,10 +27,6 @@ namespace Capstone2021.DTO
         [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "Email Invalid. Example: recruiter123@gmail.com ")]
         [StringLength(12, ErrorMessage = "Phone number length minimum is 8 and maximum is 12", MinimumLength = 8)]
         public string phone { get; set; }
-        [Required]
-        public string headquarter { get; set; }
-        public string website { get; set; }
-        public string description { get; set; }
         public string avatar { get; set; }
         public string createDate { get; set; }
     }

@@ -17,22 +17,21 @@ namespace Capstone2021
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public recruiter()
         {
+            this.companies = new HashSet<company>();
             this.jobs = new HashSet<job>();
         }
     
         public int id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public string company_name { get; set; }
         public string gmail { get; set; }
         public string phone { get; set; }
-        public string headquarters { get; set; }
-        public string website { get; set; }
-        public string description { get; set; }
         public string avatar { get; set; }
         public Nullable<System.DateTime> create_date { get; set; }
         public string role { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<company> companies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<job> jobs { get; set; }
     }

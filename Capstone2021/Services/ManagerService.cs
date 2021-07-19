@@ -24,9 +24,9 @@ namespace Capstone2021.Service
         /// <summary>
         /// Method ban 1 staff,chỉ role admin mới được sử dụng
         /// </summary>
-        /// <param name="username"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        bool banAStaff(string username);
+        bool banAStaff(int id);
 
         /// <summary>
         /// Method ban 1 recruiter,chỉ role admin mới được sử dụng
@@ -40,6 +40,6 @@ namespace Capstone2021.Service
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        bool banAStudent(string username);
+        bool banAStudent(string gmail);
     }
 }

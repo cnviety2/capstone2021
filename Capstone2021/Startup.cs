@@ -1,5 +1,6 @@
 ﻿using Capstone2021.Test.Providers;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
@@ -18,6 +19,7 @@ namespace Capstone2021
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
         }
+
 
         public void ConfigureOAuth(IAppBuilder app)
         {

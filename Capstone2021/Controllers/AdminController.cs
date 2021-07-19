@@ -55,34 +55,6 @@ namespace Capstone2021.Controllers
 
         }
 
-        [Route("remove/{id:int:min(0)}")]
-        [HttpDelete]
-        public IHttpActionResult remove([FromUri] int id)
-        {
-            ResponseDTO response = new ResponseDTO();
-            /*HttpContext sẽ lưu lại những data đã xác thực của người dùng,những data này đã set ở class SimpleAuthorizationServerProvider
-            bây giờ sẽ lấy data đó ra để xác định user đã gửi request có thể thực hiện hành động remove này ko,vì user1 thì ko thể remove chính nó*/
-            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
-            Manager checkManager = managerService.get(id);
-            if (checkManager == null)
-            {
-                return NotFound();
-            }
-            //Trường hợp username gửi request xóa chính nó trong db
-            if (currentUser.Equals(checkManager.username))
-            {
-                return BadRequest("Can't remove itself");
-            }
-            //Trường hợp username này muốn xóa 1 username khác có role là admin
-            if (checkManager.role.Equals("ROLE_ADMIN"))
-            {
-                return BadRequest("An admin can't remove an admin");
-            }
-            //thực hiện xóa trong db,chưa làm
-            response.message = "OK";
-            return Ok(response);
-        }
-
         [Route("create")]
         [HttpPost]
         public IHttpActionResult create([FromBody] CreateManagerDTO dto)
@@ -157,6 +129,39 @@ namespace Capstone2021.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("ban/staff/{id:int:min(0)}")]
+        public IHttpActionResult banAStaff([FromUri] int id)
+        {
+            ResponseDTO response = new ResponseDTO();
+            bool state = managerService.banAStaff(id);
+            if (state)
+            {
+                response.message = "OK";
+            }
+            else
+            {
+                response.message = "Error occured";
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("ban/recruiter/{username}")]
+        public IHttpActionResult banARecruiter([FromUri] string username)
+        {
+            ResponseDTO response = new ResponseDTO();
+            bool state = managerService.banARecruiter(username);
+            if (state)
+            {
+                response.message = "OK";
+            }
+            else
+            {
+                response.message = "Error occured";
+            }
+            return Ok(response);
+        }
 
     }
 }

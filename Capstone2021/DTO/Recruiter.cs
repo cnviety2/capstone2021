@@ -11,7 +11,8 @@ namespace Capstone2021.DTO
         public string phone { get; set; }
         public string avatar { get; set; }
         public DateTime createDate { get; set; }
-
         public string role { get; set; }
+
+        public Boolean isBanned { get; set; }
     }
 }

@@ -62,6 +62,7 @@
     <Property Name="full_name" Type="nvarchar" MaxLength="50" />
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="is_banned" Type="bit" />
   </EntityType>
   <EntityType Name="recruiter">
     <Key>
@@ -75,6 +76,7 @@
     <Property Name="avatar" Type="text" />
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="is_banned" Type="bit" />
   </EntityType>
   <EntityType Name="student">
     <Key>
@@ -83,7 +85,7 @@
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
-    <Property Name="is_deleted" Type="bit" />
+    <Property Name="is_banned" Type="bit" />
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="profile_status" Type="bit" Nullable="false" />
     <Property Name="avatar" Type="text" />

@@ -82,5 +82,10 @@ namespace Capstone2021.Services
             }
             return result;
         }
+
+        public bool softRemove(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

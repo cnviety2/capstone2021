@@ -7,25 +7,39 @@ namespace Capstone2021.Repository
      */
     interface IBasicRepository<T>
     {
-        /**
-         * Lấy tất cả từ 1 table
-         */
+        /// <summary>
+        /// Lấy tất cả từ 1 table
+        /// </summary>
+        /// <returns></returns>
         IList<T> getAll();
 
-        /**
-         * Lấy 1 record dựa trên primary key (id) của table đó
-         */
+        /// <summary>
+        /// Lấy 1 record dựa trên primary key (id) của table đó
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         T get(int id);
 
-        /**
-         * Thêm mới 1 record vào trong table
-         */
+        /// <summary>
+        /// Thêm mới 1 record vào trong table
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         bool create(T obj);
 
-        /**
-         * Xóa 1 record trong bảng(hoặc đổi status hoặc remove vĩnh viễn) dựa trên primary key
-         */
+        /// <summary>
+        /// Xóa 1 record trong db,xóa vĩnh viễn
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         bool remove(int id);
 
+        /// <summary>
+        /// Đổi status 1 record trong db,ko xóa vĩnh viễn
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool softRemove(int id);
     }
 }

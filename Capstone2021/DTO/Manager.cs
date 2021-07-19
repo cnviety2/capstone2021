@@ -1,4 +1,6 @@
-﻿namespace Capstone2021.DTO
+﻿using System;
+
+namespace Capstone2021.DTO
 {
     public class Manager
     {
@@ -14,6 +16,7 @@
 
         public string createDate { get; set; }
 
+        public Boolean isBanned { get; set; }
 
     }
 }

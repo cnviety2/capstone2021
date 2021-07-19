@@ -110,7 +110,8 @@ namespace Capstone2021.Service
                     id = s.id,
                     username = s.username,
                     password = s.password,
-                    role = s.role
+                    role = s.role,
+                    isBanned = s.is_banned.Value
                 }).FirstOrDefault<Manager>();
                 if (checkManager == null)
                 {
@@ -185,17 +186,77 @@ namespace Capstone2021.Service
             return result;
         }
 
-        public bool banAStaff(string username)
+        public bool banAStaff(int id)
         {
-            throw new NotImplementedException();
+            using (context)
+            {
+                var checkManager = context.managers.Find(id);
+                if (checkManager == null)
+                    return false;
+                if (checkManager.role.Equals("ROLE_ADMIN"))
+                    return false;
+                if (checkManager.is_banned == true)
+                    return true;
+                try
+                {
+                    checkManager.is_banned = true;
+                    context.SaveChanges();
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                }
+            }
+            return false;
         }
 
         public bool banARecruiter(string username)
         {
-            throw new NotImplementedException();
+            using (context)
+            {
+                var checkRecruiter = context.recruiters.SingleOrDefault(b => b.username.Equals(username));
+                if (checkRecruiter == null)
+                    return false;
+                if (checkRecruiter.is_banned == true)
+                    return true;
+                try
+                {
+                    checkRecruiter.is_banned = true;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                }
+            }
+            return false;
         }
 
-        public bool banAStudent(string username)
+        public bool banAStudent(string gmail)
+        {
+            using (context)
+            {
+                var checkStudent = context.students.SingleOrDefault(b => b.gmail.Equals(gmail));
+                if (checkStudent == null)
+                    return false;
+                try
+                {
+                    checkStudent.is_banned = true;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                }
+            }
+            return false;
+        }
+
+        public bool softRemove(int id)
         {
             throw new NotImplementedException();
         }

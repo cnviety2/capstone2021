@@ -51,19 +51,29 @@ namespace Capstone2021.Test.Providers
                     Manager manager = managerService.login(context.UserName, context.Password);
                     if (manager == null)
                     {
-                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        context.SetError("invalid_grant", "The user name or password is incorrect");
                         return;
                     }
-                    addClaimsToIdentity(identity, context.UserName, manager.role);
+                    if (checkManagerIsBanned(manager))
+                    {
+                        context.SetError("invalid_state", "This account is being banned");
+                        return;
+                    }
+                    addClaimsToIdentity(identity, context.UserName, manager.role, manager.id);
                     break;
                 case "recruiter":
                     Recruiter recruiter = recruiterService.login(context.UserName, context.Password);
                     if (recruiter == null)
                     {
-                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        context.SetError("invalid_grant", "The user name or password is incorrect");
                         return;
                     }
-                    addClaimsToIdentity(identity, context.UserName, recruiter.role, recruiter.id.ToString());
+                    if (checkRecruiterIsBanned(recruiter))
+                    {
+                        context.SetError("invalid_state", "This account is being banned");
+                        return;
+                    }
+                    addClaimsToIdentity(identity, context.UserName, recruiter.role, recruiter.id);
                     break;
                 default:
                     context.SetError("invalid_uri", "The syntax of query is incorrect");
@@ -79,11 +89,32 @@ namespace Capstone2021.Test.Providers
             identity.AddClaim(new Claim(ClaimTypes.Role, role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
         }
 
-        private void addClaimsToIdentity(ClaimsIdentity identity, string username, string role, string id)
+        private void addClaimsToIdentity(ClaimsIdentity identity, string username, string role, int id)
         {
             identity.AddClaim(new Claim(ClaimTypes.Name, username));//set username vào HttpContext để biết được user nào đang gửi request 
             identity.AddClaim(new Claim(ClaimTypes.Role, role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
-            identity.AddClaim(new Claim("id", id));//set id vào claim,ko sử dụng HttpContext để lấy được,phải làm cách khác
+            identity.AddClaim(new Claim("id", id.ToString()));//set id vào claim,ko sử dụng HttpContext để lấy được,phải làm cách khác
+        }
+
+        /// <summary>
+        /// Kiểm tra status của manager trả về có bị ban hay ko,true nếu bị ban
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <returns></returns>
+        private bool checkManagerIsBanned(Manager manager)
+        {
+            if (manager.isBanned == true)
+                return true;
+            else
+                return false;
+        }
+
+        private bool checkRecruiterIsBanned(Recruiter recruiter)
+        {
+            if (recruiter.isBanned == true)
+                return true;
+            else
+                return false;
         }
 
     }

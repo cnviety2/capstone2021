@@ -122,7 +122,8 @@ namespace Capstone2021.Services
                         id = s.id,
                         username = s.username,
                         password = s.password,
-                        role = s.role
+                        role = s.role,
+                        isBanned = s.is_banned.Value
                     }).FirstOrDefault<Recruiter>();
                 if (checkRecruiter == null)
                 {
@@ -147,10 +148,14 @@ namespace Capstone2021.Services
               {
                   context.recruiters.Remove(recruiter);
               }*/
+
             return true;
         }
 
-
+        public bool softRemove(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool update(UpdateInformationRecruiterDTO obj)
         {

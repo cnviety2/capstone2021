@@ -31,9 +31,9 @@ namespace Capstone2021.Services
                     Select(c => new Cv()
                     {
                         studentId = c.student_id,
-                        
+
                     }).FirstOrDefault<Cv>();
-                if(checkCv!= null)
+                if (checkCv != null)
                 {
                     result = false;
                 }
@@ -44,9 +44,9 @@ namespace Capstone2021.Services
                         saveObj = CvMapper.map(obj);
                         context.cvs.Add(saveObj);
                         context.SaveChanges();
-                        
+
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         logger.Info("Exception " + e.Message + "in CvServiceImpl");
                         result = false;
@@ -81,6 +81,11 @@ namespace Capstone2021.Services
         }
 
         public bool remove(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool softRemove(int id)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,5 @@
 ﻿using Capstone2021.Test.Providers;
 using Microsoft.Owin;
-using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;

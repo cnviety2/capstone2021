@@ -1,12 +1,9 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Services;
 using Capstone2021.Utils;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Http;
 
 namespace Capstone2021.Controllers

@@ -29,5 +29,8 @@ namespace Capstone2021.DTO
         public string phone { get; set; }
         public string avatar { get; set; }
         public string createDate { get; set; }
+        [Required]
+        [RegularExpression("ROLE_RECRUITER", ErrorMessage = "Error syntax of a role")]
+        public string role { get; set; }
     }
 }

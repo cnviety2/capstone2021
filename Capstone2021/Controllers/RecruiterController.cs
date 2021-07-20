@@ -1,6 +1,7 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Services;
 using Capstone2021.Utils;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
@@ -82,6 +83,39 @@ namespace Capstone2021.Controllers
             }
             return Ok(response);
         }
-
+        [HttpGet]
+        [Route("recruiter")]
+        [Authorize]
+        public IHttpActionResult getAllRecruiter()
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Recruiter> list = _recruiterService.getAll();
+            if(list.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+        [HttpGet]
+        [Route("recruiter/{id:int:min(0)}")]
+        [Authorize]
+        public IHttpActionResult getARecruiter([FromUri] int id)
+        {
+            ResponseDTO response = new ResponseDTO();
+            Recruiter recruiter = _recruiterService.get(id);
+            if(recruiter == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                response.message = "OK";
+            }
+            response.data = recruiter;
+            return Ok(response);
+        }
     }
 }

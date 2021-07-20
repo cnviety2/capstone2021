@@ -12,7 +12,6 @@ namespace Capstone2021.Utils
             result.avatar = recruiter.avatar;
             result.create_date = recruiter.createDate;
             result.gmail = recruiter.gmail;
-            result.id = recruiter.id;
             result.password = recruiter.password;
             result.phone = recruiter.phone;
             result.role = recruiter.role;

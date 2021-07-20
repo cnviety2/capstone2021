@@ -1,4 +1,5 @@
 ﻿using Capstone2021.DTO;
+using System;
 
 namespace Capstone2021.Utils
 {
@@ -9,7 +10,7 @@ namespace Capstone2021.Utils
         {
             recruiter result = new recruiter();
             result.avatar = recruiter.avatar;
-            result.create_date = recruiter.createDate;
+            result.create_date = DateTime.Now;
             result.gmail = recruiter.gmail;
             result.id = recruiter.id;
             result.password = recruiter.password;

@@ -220,3 +220,7 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.xml
+D:\Capstone 2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache
+D:\Capstone 2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
+D:\Capstone 2021\Capstone2021\obj\Debug\Capstone2021.dll
+D:\Capstone 2021\Capstone2021\obj\Debug\Capstone2021.pdb

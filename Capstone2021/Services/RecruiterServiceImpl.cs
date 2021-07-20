@@ -57,10 +57,7 @@ namespace Capstone2021.Services
             return true;
         }
 
-        public bool create(CreateRecruiterDTO obj)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void Dispose()
         {

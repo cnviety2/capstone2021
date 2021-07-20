@@ -28,7 +28,8 @@ namespace Capstone2021.Controllers
             }
 
             recruiter.password = Crypto.HashPassword(recruiter.password.Trim());
-            bool saveState = _recruiterService.create(recruiter);
+            Recruiter model = RecruiterMapper.mapFromDto(recruiter);
+            bool saveState = _recruiterService.create(model);
             if (saveState)
             {
                 response.message = "OK";

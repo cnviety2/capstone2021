@@ -1,4 +1,5 @@
 ﻿using Capstone2021.DTO;
+using System;
 
 namespace Capstone2021.Utils
 {
@@ -17,6 +18,19 @@ namespace Capstone2021.Utils
             result.role = recruiter.role;
             result.username = recruiter.username;
 
+            return result;
+        }
+
+        public static Recruiter mapFromDto(CreateRecruiterDTO dto)
+        {
+            Recruiter result = new Recruiter();
+            result.avatar = dto.avatar;
+            result.createDate = DateTime.Now;
+            result.gmail = dto.gmail;
+            result.password = dto.password;
+            result.phone = dto.phone;
+            result.role = "ROLE_RECRUITER";
+            result.username = dto.username;
             return result;
         }
     }

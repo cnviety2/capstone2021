@@ -111,7 +111,7 @@ namespace Capstone2021.Service
                     username = s.username,
                     password = s.password,
                     role = s.role,
-                    isBanned = s.is_banned.Value
+                    isBanned = s.is_banned.HasValue ? s.is_banned.Value : false
                 }).FirstOrDefault<Manager>();
                 if (checkManager == null)
                 {

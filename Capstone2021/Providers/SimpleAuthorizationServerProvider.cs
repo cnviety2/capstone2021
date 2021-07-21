@@ -54,7 +54,7 @@ namespace Capstone2021.Test.Providers
                         context.SetError("invalid_grant", "The user name or password is incorrect");
                         return;
                     }
-                    if (checkManagerIsBanned(manager))
+                    if (isBanned(manager))
                     {
                         context.SetError("invalid_state", "This account is being banned");
                         return;
@@ -68,7 +68,7 @@ namespace Capstone2021.Test.Providers
                         context.SetError("invalid_grant", "The user name or password is incorrect");
                         return;
                     }
-                    if (checkRecruiterIsBanned(recruiter))
+                    if (isBanned(recruiter))
                     {
                         context.SetError("invalid_state", "This account is being banned");
                         return;
@@ -101,7 +101,7 @@ namespace Capstone2021.Test.Providers
         /// </summary>
         /// <param name="manager"></param>
         /// <returns></returns>
-        private bool checkManagerIsBanned(Manager manager)
+        private bool isBanned(Manager manager)
         {
             if (manager.isBanned == true)
                 return true;
@@ -109,7 +109,7 @@ namespace Capstone2021.Test.Providers
                 return false;
         }
 
-        private bool checkRecruiterIsBanned(Recruiter recruiter)
+        private bool isBanned(Recruiter recruiter)
         {
             if (recruiter.isBanned == true)
                 return true;

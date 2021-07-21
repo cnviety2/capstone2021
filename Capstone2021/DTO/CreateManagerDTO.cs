@@ -25,6 +25,7 @@ namespace Capstone2021.DTO
         [RegularExpression("ROLE_ADMIN|ROLE_STAFF", ErrorMessage = "Error syntax of a role")]
         public string role { get; set; }
 
+        [Required]
         [StringLength(50, ErrorMessage = "Full name's maximum length is 50")]
         public string fullName { get; set; }
 

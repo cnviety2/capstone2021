@@ -402,6 +402,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DTO\ApplyAJobDTO.cs" />
     <Compile Include="DTO\Company.cs" />
     <Compile Include="DTO\CreateCompanyDTO.cs" />
     <Compile Include="DTO\CreateCvDTO.cs" />

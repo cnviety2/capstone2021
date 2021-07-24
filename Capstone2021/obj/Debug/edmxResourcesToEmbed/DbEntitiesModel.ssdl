@@ -77,6 +77,7 @@
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="is_banned" Type="bit" />
+    <Property Name="full_name" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="student">
     <Key>

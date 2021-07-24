@@ -11,7 +11,7 @@ namespace Capstone2021.Utils
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static Job getFromDbContext(job model)
+        public static Job mapFromDbContext(job model)
         {
             Job result = new Job();
             result.id = model.id;

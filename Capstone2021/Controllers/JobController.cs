@@ -20,8 +20,65 @@ namespace Capstone2021.Controllers
         }
 
         [HttpGet]
+        [Route("pending-jobs")]
+        [Authorize(Roles = "ROLE_STAFF")]
+        public IHttpActionResult getAllPendingJobs()
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getAllPendingJobs();
+            if (list.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("approved-jobs")]
+        public IHttpActionResult getAllApprovedJobs()
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getAllApprovedJobs();
+            if (list.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("approve")]
+        [Authorize(Roles = "ROLE_STAFF")]
+        public IHttpActionResult applyAJob([FromBody] ApplyAJobDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("invalid_id", "Id is an integer");
+                return BadRequest(ModelState);
+            }
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int jobId = dto.id;
+            int staffId = HttpContextUtils.getUserID(claims);
+            bool approveState = jobService.applyAJob(jobId, staffId);
+            if (!approveState)
+            {
+                return BadRequest("Error occured");
+            }
+            ResponseDTO response = new ResponseDTO();
+            response.message = "OK";
+            return Ok(response);
+
+        }
+
+        [HttpGet]
         [Route("")]
-        public IHttpActionResult getAllJob()
+        public IHttpActionResult getAllJobs()
         {
             ResponseDTO response = new ResponseDTO();
             IList<Job> list = jobService.getAll();

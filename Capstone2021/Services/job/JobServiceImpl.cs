@@ -2,6 +2,7 @@
 using Capstone2021.Utils;
 using NLog;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,7 +40,7 @@ namespace Capstone2021.Services
             Job result = null;
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobMapper.getFromDbContext(s)).FirstOrDefault<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobMapper.mapFromDbContext(s)).FirstOrDefault<Job>();
             }
             return result;
 
@@ -50,7 +51,7 @@ namespace Capstone2021.Services
             IList<Job> listResult = new List<Job>();
             using (context)
             {
-                listResult = context.jobs.AsEnumerable().Select(s => JobMapper.getFromDbContext(s)).ToList<Job>();
+                listResult = context.jobs.AsEnumerable().Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
             }
             return listResult;
         }
@@ -112,6 +113,59 @@ namespace Capstone2021.Services
         public bool softRemove(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Job> getAllPendingJobs()
+        {
+            List<Job> result = new List<Job>();
+            using (context)
+            {
+                result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+
+            }
+            return result;
+        }
+
+        public bool applyAJob(int jobId, int staffId)
+        {
+            using (context)
+            {
+                var job = context.jobs.Find(jobId);
+                if (job == null) return false;//ko tìm thấy job
+                else
+                {
+                    if (job.status == 2 || job.manager_id.HasValue) return true;//đã duyệt rồi rồi,duyệt nữa chi ? 
+                    else
+                    {
+                        using (context)
+                        {
+                            try
+                            {
+                                job.status = 2;
+                                job.manager_id = staffId;
+                                context.SaveChanges();
+                                return true;
+                            }
+                            catch (Exception e)
+                            {
+                                logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public List<Job> getAllApprovedJobs()
+        {
+            List<Job> result = new List<Job>();
+            using (context)
+            {
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+
+            }
+            return result;
         }
     }
 }

@@ -91,7 +91,7 @@ namespace Capstone2021.Controllers
         {
             ResponseDTO response = new ResponseDTO();
             IList<Recruiter> list = _recruiterService.getAll();
-            if(list.Count == 0)
+            if (list.Count == 0)
             {
                 response.message = "No data";
                 return Ok(response);
@@ -107,7 +107,7 @@ namespace Capstone2021.Controllers
         {
             ResponseDTO response = new ResponseDTO();
             Recruiter recruiter = _recruiterService.get(id);
-            if(recruiter == null)
+            if (recruiter == null)
             {
                 return NotFound();
             }

@@ -379,6 +379,7 @@
     </Compile>
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\GoogleAuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\RecruiterController.cs" />
@@ -408,10 +409,14 @@
     <Compile Include="DTO\CreateManagerDTO.cs" />
     <Compile Include="DTO\CreateRecruiterDTO.cs" />
     <Compile Include="DTO\Cv.cs" />
+    <Compile Include="DTO\GoogleAccessTokenDTO.cs" />
+    <Compile Include="DTO\GoogleAuthenConstants.cs" />
+    <Compile Include="DTO\GoogleAuthenDTO.cs" />
     <Compile Include="DTO\Job.cs" />
     <Compile Include="DTO\Manager.cs" />
     <Compile Include="DTO\Recruiter.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />
+    <Compile Include="DTO\Student.cs" />
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdateJobDTO.cs" />
@@ -419,12 +424,15 @@
     <Compile Include="Repositories\CompanyRepository\CompanyRepository.cs" />
     <Compile Include="Repositories\JobRepository\IJobRepository.cs" />
     <Compile Include="Repositories\StudentRepository\ICvRepository.cs" />
-    <Compile Include="Services\CompanyService.cs" />
-    <Compile Include="Services\CompanyServiceImpl.cs" />
-    <Compile Include="Services\CvService.cs" />
-    <Compile Include="Services\CvServiceImpl.cs" />
-    <Compile Include="Services\JobService.cs" />
-    <Compile Include="Services\JobServiceImpl.cs" />
+    <Compile Include="Repositories\StudentRepository\StudentRepository.cs" />
+    <Compile Include="Services\company\CompanyService.cs" />
+    <Compile Include="Services\company\CompanyServiceImpl.cs" />
+    <Compile Include="Services\cv\CvService.cs" />
+    <Compile Include="Services\cv\CvServiceImpl.cs" />
+    <Compile Include="Services\job\JobService.cs" />
+    <Compile Include="Services\job\JobServiceImpl.cs" />
+    <Compile Include="Services\student\StudentService.cs" />
+    <Compile Include="Services\student\StudentServiceImpl.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IGenericRepository.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IUnitOfWork.cs" />
     <Compile Include="DTO\UpdatePasswordRecruiterDTO.cs" />
@@ -441,10 +449,10 @@
     <Compile Include="Repositories\ManagerRepository\IManagerRepository.cs" />
     <Compile Include="Repositories\IBasicRepository.cs" />
     <Compile Include="Repositories\RecruiterRepository\IRecruiterRepository.cs" />
-    <Compile Include="Services\ManagerService.cs" />
-    <Compile Include="Services\ManagerServiceImpl.cs" />
-    <Compile Include="Services\RecruiterService.cs" />
-    <Compile Include="Services\RecruiterServiceImpl.cs" />
+    <Compile Include="Services\manager\ManagerService.cs" />
+    <Compile Include="Services\manager\ManagerServiceImpl.cs" />
+    <Compile Include="Services\recruiter\RecruiterService.cs" />
+    <Compile Include="Services\recruiter\RecruiterServiceImpl.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="student.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
@@ -468,6 +476,7 @@
     <Compile Include="Utils\JobMapper.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />
     <Compile Include="Test\Maybe later\UnitOfWork.cs" />
+    <Compile Include="Utils\StudentMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

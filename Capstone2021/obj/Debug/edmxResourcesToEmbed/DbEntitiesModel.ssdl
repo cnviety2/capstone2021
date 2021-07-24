@@ -17,7 +17,7 @@
     <Key>
       <PropertyRef Name="student_id" />
     </Key>
-    <Property Name="student_id" Type="int" Nullable="false" />
+    <Property Name="student_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="50" />
     <Property Name="sex" Type="bit" />
     <Property Name="dob" Type="date" />
@@ -68,7 +68,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="password" Type="varchar" MaxLength="150" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
@@ -82,19 +82,20 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="15" />
     <Property Name="is_banned" Type="bit" />
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="profile_status" Type="bit" Nullable="false" />
     <Property Name="avatar" Type="text" />
+    <Property Name="google_id" Type="varchar" MaxLength="700" Nullable="false" />
   </EntityType>
   <EntityType Name="student_apply_job">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="job_id" Type="int" Nullable="false" />
     <Property Name="student_id" Type="int" Nullable="false" />
     <Property Name="create_date" Type="date" Nullable="false" />

@@ -95,25 +95,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="students">
-      <EntityTypeMapping TypeName="DbCapstoneModel.student">
-        <MappingFragment StoreEntitySet="student">
-          <ScalarProperty Name="avatar" ColumnName="avatar" />
-          <ScalarProperty Name="profile_status" ColumnName="profile_status" />
-          <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="is_banned" ColumnName="is_banned" />
-          <ScalarProperty Name="phone" ColumnName="phone" />
-          <ScalarProperty Name="gmail" ColumnName="gmail" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="student_apply_job">
       <EntityTypeMapping TypeName="DbCapstoneModel.student_apply_job">
         <MappingFragment StoreEntitySet="student_apply_job">
           <ScalarProperty Name="create_date" ColumnName="create_date" />
           <ScalarProperty Name="student_id" ColumnName="student_id" />
           <ScalarProperty Name="job_id" ColumnName="job_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="students">
+      <EntityTypeMapping TypeName="DbCapstoneModel.student">
+        <MappingFragment StoreEntitySet="student">
+          <ScalarProperty Name="google_id" ColumnName="google_id" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="profile_status" ColumnName="profile_status" />
+          <ScalarProperty Name="create_date" ColumnName="create_date" />
+          <ScalarProperty Name="is_banned" ColumnName="is_banned" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="gmail" ColumnName="gmail" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

@@ -17,15 +17,10 @@
     <EntitySet Name="jobs" EntityType="DbCapstoneModel.job" />
     <EntitySet Name="managers" EntityType="DbCapstoneModel.manager" />
     <EntitySet Name="recruiters" EntityType="DbCapstoneModel.recruiter" />
-    <EntitySet Name="students" EntityType="DbCapstoneModel.student" />
     <EntitySet Name="student_apply_job" EntityType="DbCapstoneModel.student_apply_job" />
     <AssociationSet Name="FK_company_recruiter" Association="DbCapstoneModel.FK_company_recruiter">
       <End Role="recruiter" EntitySet="recruiters" />
       <End Role="company" EntitySet="companies" />
-    </AssociationSet>
-    <AssociationSet Name="FK_cv_student" Association="DbCapstoneModel.FK_cv_student">
-      <End Role="student" EntitySet="students" />
-      <End Role="cv" EntitySet="cvs" />
     </AssociationSet>
     <AssociationSet Name="FK_job_manager" Association="DbCapstoneModel.FK_job_manager">
       <End Role="manager" EntitySet="managers" />
@@ -38,6 +33,11 @@
     <AssociationSet Name="FK_student_apply_job_job" Association="DbCapstoneModel.FK_student_apply_job_job">
       <End Role="job" EntitySet="jobs" />
       <End Role="student_apply_job" EntitySet="student_apply_job" />
+    </AssociationSet>
+    <EntitySet Name="students" EntityType="DbCapstoneModel.student" />
+    <AssociationSet Name="FK_cv_student" Association="DbCapstoneModel.FK_cv_student">
+      <End Role="student" EntitySet="students" />
+      <End Role="cv" EntitySet="cvs" />
     </AssociationSet>
     <AssociationSet Name="FK_student_apply_job_student" Association="DbCapstoneModel.FK_student_apply_job_student">
       <End Role="student" EntitySet="students" />
@@ -130,20 +130,6 @@
     <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
     <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
   </EntityType>
-  <EntityType Name="student">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="gmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-    <Property Name="is_banned" Type="Boolean" />
-    <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="profile_status" Type="Boolean" Nullable="false" />
-    <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="cv" Relationship="DbCapstoneModel.FK_cv_student" FromRole="student" ToRole="cv" />
-    <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_student" FromRole="student" ToRole="student_apply_job" />
-  </EntityType>
   <EntityType Name="student_apply_job">
     <Key>
       <PropertyRef Name="id" />
@@ -164,18 +150,6 @@
       </Principal>
       <Dependent Role="company">
         <PropertyRef Name="recruiter_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_cv_student">
-    <End Type="DbCapstoneModel.student" Role="student" Multiplicity="1" />
-    <End Type="DbCapstoneModel.cv" Role="cv" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="student">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="cv">
-        <PropertyRef Name="student_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -212,6 +186,33 @@
       </Principal>
       <Dependent Role="student_apply_job">
         <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="gmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="is_banned" Type="Boolean" />
+    <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="profile_status" Type="Boolean" Nullable="false" />
+    <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="google_id" Type="String" Nullable="false" MaxLength="700" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="cv" Relationship="DbCapstoneModel.FK_cv_student" FromRole="student" ToRole="cv" />
+    <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_student" FromRole="student" ToRole="student_apply_job" />
+  </EntityType>
+  <Association Name="FK_cv_student">
+    <End Type="DbCapstoneModel.student" Role="student" Multiplicity="1" />
+    <End Type="DbCapstoneModel.cv" Role="cv" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cv">
+        <PropertyRef Name="student_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

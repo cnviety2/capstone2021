@@ -1,7 +1,9 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Services;
 using Capstone2021.Utils;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
@@ -17,6 +19,42 @@ namespace Capstone2021.Controllers
         public JobController()
         {
             jobService = new JobServiceImpl();
+        }
+
+        [HttpPost]
+        [Route("apply")]
+        [Authorize(Roles = "ROLE_STUDENT")]
+        public IHttpActionResult applyAJob([FromBody] ApplyAJobDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("invalid_id", "Id is an integer");
+                return BadRequest(ModelState);
+            }
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int jobId = dto.id;
+            int studentId = HttpContextUtils.getUserID(claims);
+            int applyState = jobService.applyAJob(jobId, studentId);
+            ResponseDTO response = new ResponseDTO();
+            switch (applyState)
+            {
+                case 1:
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("This job doesn't exist");
+                case 3:
+                    return BadRequest("This student doesn't exist");
+                case 4:
+                    return BadRequest("This job is over 30 days");
+                case 5:
+                    return BadRequest("This job is pending");
+                case 6:
+                    return InternalServerError();
+                case 7:
+                    return BadRequest("This student already applied for this job");
+            }
+            return InternalServerError();
         }
 
         [HttpGet]
@@ -55,7 +93,7 @@ namespace Capstone2021.Controllers
         [HttpPut]
         [Route("approve")]
         [Authorize(Roles = "ROLE_STAFF")]
-        public IHttpActionResult applyAJob([FromBody] ApplyAJobDTO dto)
+        public IHttpActionResult approveAJob([FromBody] ApproveAJobDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +103,7 @@ namespace Capstone2021.Controllers
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int jobId = dto.id;
             int staffId = HttpContextUtils.getUserID(claims);
-            bool approveState = jobService.applyAJob(jobId, staffId);
+            bool approveState = jobService.approveAJob(jobId, staffId);
             if (!approveState)
             {
                 return BadRequest("Error occured");

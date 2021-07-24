@@ -113,12 +113,6 @@ namespace Capstone2021.Test.Providers
 
         }
 
-        private void addClaimsToIdentity(ClaimsIdentity identity, string username, string role)
-        {
-            identity.AddClaim(new Claim(ClaimTypes.Name, username));//set username vào HttpContext để biết được user nào đang gửi request 
-            identity.AddClaim(new Claim(ClaimTypes.Role, role));//set role vào HttpContext để phân quyền đc phép sử dụng những api nào
-        }
-
         private void addClaimsToIdentity(ClaimsIdentity identity, string username, string role, int id)
         {
             identity.AddClaim(new Claim(ClaimTypes.Name, username));//set username vào HttpContext để biết được user nào đang gửi request 

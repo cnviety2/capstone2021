@@ -126,7 +126,7 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public bool applyAJob(int jobId, int staffId)
+        public bool approveAJob(int jobId, int staffId)
         {
             using (context)
             {
@@ -143,6 +143,7 @@ namespace Capstone2021.Services
                             {
                                 job.status = 2;
                                 job.manager_id = staffId;
+                                job.create_date = DateTime.Now;
                                 context.SaveChanges();
                                 return true;
                             }
@@ -162,10 +163,46 @@ namespace Capstone2021.Services
             List<Job> result = new List<Job>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 2).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
 
             }
             return result;
+        }
+
+        public int applyAJob(int jobId, int studentId)
+        {
+            using (context)
+            {
+                var job = context.jobs.Find(jobId);
+                var student = context.students.Find(studentId);
+                if (job == null) return 2;
+                else
+                {
+                    if (job.status == 1) return 5;
+                    if (DateTimeUtils.isOver30Days(job.create_date)) return 4;
+                }
+                if (student == null) return 3;
+                ICollection<student_apply_job> listAppliedJobs = student.student_apply_job;
+                if (listAppliedJobs.Any(s => s.job_id == jobId)) return 7;
+                else
+                {
+                    try
+                    {
+                        student_apply_job relationship = new student_apply_job();
+                        relationship.create_date = DateTime.Now;
+                        relationship.job_id = jobId;
+                        relationship.student_id = studentId;
+                        context.student_apply_job.Add(relationship);
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                        return 6;
+                    }
+                }
+            }
         }
     }
 }

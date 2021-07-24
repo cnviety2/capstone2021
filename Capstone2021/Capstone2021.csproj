@@ -403,6 +403,7 @@
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DTO\ApplyAJobDTO.cs" />
+    <Compile Include="DTO\ApproveAJobDTO.cs" />
     <Compile Include="DTO\Company.cs" />
     <Compile Include="DTO\CreateCompanyDTO.cs" />
     <Compile Include="DTO\CreateCvDTO.cs" />
@@ -473,6 +474,7 @@
     <Compile Include="Test\Maybe later\GenericRepository.cs" />
     <Compile Include="Utils\CompanyMapper.cs" />
     <Compile Include="Utils\CvMapper.cs" />
+    <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\HttpContextUtils.cs" />
     <Compile Include="Utils\JobMapper.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />

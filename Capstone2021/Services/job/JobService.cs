@@ -24,13 +24,13 @@ namespace Capstone2021.Services
         int update(UpdateJobDTO dto, int id);
 
         /// <summary>
-        /// Trả về những job đang ở trạng thái pending
+        /// Trả về những job đang ở trạng thái pending,ko quan trọng thời hạn
         /// </summary>
         /// <returns></returns>
         List<Job> getAllPendingJobs();
 
         /// <summary>
-        /// Trả về những job ở trạng thái OK,đã duyệt
+        /// Trả về những job ở trạng thái OK,đã duyệt và vẫn còn thời hạn trước 30 ngày tính từ lúc job đc approve
         /// </summary>
         /// <returns></returns>
         List<Job> getAllApprovedJobs();
@@ -41,6 +41,22 @@ namespace Capstone2021.Services
         /// <param name="jobId"></param>
         /// <param name="staffId"></param>
         /// <returns></returns>
-        bool applyAJob(int jobId, int staffId);
+        bool approveAJob(int jobId, int staffId);
+
+        /// <summary>
+        /// Tạo 1 row trong bảng student_apply_job thể hiện student này đã apply vào job này,chỉ student mới sử dụng
+        /// trả về: 
+        ///   +1 : nếu apply thành công
+        ///   +2 : nếu job không tồn tại
+        ///   +3 : nếu student không tồn tại
+        ///   +4 : nếu job quá 30 ngày
+        ///   +5 : nếu job đang ở trạng thái pending
+        ///   +6 : nếu lỗi
+        ///   +7 : nếu student đã apply rồi
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="staffId"></param>
+        /// <returns></returns>
+        int applyAJob(int jobId, int studentId);
     }
 }

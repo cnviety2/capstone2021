@@ -16,6 +16,7 @@ namespace Capstone2021.Utils
             result.phone = recruiter.phone;
             result.role = recruiter.role;
             result.username = recruiter.username;
+            result.full_name = recruiter.fullName;
 
             return result;
         }
@@ -30,6 +31,8 @@ namespace Capstone2021.Utils
             result.phone = dto.phone;
             result.role = "ROLE_RECRUITER";
             result.username = dto.username;
+            result.fullName = dto.fullname;
+
             return result;
         }
     }

@@ -84,7 +84,8 @@ namespace Capstone2021.Services
                         password = c.password,
                         phone = c.phone,
                         role = c.role,
-                        username = c.username
+                        username = c.username,
+                        fullName = c.full_name
                     }).FirstOrDefault<Recruiter>();
             }
             return result;
@@ -105,7 +106,8 @@ namespace Capstone2021.Services
                         password = c.password,
                         phone = c.phone,
                         role = c.role,
-                        username = c.username
+                        username = c.username,
+                        fullName = c.full_name, 
                     }).ToList<Recruiter>();
                 return listResult;
             }

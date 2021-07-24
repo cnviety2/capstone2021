@@ -49,7 +49,7 @@ namespace Capstone2021.Services.Student
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            context.Dispose();
         }
 
         public DTO.Student get(int id)

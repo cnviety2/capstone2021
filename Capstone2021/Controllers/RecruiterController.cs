@@ -18,7 +18,7 @@ namespace Capstone2021.Controllers
             _recruiterService = new RecruiterServiceImpl();
         }
         [HttpPost]
-        [Route("create")]
+        [Route("register")]
         [AllowAnonymous]
         public IHttpActionResult create([FromBody] CreateRecruiterDTO recruiter)
         {

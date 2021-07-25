@@ -107,7 +107,7 @@ namespace Capstone2021.Services
                         phone = c.phone,
                         role = c.role,
                         username = c.username,
-                        fullName = c.full_name, 
+                        fullName = c.full_name,
                     }).ToList<Recruiter>();
                 return listResult;
             }

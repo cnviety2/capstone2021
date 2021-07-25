@@ -7,7 +7,7 @@ namespace Capstone2021
 {
     public static class WebApiConfig
     {
-        public static void Register(HttpConfiguration config)
+        public static HttpConfiguration Register(HttpConfiguration config)
         {
             // Web API configuration and services
 
@@ -22,6 +22,7 @@ namespace Capstone2021
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            return (config);
         }
     }
 }

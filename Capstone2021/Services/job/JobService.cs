@@ -1,6 +1,5 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Repositories.JobRepository;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Capstone2021.Services

@@ -12,17 +12,15 @@ namespace Capstone2021
     {
         public void Configuration(IAppBuilder app)
         {
+            var config = new HttpConfiguration();
+            ConfigureOAuth(app, config);
 
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            ConfigureOAuth(app);
-            HttpConfiguration config = new HttpConfiguration();
-            WebApiConfig.Register(config);
-            app.UseWebApi(config);
         }
 
 
-        public void ConfigureOAuth(IAppBuilder app)
+        public void ConfigureOAuth(IAppBuilder app, HttpConfiguration config)
         {
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
@@ -32,8 +30,9 @@ namespace Capstone2021
             };
 
             // Token Generation
-            app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseWebApi(WebApiConfig.Register(config));
         }
 
     }

@@ -181,7 +181,7 @@ namespace Capstone2021.Services
                     if (job.status == 1) return 5;
                     if (DateTimeUtils.isOver30Days(job.create_date)) return 4;
                 }
-                if (student == null) return 3;
+                if (student == null || !student.profile_status) return 3;
                 ICollection<student_apply_job> listAppliedJobs = student.student_apply_job;
                 if (listAppliedJobs.Any(s => s.job_id == jobId)) return 7;
                 else

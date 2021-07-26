@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace Capstone2021.Controllers
 {
     [RoutePrefix("search")]
-    [Authorize]
+    [AllowAnonymous]
     public class SearchController : ApiController
     {
         private JobService jobService;

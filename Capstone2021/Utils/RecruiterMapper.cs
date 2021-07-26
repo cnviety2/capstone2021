@@ -9,14 +9,14 @@ namespace Capstone2021.Utils
         public static recruiter map(Recruiter recruiter)
         {
             recruiter result = new recruiter();
-            result.avatar = recruiter.avatar;
+            result.avatar = recruiter.avatar.Trim();
             result.create_date = recruiter.createDate;
-            result.gmail = recruiter.gmail;
-            result.password = recruiter.password;
-            result.phone = recruiter.phone;
-            result.role = recruiter.role;
-            result.username = recruiter.username;
-            result.full_name = recruiter.fullName;
+            result.gmail = recruiter.gmail.Trim();
+            result.password = recruiter.password.Trim();
+            result.phone = recruiter.phone.Trim();
+            result.role = recruiter.role.Trim();
+            result.username = recruiter.username.Trim();
+            result.full_name = recruiter.fullName.Trim();
 
             return result;
         }
@@ -24,14 +24,14 @@ namespace Capstone2021.Utils
         public static Recruiter mapFromDto(CreateRecruiterDTO dto)
         {
             Recruiter result = new Recruiter();
-            result.avatar = dto.avatar;
+            result.avatar = dto.avatar.Trim();
             result.createDate = DateTime.Now;
-            result.gmail = dto.gmail;
-            result.password = dto.password;
-            result.phone = dto.phone;
+            result.gmail = dto.gmail.Trim();
+            result.password = dto.password.Trim();
+            result.phone = dto.phone.Trim();
             result.role = "ROLE_RECRUITER";
-            result.username = dto.username;
-            result.fullName = dto.fullname;
+            result.username = dto.username.Trim();
+            result.fullName = dto.fullname.Trim();
 
             return result;
         }

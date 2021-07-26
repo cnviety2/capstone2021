@@ -9,11 +9,11 @@ namespace Capstone2021.Utils
         public static company mapFromCreateDtoToDbModel(CreateCompanyDTO dto)
         {
             company model = new company();
-            model.name = dto.name;
-            model.headquarters = dto.headquaters;
-            if (!dto.website.IsEmpty()) model.website = dto.website;
-            if (!dto.avatar.IsEmpty()) model.avatar = dto.avatar;
-            if (!dto.description.IsEmpty()) model.description = dto.description;
+            model.name = dto.name.Trim();
+            model.headquarters = dto.headquaters.Trim();
+            if (!dto.website.IsEmpty()) model.website = dto.website.Trim();
+            if (!dto.avatar.IsEmpty()) model.avatar = dto.avatar.Trim();
+            if (!dto.description.IsEmpty()) model.description = dto.description.Trim();
             model.create_date = DateTime.Now;
             return model;
         }
@@ -22,12 +22,12 @@ namespace Capstone2021.Utils
         {
             Company dto = new Company();
             dto.id = model.id;
-            dto.name = model.name;
-            dto.headquaters = model.headquarters;
-            dto.avatar = model.avatar;
-            dto.description = model.description;
+            dto.name = model.name.Trim();
+            dto.headquaters = model.headquarters.Trim();
+            dto.avatar = model.avatar.Trim();
+            dto.description = model.description.Trim();
             dto.createDate = model.create_date.Value.ToString("dd/MM/yyyy");
-            dto.website = model.website;
+            dto.website = model.website.Trim();
             dto.recruiterId = model.recruiter_id;
             return dto;
         }

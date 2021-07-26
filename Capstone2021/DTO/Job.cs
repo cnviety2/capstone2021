@@ -74,5 +74,25 @@ namespace Capstone2021.DTO
         public ICollection<job_has_category> relationship { get; set; }
 
         public IList<Category> categories { get; set; }
+
+        /// <summary>
+        /// Kiểm tra xem Job này có chứa category cần tìm hay ko,method này dùng trong việc search những job theo category,trả về 
+        /// true nếu đúng
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public bool hasCategory(int categoryId)
+        {
+            if (this.categories == null || this.categories.Count == 0)
+            {
+                return false;
+            }
+            foreach (Category element in this.categories)
+            {
+                if (element.code == categoryId)
+                    return true;
+            }
+            return false;
+        }
     }
 }

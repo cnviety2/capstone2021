@@ -12,16 +12,16 @@ namespace Capstone2021.Utils
         {
             Cv result = new Cv();
             result.studentId = model.student_id;
-            result.name = model.name;
+            result.name = model.name.Trim();
             result.sex = (bool)model.sex;
             result.workingForm = (int)model.working_form;
-            result.school = model.school;
+            result.school = model.school.Trim();
             result.isSubscribed = (bool)model.is_subscribed;
-            result.foreignLanguage = model.foreign_language;
-            result.experience = model.experience;
+            result.foreignLanguage = model.foreign_language.Trim();
+            result.experience = model.experience.Trim();
             result.dob = (DateTime)model.dob;
             result.createDate = (DateTime)model.create_date;
-            result.avatar = model.avatar;
+            result.avatar = model.avatar.Trim();
             result.desiredSalaryMinimum = (int)model.desired_salary_minimum;
             return result;
         }
@@ -32,16 +32,16 @@ namespace Capstone2021.Utils
         {
             cv result = new cv();
             result.student_id = obj.studentId;
-            result.name = obj.name;
+            result.name = obj.name.Trim();
             result.sex = obj.sex;
             result.working_form = obj.workingForm;
-            result.school = obj.school;
+            result.school = obj.school.Trim();
             result.is_subscribed = obj.isSubscribed;
-            result.foreign_language = obj.foreignLanguage;
-            result.experience = obj.experience;
+            result.foreign_language = obj.foreignLanguage.Trim();
+            result.experience = obj.experience.Trim();
             result.dob = obj.dob;
             result.create_date = obj.createDate;
-            result.avatar = obj.avatar;
+            result.avatar = obj.avatar.Trim();
             result.desired_salary_minimum = obj.desiredSalaryMinimum;
             return result;
         }

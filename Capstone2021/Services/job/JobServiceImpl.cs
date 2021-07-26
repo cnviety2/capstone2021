@@ -287,5 +287,57 @@ namespace Capstone2021.Services
                 }
             }
         }
+
+        /// <summary>
+        /// Method lọc lại từ list đã lấy dưới database theo đúng search của request gửi lên server
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="searchDTO"></param>
+        /// <returns></returns>
+        private IList<Job> filterAfterGetAllJobsInDatabase(IList<Job> list, SearchJobDTO searchDTO)
+        {
+            if (searchDTO.keyword != null && !searchDTO.isEmpty())
+            {
+                list = list.Cast<Job>().Where(s => s.name.Contains(searchDTO.keyword)).ToList<Job>();
+            }
+            if (searchDTO.categoryCode.HasValue)
+            {
+                list = list.Cast<Job>().Where(s => s.hasCategory(searchDTO.categoryCode.Value)).ToList<Job>();
+            }
+            if (searchDTO.location.HasValue)
+            {
+                list = list.Cast<Job>().Where(s => s.location == searchDTO.location.Value).ToList<Job>();
+            }
+            if (searchDTO.workingForm.HasValue)
+            {
+                list = list.Cast<Job>().Where(s => s.workingForm == searchDTO.workingForm.Value).ToList<Job>();
+            }
+            return list;
+        }
+
+        public IList<Job> search(SearchJobDTO searchDTO)
+        {
+            List<Job> result = new List<Job>();
+            using (context)
+            {
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                foreach (Job element in result)
+                {
+                    element.categories = new List<Category>();
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            code = s.code,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
+            }
+            result = (List<Job>)filterAfterGetAllJobsInDatabase(result, searchDTO);
+            return result;
+        }
     }
 }

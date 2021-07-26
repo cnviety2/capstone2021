@@ -57,5 +57,7 @@ namespace Capstone2021.Services
         /// <param name="staffId"></param>
         /// <returns></returns>
         int applyAJob(int jobId, int studentId);
+
+        IList<Job> search(SearchJobDTO searchDTO);
     }
 }

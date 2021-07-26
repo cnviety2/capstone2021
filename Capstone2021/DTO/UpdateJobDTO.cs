@@ -30,6 +30,8 @@ namespace Capstone2021.DTO
 
         public Nullable<Int32> salaryMax { get; set; }
 
+        public Int32[] categories { get; set; }
+
         /// <summary>
         /// Method kiểm tra nếu tất cả các field đều null (trừ field id)
         /// </summary>
@@ -37,7 +39,7 @@ namespace Capstone2021.DTO
         public bool isEmpty()
         {
             if (name == null && !workingForm.HasValue && !location.HasValue && workingPlace == null && description == null && requirement == null && !type.HasValue && offer == null
-                && !sex.HasValue && !quantity.HasValue && !salaryMin.HasValue && !salaryMax.HasValue)
+                && !sex.HasValue && !quantity.HasValue && !salaryMin.HasValue && !salaryMax.HasValue && categories == null)
                 return true;
             else
                 return false;

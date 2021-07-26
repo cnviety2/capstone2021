@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DbCapstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="int" Nullable="false" />
+          <Property Name="value" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="company">
           <Key>
             <PropertyRef Name="id" />
@@ -56,6 +64,15 @@
           <Property Name="create_date" Type="date" Nullable="false" />
           <Property Name="manager_id" Type="int" />
           <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="job_has_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="job_id" Type="int" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="manager">
           <Key>
@@ -140,6 +157,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_job_has_category_category">
+          <End Role="category" Type="Self.category" Multiplicity="1" />
+          <End Role="job_has_category" Type="Self.job_has_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job_has_category">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_job_has_category_job_has_category">
+          <End Role="job" Type="Self.job" Multiplicity="1" />
+          <End Role="job_has_category" Type="Self.job_has_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="job">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job_has_category">
+              <PropertyRef Name="job_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_job_manager">
           <End Role="manager" Type="Self.manager" Multiplicity="0..1" />
           <End Role="job" Type="Self.job" Multiplicity="*" />
@@ -189,9 +230,11 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DbCapstoneModelStoreContainer">
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="company" EntityType="Self.company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="job_has_category" EntityType="Self.job_has_category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="manager" EntityType="Self.manager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
@@ -204,6 +247,14 @@
           <AssociationSet Name="FK_cv_student" Association="Self.FK_cv_student">
             <End Role="student" EntitySet="student" />
             <End Role="cv" EntitySet="cv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_job_has_category_category" Association="Self.FK_job_has_category_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="job_has_category" EntitySet="job_has_category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_job_has_category_job_has_category" Association="Self.FK_job_has_category_job_has_category">
+            <End Role="job" EntitySet="job" />
+            <End Role="job_has_category" EntitySet="job_has_category" />
           </AssociationSet>
           <AssociationSet Name="FK_job_manager" Association="Self.FK_job_manager">
             <End Role="manager" EntitySet="manager" />
@@ -269,6 +320,16 @@
             <End Role="student" EntitySet="students" />
             <End Role="student_apply_job" EntitySet="student_apply_job" />
           </AssociationSet>
+          <EntitySet Name="categories" EntityType="DbCapstoneModel.category" />
+          <EntitySet Name="job_has_category" EntityType="DbCapstoneModel.job_has_category" />
+          <AssociationSet Name="FK_job_has_category_category" Association="DbCapstoneModel.FK_job_has_category_category">
+            <End Role="category" EntitySet="categories" />
+            <End Role="job_has_category" EntitySet="job_has_category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_job_has_category_job_has_category" Association="DbCapstoneModel.FK_job_has_category_job_has_category">
+            <End Role="job" EntitySet="jobs" />
+            <End Role="job_has_category" EntitySet="job_has_category" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="company">
           <Key>
@@ -326,6 +387,7 @@
           <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
           <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
           <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
+          <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
         </EntityType>
         <EntityType Name="manager">
           <Key>
@@ -455,6 +517,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_category" FromRole="category" ToRole="job_has_category" />
+        </EntityType>
+        <EntityType Name="job_has_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="job_id" Type="Int32" Nullable="false" />
+          <Property Name="category_id" Type="Int32" Nullable="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="category" Relationship="DbCapstoneModel.FK_job_has_category_category" FromRole="job_has_category" ToRole="category" />
+          <NavigationProperty Name="job" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job_has_category" ToRole="job" />
+        </EntityType>
+        <Association Name="FK_job_has_category_category">
+          <End Type="DbCapstoneModel.category" Role="category" Multiplicity="1" />
+          <End Type="DbCapstoneModel.job_has_category" Role="job_has_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job_has_category">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_job_has_category_job_has_category">
+          <End Type="DbCapstoneModel.job" Role="job" Multiplicity="1" />
+          <End Type="DbCapstoneModel.job_has_category" Role="job_has_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="job">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="job_has_category">
+              <PropertyRef Name="job_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -576,6 +682,25 @@
                 <ScalarProperty Name="is_banned" ColumnName="is_banned" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="gmail" ColumnName="gmail" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="DbCapstoneModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="job_has_category">
+            <EntityTypeMapping TypeName="DbCapstoneModel.job_has_category">
+              <MappingFragment StoreEntitySet="job_has_category">
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="job_id" ColumnName="job_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

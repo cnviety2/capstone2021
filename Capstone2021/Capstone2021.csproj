@@ -374,6 +374,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="category.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="company.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
@@ -404,6 +407,7 @@
     </Compile>
     <Compile Include="DTO\ApplyAJobDTO.cs" />
     <Compile Include="DTO\ApproveAJobDTO.cs" />
+    <Compile Include="DTO\Category.cs" />
     <Compile Include="DTO\Company.cs" />
     <Compile Include="DTO\CreateCompanyDTO.cs" />
     <Compile Include="DTO\CreateCvDTO.cs" />
@@ -423,6 +427,9 @@
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdateJobDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
+    <Compile Include="job_has_category.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\CompanyRepository\CompanyRepository.cs" />
     <Compile Include="Repositories\JobRepository\IJobRepository.cs" />
     <Compile Include="Repositories\StudentRepository\ICvRepository.cs" />

@@ -43,6 +43,16 @@
       <End Role="student" EntitySet="students" />
       <End Role="student_apply_job" EntitySet="student_apply_job" />
     </AssociationSet>
+    <EntitySet Name="categories" EntityType="DbCapstoneModel.category" />
+    <EntitySet Name="job_has_category" EntityType="DbCapstoneModel.job_has_category" />
+    <AssociationSet Name="FK_job_has_category_category" Association="DbCapstoneModel.FK_job_has_category_category">
+      <End Role="category" EntitySet="categories" />
+      <End Role="job_has_category" EntitySet="job_has_category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_job_has_category_job_has_category" Association="DbCapstoneModel.FK_job_has_category_job_has_category">
+      <End Role="job" EntitySet="jobs" />
+      <End Role="job_has_category" EntitySet="job_has_category" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="company">
     <Key>
@@ -100,6 +110,7 @@
     <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
     <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
     <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
+    <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
   </EntityType>
   <EntityType Name="manager">
     <Key>
@@ -226,6 +237,50 @@
       </Principal>
       <Dependent Role="student_apply_job">
         <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="code" Type="Int32" Nullable="false" />
+    <Property Name="value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_category" FromRole="category" ToRole="job_has_category" />
+  </EntityType>
+  <EntityType Name="job_has_category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="job_id" Type="Int32" Nullable="false" />
+    <Property Name="category_id" Type="Int32" Nullable="false" />
+    <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="category" Relationship="DbCapstoneModel.FK_job_has_category_category" FromRole="job_has_category" ToRole="category" />
+    <NavigationProperty Name="job" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job_has_category" ToRole="job" />
+  </EntityType>
+  <Association Name="FK_job_has_category_category">
+    <End Type="DbCapstoneModel.category" Role="category" Multiplicity="1" />
+    <End Type="DbCapstoneModel.job_has_category" Role="job_has_category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job_has_category">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_job_has_category_job_has_category">
+    <End Type="DbCapstoneModel.job" Role="job" Multiplicity="1" />
+    <End Type="DbCapstoneModel.job_has_category" Role="job_has_category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="job">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job_has_category">
+        <PropertyRef Name="job_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

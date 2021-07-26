@@ -1,5 +1,6 @@
 ﻿using Capstone2021.DTO;
 using System;
+using System.Collections.Generic;
 using System.Web.WebPages;
 
 namespace Capstone2021.Utils
@@ -31,6 +32,7 @@ namespace Capstone2021.Utils
             result.workingPlace = model.working_place;
             result.createDate = model.create_date.ToString("dd/MM/yyyy");
             result.description = model.description;
+            result.relationship = model.job_has_category;
             return result;
         }
 
@@ -115,6 +117,17 @@ namespace Capstone2021.Utils
             if (dto.salaryMax.HasValue && dto.salaryMax != model.salary_max && dto.salaryMax != 0)
             {
                 model.salary_max = dto.salaryMax.Value;
+            }
+            if (dto.categories != null)
+            {
+                int[] categoryArray = dto.categories;
+                for (int i = 0; i < categoryArray.Length; i++)
+                {
+                    job_has_category relationship = new job_has_category();
+                    relationship.category_id = categoryArray[i];
+                    relationship.job_id = dto.id;
+                    model.job_has_category.Add(relationship);
+                }
             }
 
             return model;

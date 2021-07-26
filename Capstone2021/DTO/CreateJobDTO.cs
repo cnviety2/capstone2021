@@ -55,5 +55,8 @@ namespace Capstone2021.DTO
 
         [Required]
         public int recruiterId { get; set; }
+
+        [Required]
+        public int[] categories { get; set; }
     }
 }

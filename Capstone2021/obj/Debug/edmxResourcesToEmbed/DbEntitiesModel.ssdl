@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DbCapstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="int" Nullable="false" />
+    <Property Name="value" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="company">
     <Key>
       <PropertyRef Name="id" />
@@ -51,6 +59,15 @@
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="manager_id" Type="int" />
     <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="job_has_category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="job_id" Type="int" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="create_date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="manager">
     <Key>
@@ -135,6 +152,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_job_has_category_category">
+    <End Role="category" Type="Self.category" Multiplicity="1" />
+    <End Role="job_has_category" Type="Self.job_has_category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job_has_category">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_job_has_category_job_has_category">
+    <End Role="job" Type="Self.job" Multiplicity="1" />
+    <End Role="job_has_category" Type="Self.job_has_category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="job">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="job_has_category">
+        <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_job_manager">
     <End Role="manager" Type="Self.manager" Multiplicity="0..1" />
     <End Role="job" Type="Self.job" Multiplicity="*" />
@@ -184,9 +225,11 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="DbCapstoneModelStoreContainer">
+    <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="company" EntityType="Self.company" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="cv" EntityType="Self.cv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="job_has_category" EntityType="Self.job_has_category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="manager" EntityType="Self.manager" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
@@ -199,6 +242,14 @@
     <AssociationSet Name="FK_cv_student" Association="Self.FK_cv_student">
       <End Role="student" EntitySet="student" />
       <End Role="cv" EntitySet="cv" />
+    </AssociationSet>
+    <AssociationSet Name="FK_job_has_category_category" Association="Self.FK_job_has_category_category">
+      <End Role="category" EntitySet="category" />
+      <End Role="job_has_category" EntitySet="job_has_category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_job_has_category_job_has_category" Association="Self.FK_job_has_category_job_has_category">
+      <End Role="job" EntitySet="job" />
+      <End Role="job_has_category" EntitySet="job_has_category" />
     </AssociationSet>
     <AssociationSet Name="FK_job_manager" Association="Self.FK_job_manager">
       <End Role="manager" EntitySet="manager" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace Capstone2021.DTO
 {
@@ -67,5 +69,10 @@ namespace Capstone2021.DTO
         /// 1 là pending(đợi duyệt),2 là ok(đã duyệt),3 là edited(đã đc update,lúc này job sẽ ko thể update nữa)
         /// </summary>
         public int status { get; set; }
+
+        [JsonIgnore]
+        public ICollection<job_has_category> relationship { get; set; }
+
+        public IList<Category> categories { get; set; }
     }
 }

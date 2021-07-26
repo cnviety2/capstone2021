@@ -151,6 +151,11 @@ namespace Capstone2021.Controllers
         [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult createAJob([FromBody] CreateJobDTO dto)
         {
+            if (dto.categories.Length == 0)
+            {
+                ModelState.AddModelError("dto.categories", "At least one category");
+                return BadRequest(ModelState);
+            }
             if (dto.salaryMin >= dto.salaryMax)
             {
                 ModelState.AddModelError("dto.salaryMin", "salaryMin can't >= salaryMax");
@@ -181,6 +186,10 @@ namespace Capstone2021.Controllers
         [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult updateAJob([FromBody] UpdateJobDTO dto)
         {
+            if (dto == null)
+            {
+                return BadRequest();
+            }
             bool flag = false;
             if (dto.isEmpty())
             {
@@ -223,7 +232,12 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.salaryMin", "salaryMin can't >= salaryMax");
                 flag = true;
             }
-            if (flag || dto == null)
+            if (dto.categories.Length == 0)
+            {
+                ModelState.AddModelError("dto.categories", "At least one category");
+                flag = true;
+            }
+            if (flag)
             {
                 return BadRequest(ModelState);
             }
@@ -235,7 +249,7 @@ namespace Capstone2021.Controllers
                     response.message = "Doesn't exist";
                     break;
                 case 0:
-                    response.message = "OK,status changed to pending";
+                    response.message = "OK";
                     break;
                 case 1:
                     response.message = "Error occured";

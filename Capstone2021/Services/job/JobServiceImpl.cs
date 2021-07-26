@@ -40,6 +40,17 @@ namespace Capstone2021.Services
             using (context)
             {
                 result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobMapper.mapFromDbContext(s)).FirstOrDefault<Job>();
+                result.categories = new List<Category>();
+                foreach (job_has_category relationship in result.relationship)
+                {
+                    Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                    {
+                        id = s.id,
+                        code = s.code,
+                        value = s.value
+                    }).FirstOrDefault<Category>();
+                    result.categories.Add(category);
+                }
             }
             return result;
 
@@ -51,6 +62,20 @@ namespace Capstone2021.Services
             using (context)
             {
                 listResult = context.jobs.AsEnumerable().Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                foreach (Job element in listResult)
+                {
+                    element.categories = new List<Category>();
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            code = s.code,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
             }
             return listResult;
         }
@@ -60,18 +85,35 @@ namespace Capstone2021.Services
             bool result = false;
             using (context)
             {
-                try
+                using (var contextTransaction = context.Database.BeginTransaction())
                 {
-                    job model = JobMapper.mapToDatabaseModel(dto);
-                    model.recruiter_id = recruiterID;
-                    context.jobs.Add(model);
-                    context.SaveChanges();
-                    result = true;
-                }
-                catch (Exception e)
-                {
-                    logger.Info("Exception " + e.Message + "in JobServiceImpl");
-                    return result;
+                    try
+                    {
+                        job model = JobMapper.mapToDatabaseModel(dto);
+                        model.recruiter_id = recruiterID;
+                        context.jobs.Add(model);
+                        context.SaveChanges();
+                        int jobId = model.id;
+
+                        for (int i = 0; i < dto.categories.Length; i++)
+                        {
+                            job_has_category relationship = new job_has_category();
+                            relationship.category_id = dto.categories[i];
+                            relationship.job_id = jobId;
+                            relationship.create_date = DateTime.Now;
+                            context.job_has_category.Add(relationship);
+                        }
+                        context.SaveChanges();
+                        contextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        contextTransaction.Rollback();
+                        logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                        return result;
+                    }
+
                 }
             }
             return result;
@@ -97,7 +139,16 @@ namespace Capstone2021.Services
                     {
                         return 3;
                     }
-                    checkJob.status = 3;
+                    //checkJob.status = 3; tạm ngưng update lại status của job
+                    if (checkJob.job_has_category != null)
+                    {
+                        context.job_has_category.RemoveRange(context.job_has_category.Where(x => x.job_id == dto.id));
+                        foreach (job_has_category ele in checkJob.job_has_category)
+                        {
+                            ele.create_date = DateTime.Now;
+                            context.job_has_category.Add(ele);
+                        }
+                    }
                     context.SaveChanges();
                     return 0;//ok
                 }
@@ -119,7 +170,26 @@ namespace Capstone2021.Services
             List<Job> result = new List<Job>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s =>
+                    JobMapper.mapFromDbContext(s)
+
+                ).ToList<Job>();
+
+                //xử lý thêm category vào dto trả về cho frontend
+                foreach (Job element in result)
+                {
+                    element.categories = new List<Category>();
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            code = s.code,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
 
             }
             return result;
@@ -163,6 +233,20 @@ namespace Capstone2021.Services
             using (context)
             {
                 result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                foreach (Job element in result)
+                {
+                    element.categories = new List<Category>();
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            code = s.code,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
 
             }
             return result;

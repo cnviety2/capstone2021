@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace Capstone2021.Controllers
 {
     [RoutePrefix("recruiter")]
-    [Authorize(Roles = "ROLE_RECRUITER")]//chỉ có những user có role là recruiter chứa trong HttpContext là được sử dụng những api này
+    [Authorize]//chỉ có những user có role là recruiter chứa trong HttpContext là được sử dụng những api này
     public class RecruiterController : ApiController
     {
         private readonly RecruiterService _recruiterService;
@@ -44,6 +44,7 @@ namespace Capstone2021.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult updateInformation([FromBody] UpdateInformationRecruiterDTO recruiter)
         {
             if (!ModelState.IsValid || recruiter == null)
@@ -65,6 +66,7 @@ namespace Capstone2021.Controllers
         }
         [Route("update/password")]
         [HttpPut]
+        [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult updatePassword([FromBody] UpdatePasswordRecruiterDTO dto)
         {
             if (!ModelState.IsValid || dto == null)
@@ -85,8 +87,8 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
         [HttpGet]
-        [Route("recruiter")]
-        [Authorize]
+        [Route("")]
+        [Authorize(Roles = "ROLE_ADMIN")]
         public IHttpActionResult getAllRecruiter()
         {
             ResponseDTO response = new ResponseDTO();
@@ -101,8 +103,8 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
         [HttpGet]
-        [Route("recruiter/{id:int:min(0)}")]
-        [Authorize]
+        [Route("{id:int:min(0)}")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult getARecruiter([FromUri] int id)
         {
             ResponseDTO response = new ResponseDTO();

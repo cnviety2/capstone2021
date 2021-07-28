@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.1.1\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.7.1.17\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -388,6 +394,7 @@
     <Compile Include="Controllers\RecruiterController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="cv.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
@@ -474,13 +481,9 @@
     <Compile Include="sysdiagram.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Test\AuthContext .cs" />
-    <Compile Include="Test\Controller\AccountController.cs" />
-    <Compile Include="Test\Controller\OdersController.cs" />
-    <Compile Include="Test\Model\UserModel.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
-    <Compile Include="Test\Repository\AuthRepository.cs" />
     <Compile Include="Test\Maybe later\GenericRepository.cs" />
+    <Compile Include="Utils\AmazonUploader.cs" />
     <Compile Include="Utils\CompanyMapper.cs" />
     <Compile Include="Utils\CvMapper.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
@@ -593,6 +596,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.1.17\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

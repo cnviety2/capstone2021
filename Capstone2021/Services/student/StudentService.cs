@@ -11,5 +11,13 @@ namespace Capstone2021.Services
         /// <param name="obj"></param>
         /// <returns></returns>
         DTO.Student login(DTO.Student obj);
+
+
+        /// <summary>
+        /// Update lại url dẫn đến image của student
+        /// </summary>
+        /// <param name="imageUrl"></param>
+        /// <returns></returns>
+        bool updateImage(String imageUrl, int id);
     }
 }

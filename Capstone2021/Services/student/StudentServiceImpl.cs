@@ -94,5 +94,27 @@ namespace Capstone2021.Services.Student
         {
             throw new NotImplementedException();
         }
+
+        public bool updateImage(string imageUrl, int id)
+        {
+            var checkStudent = context.students.Find(id);
+            if (checkStudent == null)
+                return false;
+            using (context)
+            {
+                try
+                {
+                    checkStudent.avatar = imageUrl;
+                    context.SaveChanges();
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in StudentServiceImpl");
+                    return false;
+                }
+            }
+        }
     }
 }

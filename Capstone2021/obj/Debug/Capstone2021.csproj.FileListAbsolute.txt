@@ -220,3 +220,9 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.pdb
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.pdb
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.xml

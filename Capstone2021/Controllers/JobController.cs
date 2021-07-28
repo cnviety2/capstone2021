@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace Capstone2021.Controllers
 {
     [RoutePrefix("job")]
-    [Authorize]
+    [AllowAnonymous]
     public class JobController : ApiController
     {
         private JobService jobService;
@@ -114,7 +114,6 @@ namespace Capstone2021.Controllers
 
         [HttpGet]
         [Route("")]
-        [AllowAnonymous]
         public IHttpActionResult getAllJobs()
         {
             ResponseDTO response = new ResponseDTO();
@@ -131,7 +130,6 @@ namespace Capstone2021.Controllers
 
         [HttpGet]
         [Route("{id:int:min(0)}")]
-        [AllowAnonymous]
         public IHttpActionResult getAJob([FromUri] int id)
         {
             ResponseDTO response = new ResponseDTO();

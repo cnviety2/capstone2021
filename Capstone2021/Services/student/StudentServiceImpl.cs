@@ -104,7 +104,7 @@ namespace Capstone2021.Services.Student
             {
                 try
                 {
-                    checkStudent.avatar = imageUrl;
+                    checkStudent.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
                     context.SaveChanges();
                     return true;
 

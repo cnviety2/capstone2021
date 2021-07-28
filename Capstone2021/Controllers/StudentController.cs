@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 
@@ -35,7 +37,9 @@ namespace Capstone2021.Controllers
                 }
                 using (Stream st = file.InputStream)
                 {
-                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                    ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+                    string googleId = HttpContextUtils.getGoogleID(claims);
+                    string name = Guid.NewGuid().ToString() + googleId + "." + file.ContentType.Split('/')[1];
                     //string name = Path.GetFileName(file.FileName);
                     string myBucketName = "capstone2021-fpt"; //your s3 bucket name goes here  
                     string s3DirectoryName = "";
@@ -46,6 +50,7 @@ namespace Capstone2021.Controllers
                     if (a == true)
                     {
 
+                        studentService.updateImage(name, HttpContextUtils.getUserID(claims));
                         return Ok();
 
                     }

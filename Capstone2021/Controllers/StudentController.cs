@@ -2,9 +2,7 @@
 using Capstone2021.Services.Student;
 using Capstone2021.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web;

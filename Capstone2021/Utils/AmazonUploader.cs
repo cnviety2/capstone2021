@@ -3,9 +3,6 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Capstone2021.Utils
 {

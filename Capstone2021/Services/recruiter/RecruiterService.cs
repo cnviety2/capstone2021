@@ -21,6 +21,6 @@ namespace Capstone2021.Services
         ///Method create account của recruiter,return true nếu thành công
         ///</summary>
         bool create(CreateRecruiterDTO obj);
-
+        bool updateImage(string imageUrl, int id);
     }
 }

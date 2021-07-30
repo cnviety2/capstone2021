@@ -48,6 +48,7 @@ namespace Capstone2021.Service
                         saveObj.password = obj.password;
                         saveObj.role = obj.role;
                         saveObj.full_name = obj.fullName;
+                        saveObj.is_banned = false;
                         context.managers.Add(saveObj);
                         context.SaveChanges();
                     }

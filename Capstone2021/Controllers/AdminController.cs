@@ -85,7 +85,10 @@ namespace Capstone2021.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            if (StringUtils.isContainSpecialCharacter(dto.username))
+            {
+                return BadRequest("Username can't contain special character");
+            }
             ResponseDTO response = new ResponseDTO();
             Manager saveObj = new Manager();
             saveObj.fullName = dto.fullName.Trim();

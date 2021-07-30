@@ -491,6 +491,7 @@
     <Compile Include="Utils\JobMapper.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />
     <Compile Include="Test\Maybe later\UnitOfWork.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\StudentMapper.cs" />
   </ItemGroup>
   <ItemGroup>

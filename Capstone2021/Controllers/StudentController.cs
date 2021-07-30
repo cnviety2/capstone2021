@@ -1,4 +1,5 @@
-﻿using Capstone2021.Services;
+﻿using Capstone2021.DTO;
+using Capstone2021.Services;
 using Capstone2021.Services.Student;
 using Capstone2021.Utils;
 using System;
@@ -19,6 +20,26 @@ namespace Capstone2021.Controllers
         public StudentController()
         {
             studentService = new StudentServiceImpl();
+        }
+
+        [HttpGet]
+        [Route("self")]
+        public IHttpActionResult getSelfInfo()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int id = HttpContextUtils.getUserID(claims);
+            Student currentStudent = studentService.get(id);
+            ResponseDTO response = new ResponseDTO();
+            if (currentStudent == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                response.message = "OK";
+            }
+            response.data = currentStudent;
+            return Ok(response);
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
-﻿using Capstone2021.Utils;
+﻿using Capstone2021.DTO;
+using Capstone2021.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,22 @@ namespace Capstone2021.Services.Student
 
         public DTO.Student get(int id)
         {
-            throw new NotImplementedException();
+            DTO.Student result = null;
+            using (context)
+            {
+                //context.managers sẽ lấy ra DataSet của table manager ở phía dưới db
+                result = context.students.AsEnumerable().Where(s => s.id == id).Select(s => new DTO.Student()
+                {
+                    id = s.id,
+                    gmail = s.gmail,
+                    isBanned = s.is_banned.Value,
+                    createDate = s.create_date,
+                    profileStatus = s.profile_status,
+                    avatar = s.avatar
+                    //googleId = s.google_id
+                }).FirstOrDefault<DTO.Student>();
+            }
+            return result;
         }
 
         public IList<DTO.Student> getAll()

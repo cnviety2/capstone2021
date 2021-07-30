@@ -3,6 +3,8 @@ using Capstone2021.Service;
 using Capstone2021.Utils;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
@@ -18,6 +20,26 @@ namespace Capstone2021.Controllers
         public AdminController()
         {
             managerService = new ManagerServiceImpl();
+        }
+
+        [HttpGet]
+        [Route("self")]
+        public IHttpActionResult getSelfInfo()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int id = HttpContextUtils.getUserID(claims);
+            Manager currentManager = managerService.get(id);
+            ResponseDTO response = new ResponseDTO();
+            if (currentManager == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                response.message = "OK";
+            }
+            response.data = currentManager;
+            return Ok(response);
         }
 
         [Route("{id}")]

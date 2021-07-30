@@ -24,7 +24,6 @@ namespace Capstone2021.Utils
         public static Recruiter mapFromDto(CreateRecruiterDTO dto)
         {
             Recruiter result = new Recruiter();
-            result.avatar = dto.avatar.Trim();
             result.createDate = DateTime.Now;
             result.gmail = dto.gmail.Trim();
             result.password = dto.password.Trim();

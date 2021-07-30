@@ -12,7 +12,7 @@ namespace Capstone2021.Services
         ///<summary>
         ///Method update information của recruiter,return true nếu thành công
         ///</summary>
-        bool update(UpdateInformationRecruiterDTO obj);
+        bool update(UpdateInformationRecruiterDTO obj, string username);
         ///<summary>
         ///Method update password của recruiter,return true nếu thành công
         ///</summary>

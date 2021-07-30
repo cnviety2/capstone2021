@@ -159,12 +159,13 @@ namespace Capstone2021.Services
             throw new NotImplementedException();
         }
 
-        public bool update(UpdateInformationRecruiterDTO obj)
+        public bool update(UpdateInformationRecruiterDTO obj,string username)
         {
             bool result = false;
             using (context)
             {
-                var recruiter = context.recruiters.SingleOrDefault(c => c.id.Equals(obj.id));
+                var recruiter = context.recruiters
+                    .SingleOrDefault(c => c.username.Equals(username));
                 if (recruiter == null)
                 {
                     return result;
@@ -173,6 +174,7 @@ namespace Capstone2021.Services
                 {
                     try
                     {
+                        recruiter.full_name = obj.fullName;
                         recruiter.gmail = obj.gmail;
                         recruiter.phone = obj.phone;
                         context.SaveChanges();

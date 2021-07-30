@@ -27,7 +27,6 @@ namespace Capstone2021.DTO
         [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "Email Invalid. Example: recruiter123@gmail.com ")]
         [StringLength(12, ErrorMessage = "Phone number length minimum is 8 and maximum is 12", MinimumLength = 8)]
         public string phone { get; set; }
-        public string avatar { get; set; }
         public string createDate { get; set; }
         [Required]
         [StringLength(50, ErrorMessage = "Fullname's length minimum is 1 and maximum is 100", MinimumLength = 1)]

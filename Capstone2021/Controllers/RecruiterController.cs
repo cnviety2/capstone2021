@@ -33,17 +33,25 @@ namespace Capstone2021.Controllers
             }
 
             recruiter.password = Crypto.HashPassword(recruiter.password.Trim());
-            Recruiter model = RecruiterMapper.mapFromDto(recruiter);
-            bool saveState = _recruiterService.create(model);
-            if (saveState)
+            if (StringUtils.isContainSpecialCharacter(recruiter.username) == true)
             {
-                response.message = "OK";
+                response.message = "Username not contain sepecial character";
+                return Ok(response);
             }
             else
             {
-                response.message = "Error occured";
+                Recruiter model = RecruiterMapper.mapFromDto(recruiter);
+                bool saveState = _recruiterService.create(model);
+                if (saveState)
+                {
+                    response.message = "OK";
+                }
+                else
+                {
+                    response.message = "Error occured";
+                }
+                return Ok(response);
             }
-            return Ok(response);
         }
 
         [HttpPut]
@@ -57,7 +65,8 @@ namespace Capstone2021.Controllers
             }
 
             ResponseDTO response = new ResponseDTO();
-            bool saveState = _recruiterService.update(recruiter);
+            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
+            bool saveState = _recruiterService.update(recruiter, currentUser);
             if (saveState)
             {
                 response.message = "OK";
@@ -138,9 +147,9 @@ namespace Capstone2021.Controllers
                 }
                 using (Stream st = file.InputStream)
                 {
+                    ResponseDTO response = new ResponseDTO();
                     ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-                    string googleId = HttpContextUtils.getGoogleID(claims);
-                    string name = Guid.NewGuid().ToString() + googleId + "." + file.ContentType.Split('/')[1];
+                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
                     string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
                     string s3DirectoryName = "";
                     string s3FileName = @name;
@@ -150,7 +159,8 @@ namespace Capstone2021.Controllers
                     if (a == true)
                     {
                         _recruiterService.updateImage(name, HttpContextUtils.getUserID(claims));
-                        return Ok();
+                        response.message = "Upload avatar successfull";
+                        return Ok(response);
                     }
                     else
                     {

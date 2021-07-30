@@ -38,6 +38,7 @@ namespace Capstone2021
         public System.DateTime create_date { get; set; }
         public Nullable<int> manager_id { get; set; }
         public int status { get; set; }
+        public string string_for_suggestion { get; set; }
     
         public virtual manager manager { get; set; }
         public virtual recruiter recruiter { get; set; }

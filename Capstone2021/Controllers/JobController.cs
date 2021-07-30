@@ -1,10 +1,13 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Services;
+using Capstone2021.Services.Student;
 using Capstone2021.Utils;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
+using System.Web.WebPages;
 
 namespace Capstone2021.Controllers
 {
@@ -13,10 +16,40 @@ namespace Capstone2021.Controllers
     public class JobController : ApiController
     {
         private JobService jobService;
+        private StudentService studentService;
 
         public JobController()
         {
             jobService = new JobServiceImpl();
+            studentService = new StudentServiceImpl();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "ROLE_STUDENT")]
+        [Route("suggest")]
+        public IHttpActionResult getSuggestions()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            String lastAppliedJobString = studentService.getLastAppliedJobString(studentId);
+            ResponseDTO response = new ResponseDTO();
+            if (lastAppliedJobString == null || lastAppliedJobString.IsEmpty())
+            {
+                response.message = "This user hasn't performed apply action";
+                return Ok(response);
+            }
+            else
+            {
+                IList<Job> result = jobService.getSuggestedJob(lastAppliedJobString, studentId);
+                if (result.Count == 0)
+                {
+                    response.message = "No data";
+                    return Ok(response);
+                }
+                response.message = "OK";
+                response.data = result;
+                return Ok(response);
+            }
         }
 
         [HttpPost]

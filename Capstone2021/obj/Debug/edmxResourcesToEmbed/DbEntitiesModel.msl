@@ -47,6 +47,7 @@
     <EntitySetMapping Name="jobs">
       <EntityTypeMapping TypeName="DbCapstoneModel.job">
         <MappingFragment StoreEntitySet="job">
+          <ScalarProperty Name="string_for_suggestion" ColumnName="string_for_suggestion" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="manager_id" ColumnName="manager_id" />
           <ScalarProperty Name="create_date" ColumnName="create_date" />
@@ -109,6 +110,7 @@
     <EntitySetMapping Name="students">
       <EntityTypeMapping TypeName="DbCapstoneModel.student">
         <MappingFragment StoreEntitySet="student">
+          <ScalarProperty Name="last_applied_job_string" ColumnName="last_applied_job_string" />
           <ScalarProperty Name="google_id" ColumnName="google_id" />
           <ScalarProperty Name="avatar" ColumnName="avatar" />
           <ScalarProperty Name="profile_status" ColumnName="profile_status" />

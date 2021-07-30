@@ -11,6 +11,6 @@ namespace Capstone2021.DTO
         public bool profileStatus { get; set; }
         public String avatar { get; set; }
         public String googleId { get; set; }
-
+        public String lastAppliedJobString { get; set; }
     }
 }

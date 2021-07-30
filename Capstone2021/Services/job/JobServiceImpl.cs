@@ -39,7 +39,7 @@ namespace Capstone2021.Services
             Job result = null;
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobMapper.mapFromDbContext(s)).FirstOrDefault<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobUtils.mapFromDbContext(s)).FirstOrDefault<Job>();
                 result.categories = new List<Category>();
                 foreach (job_has_category relationship in result.relationship)
                 {
@@ -61,7 +61,7 @@ namespace Capstone2021.Services
             IList<Job> listResult = new List<Job>();
             using (context)
             {
-                listResult = context.jobs.AsEnumerable().Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                listResult = context.jobs.AsEnumerable().Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in listResult)
                 {
                     element.categories = new List<Category>();
@@ -89,12 +89,12 @@ namespace Capstone2021.Services
                 {
                     try
                     {
-                        job model = JobMapper.mapToDatabaseModel(dto);
+                        job model = JobUtils.mapToDatabaseModel(dto);
                         model.recruiter_id = recruiterID;
+                        model.string_for_suggestion = JobUtils.getJobSuggestStringFromDTO(dto);
                         context.jobs.Add(model);
                         context.SaveChanges();
                         int jobId = model.id;
-
                         for (int i = 0; i < dto.categories.Length; i++)
                         {
                             job_has_category relationship = new job_has_category();
@@ -134,7 +134,7 @@ namespace Capstone2021.Services
                 }
                 try
                 {
-                    checkJob = JobMapper.mapFromDtoToDbModelForUpdating(dto, checkJob);
+                    checkJob = JobUtils.mapFromDtoToDbModelForUpdating(dto, checkJob);
                     if (checkJob.salary_min > checkJob.salary_max || checkJob.salary_max < checkJob.salary_min)//kiểm tra lại ràng buộc giữa salary max và salary min
                     {
                         return 3;
@@ -149,6 +149,7 @@ namespace Capstone2021.Services
                             context.job_has_category.Add(ele);
                         }
                     }
+                    checkJob.string_for_suggestion = JobUtils.getJobSuggestStringFromDTO(checkJob);
                     context.SaveChanges();
                     return 0;//ok
                 }
@@ -171,7 +172,7 @@ namespace Capstone2021.Services
             using (context)
             {
                 result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s =>
-                    JobMapper.mapFromDbContext(s)
+                    JobUtils.mapFromDbContext(s)
 
                 ).ToList<Job>();
 
@@ -232,7 +233,7 @@ namespace Capstone2021.Services
             List<Job> result = new List<Job>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in result)
                 {
                     element.categories = new List<Category>();
@@ -275,6 +276,7 @@ namespace Capstone2021.Services
                         relationship.create_date = DateTime.Now;
                         relationship.job_id = jobId;
                         relationship.student_id = studentId;
+                        student.last_applied_job_string = JobUtils.getJobSuggestStringFromDTO(job);
                         context.student_apply_job.Add(relationship);
                         context.SaveChanges();
                         return 1;
@@ -320,7 +322,7 @@ namespace Capstone2021.Services
             List<Job> result = new List<Job>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobMapper.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in result)
                 {
                     element.categories = new List<Category>();
@@ -337,6 +339,26 @@ namespace Capstone2021.Services
                 }
             }
             result = (List<Job>)filterAfterGetAllJobsInDatabase(result, searchDTO);
+            return result;
+        }
+
+        public IList<Job> getSuggestedJob(string studentLastAppliedJobString, int studentId)
+        {
+            List<Job> result = new List<Job>();
+            List<Job> listSearchFromDB = new List<Job>();
+
+            using (context)
+            {
+                listSearchFromDB = context.jobs.AsEnumerable().Where(s => s.status == 2 &&
+                !DateTimeUtils.isOver30Days(s.create_date) && !JobUtils.hasThisStudentApplied(studentId, s)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+            }
+            foreach (Job element in listSearchFromDB)
+            {
+                if (element.weightCompareToLastAppliedJob(studentLastAppliedJobString) >= 2)
+                {
+                    result.Add(element);
+                }
+            }
             return result;
         }
     }

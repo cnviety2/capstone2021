@@ -111,6 +111,7 @@
     <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
     <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
     <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
+    <Property Name="string_for_suggestion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="manager">
     <Key>
@@ -215,6 +216,7 @@
     <Property Name="google_id" Type="String" Nullable="false" MaxLength="700" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="cv" Relationship="DbCapstoneModel.FK_cv_student" FromRole="student" ToRole="cv" />
     <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_student" FromRole="student" ToRole="student_apply_job" />
+    <Property Name="last_applied_job_string" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_cv_student">
     <End Type="DbCapstoneModel.student" Role="student" Multiplicity="1" />

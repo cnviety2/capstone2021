@@ -488,7 +488,7 @@
     <Compile Include="Utils\CvMapper.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\HttpContextUtils.cs" />
-    <Compile Include="Utils\JobMapper.cs" />
+    <Compile Include="Utils\JobUtils.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />
     <Compile Include="Test\Maybe later\UnitOfWork.cs" />
     <Compile Include="Utils\StringUtils.cs" />

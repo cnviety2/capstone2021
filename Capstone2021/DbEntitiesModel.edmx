@@ -64,6 +64,7 @@
           <Property Name="create_date" Type="date" Nullable="false" />
           <Property Name="manager_id" Type="int" />
           <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="string_for_suggestion" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="job_has_category">
           <Key>
@@ -113,6 +114,7 @@
           <Property Name="profile_status" Type="bit" Nullable="false" />
           <Property Name="avatar" Type="text" />
           <Property Name="google_id" Type="varchar" MaxLength="700" Nullable="false" />
+          <Property Name="last_applied_job_string" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="student_apply_job">
           <Key>
@@ -388,6 +390,7 @@
           <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
           <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
           <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
+          <Property Name="string_for_suggestion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="manager">
           <Key>
@@ -492,6 +495,7 @@
           <Property Name="google_id" Type="String" Nullable="false" MaxLength="700" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="cv" Relationship="DbCapstoneModel.FK_cv_student" FromRole="student" ToRole="cv" />
           <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_student" FromRole="student" ToRole="student_apply_job" />
+          <Property Name="last_applied_job_string" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_cv_student">
           <End Type="DbCapstoneModel.student" Role="student" Multiplicity="1" />
@@ -613,6 +617,7 @@
           <EntitySetMapping Name="jobs">
             <EntityTypeMapping TypeName="DbCapstoneModel.job">
               <MappingFragment StoreEntitySet="job">
+                <ScalarProperty Name="string_for_suggestion" ColumnName="string_for_suggestion" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="manager_id" ColumnName="manager_id" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
@@ -675,6 +680,7 @@
           <EntitySetMapping Name="students">
             <EntityTypeMapping TypeName="DbCapstoneModel.student">
               <MappingFragment StoreEntitySet="student">
+                <ScalarProperty Name="last_applied_job_string" ColumnName="last_applied_job_string" />
                 <ScalarProperty Name="google_id" ColumnName="google_id" />
                 <ScalarProperty Name="avatar" ColumnName="avatar" />
                 <ScalarProperty Name="profile_status" ColumnName="profile_status" />

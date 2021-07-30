@@ -1,11 +1,79 @@
 ﻿using Capstone2021.DTO;
 using System;
+using System.Collections.Generic;
 using System.Web.WebPages;
 
 namespace Capstone2021.Utils
 {
-    public class JobMapper
+    public class JobUtils
     {
+
+        /// <summary>
+        /// Lấy ra chuỗi đại diện cho job để thực hiện suggest tới student
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public static string getJobSuggestStringFromDTO(CreateJobDTO dto)
+        {
+            string result = "";
+            if (dto.salaryMin > 6500000)//kiểm tra lớn hơn 6tr5-thu nhập bình quân 1 tháng của TPHCM
+            {
+                result = result + "1";
+            }
+            else result = result + "0";
+            result = result + "-";
+            for (int i = 0; i < dto.categories.Length; i++)
+            {
+                result = result + dto.categories[i].ToString();
+                result = result + ";";
+            }
+            result = result.Remove(result.Length - 1, 1);
+            result = result + "-";
+            result = result + dto.location.ToString();
+            return result;//chuỗi trả về có dạng 1-1;2;3;4-12 
+        }
+
+        /// <summary>
+        /// Kiểm tra xem student này đã apply job này chưa,true nếu đã aplly rồi
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        public static bool hasThisStudentApplied(int studentId, job model)
+        {
+
+            if (model.student_apply_job == null || model.student_apply_job.Count == 0)
+            {
+                return false;
+            }
+            foreach (student_apply_job element in model.student_apply_job)
+            {
+                if (element.student_id == studentId)
+                    return true;
+            }
+            return false;
+        }
+
+        public static string getJobSuggestStringFromDTO(job model)
+        {
+            string result = "";
+            if (model.salary_min > 6500000)//kiểm tra lớn hơn 6tr5-thu nhập bình quân 1 tháng của TPHCM
+            {
+                result = result + "1";
+            }
+            else result = result + "0";
+            result = result + "-";
+            ICollection<job_has_category> listCategories = model.job_has_category;
+            foreach (job_has_category relationship in listCategories)
+            {
+                result = result + relationship.category_id.ToString();
+                result = result + ";";
+            }
+            result = result.Remove(result.Length - 1, 1);
+            result = result + "-";
+            result = result + model.location.ToString();
+            return result;//chuỗi trả về có dạng 1-1;2;3;4-12 
+        }
+
         /// <summary>
         /// Method để map từ model của Db sang dto Job,dùng trong service của job khi get 1 job từ Db
         /// </summary>
@@ -32,6 +100,8 @@ namespace Capstone2021.Utils
             result.createDate = model.create_date.ToString("dd/MM/yyyy");
             result.description = model.description.Trim();
             result.relationship = model.job_has_category;
+            result.relationShipWithStudent = model.student_apply_job;
+            result.stringForSuggestion = model.string_for_suggestion;
             return result;
         }
 

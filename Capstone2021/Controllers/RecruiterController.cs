@@ -130,13 +130,13 @@ namespace Capstone2021.Controllers
         public IHttpActionResult upload()
         {
             var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
-            if(file != null && file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
             {
-                if(!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
                 {
                     return BadRequest("Only jpeg or png");
                 }
-                using(Stream st = file.InputStream)
+                using (Stream st = file.InputStream)
                 {
                     ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
                     string googleId = HttpContextUtils.getGoogleID(claims);

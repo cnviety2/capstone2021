@@ -2,8 +2,6 @@ F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone
 F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
 F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 F:\Learning\2021_Summer\Source Code\capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Capstone2021.dll.config
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Capstone2021.pdb
@@ -57,6 +55,8 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\roslyn\vbc.rsp
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\roslyn\VBCSCompiler.exe
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Antlr3.Runtime.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.SqlServer.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.AspNet.Identity.Core.dll
@@ -108,6 +108,7 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Host.SystemWeb.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Cookies.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.OAuth.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Newtonsoft.Json.dll
@@ -139,6 +140,10 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.Web.WebPages.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.Web.WebPages.Razor.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\WebActivatorEx.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\WebGrease.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.pdb
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.pdb
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.SqlServer.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.AspNet.Identity.Core.xml
@@ -188,6 +193,7 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Cors.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\NLog.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\NLog.Extensions.Logging.xml
@@ -215,14 +221,8 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.Web.WebPages.Dep
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.Web.WebPages.Razor.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Antlr3.Runtime.pdb
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CoreCompileInputs.cache
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CopyComplete
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Security.Google.xml
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.xml
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache

@@ -28,6 +28,7 @@ namespace Capstone2021
         public bool profile_status { get; set; }
         public string avatar { get; set; }
         public string google_id { get; set; }
+        public string last_applied_job_string { get; set; }
     
         public virtual cv cv { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

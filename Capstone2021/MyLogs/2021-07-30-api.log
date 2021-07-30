@@ -1,2 +1,4 @@
 2021-07-30 16:09:47.1006|INFO|Capstone2021.Services.RecruiterServiceImpl|Exception An error occurred while updating the entries. See the inner exception for details.in RecruiterServiceImpl
 2021-07-30 16:10:50.2221|INFO|Capstone2021.Services.RecruiterServiceImpl|Exception An error occurred while updating the entries. See the inner exception for details.in RecruiterServiceImpl
+2021-07-30 22:00:07.3275|INFO|Capstone2021.Services.JobServiceImpl|Exception String must be exactly one character long.in JobServiceImpl
+2021-07-30 22:01:40.3419|INFO|Capstone2021.Services.JobServiceImpl|Exception String must be exactly one character long.in JobServiceImpl

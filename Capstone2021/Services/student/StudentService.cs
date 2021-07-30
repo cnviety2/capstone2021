@@ -19,5 +19,13 @@ namespace Capstone2021.Services
         /// <param name="imageUrl"></param>
         /// <returns></returns>
         bool updateImage(String imageUrl, int id);
+
+
+        /// <summary>
+        /// Trả về lastAppliedJobString của student
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        string getLastAppliedJobString(int studentId);
     }
 }

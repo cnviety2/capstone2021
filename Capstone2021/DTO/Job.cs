@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Capstone2021.DTO
 {
@@ -73,7 +74,15 @@ namespace Capstone2021.DTO
         [JsonIgnore]
         public ICollection<job_has_category> relationship { get; set; }
 
+        [JsonIgnore]
+        public ICollection<student_apply_job> relationShipWithStudent { get; set; }
+
         public IList<Category> categories { get; set; }
+
+        /// <summary>
+        /// Chuỗi tạo ra để thể hiện cho job này,dùng để kiểm tra suggest cho 1 student
+        /// </summary>
+        public string stringForSuggestion { get; set; }
 
         /// <summary>
         /// Kiểm tra xem Job này có chứa category cần tìm hay ko,method này dùng trong việc search những job theo category,trả về 
@@ -94,5 +103,41 @@ namespace Capstone2021.DTO
             }
             return false;
         }
+
+
+        /// <summary>
+        /// Trả về trọng số của job này match với lastAppliedJobString của student,best case là 4,worst case là 0,suggesst sẽ lấy từ 2 đến 4
+        /// </summary>
+        /// <param name="lastAppliedJobString"></param>
+        /// <returns></returns>
+        public int weightCompareToLastAppliedJob(string lastAppliedJobString)
+        {
+            string thisJobString = this.stringForSuggestion;
+            string[] studentLastAppliedJobArray = lastAppliedJobString.Split('-');
+            string[] thisJobSuggestStringArray = thisJobString.Split('-');
+
+            int matchingWeight = 0;//đếm xem có bao nhiêu dữ liệu là equal
+
+            if (Int32.Parse(studentLastAppliedJobArray[0]) == Int32.Parse(thisJobSuggestStringArray[0]))//kiểm tra về salaryMin
+            {
+                matchingWeight = matchingWeight + 2;
+            }
+
+            int[] categoriesOfLastAppliedJob = studentLastAppliedJobArray[1].Split(';').Select(n => Convert.ToInt32(n)).ToArray();
+            int[] categoriesOfThisJob = thisJobSuggestStringArray[1].Split(';').Select(n => Convert.ToInt32(n)).ToArray();
+
+            int numberDuplicates = categoriesOfLastAppliedJob.Intersect(categoriesOfThisJob).Count();//tìm nếu có equal về category
+            if (numberDuplicates > 0)
+            {
+                matchingWeight = matchingWeight + 1;
+            }
+
+            if (Int32.Parse(studentLastAppliedJobArray[2]) == Int32.Parse(thisJobSuggestStringArray[2]))
+            {
+                matchingWeight = matchingWeight + 1;
+            }
+            return matchingWeight;
+        }
+
     }
 }

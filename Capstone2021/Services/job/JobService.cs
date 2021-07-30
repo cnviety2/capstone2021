@@ -59,5 +59,13 @@ namespace Capstone2021.Services
         int applyAJob(int jobId, int studentId);
 
         IList<Job> search(SearchJobDTO searchDTO);
+
+        /// <summary>
+        /// Bỏ vào string của job cuối cùng student apply,search trong db những job gần equal như vậy(job đã đc approve và chưa quá 30 ngày)
+        /// nếu trong list suggest có job đã đc apply rồi thì sẽ bỏ những job đó đi
+        /// </summary>
+        /// <param name="studentLastAppliedJobString"></param>
+        /// <returns></returns>
+        IList<Job> getSuggestedJob(string studentLastAppliedJobString, int studentId);
     }
 }

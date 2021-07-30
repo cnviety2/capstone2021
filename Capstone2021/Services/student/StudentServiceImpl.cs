@@ -1,5 +1,4 @@
-﻿using Capstone2021.DTO;
-using Capstone2021.Utils;
+﻿using Capstone2021.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -76,6 +75,22 @@ namespace Capstone2021.Services.Student
         public IList<DTO.Student> getAll()
         {
             throw new NotImplementedException();
+        }
+
+        public string getLastAppliedJobString(int studentId)
+        {
+            using (context)
+            {
+                var student = context.students.Find(studentId);
+                if (student == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return student.last_applied_job_string;
+                }
+            }
         }
 
         public DTO.Student login(DTO.Student obj)

@@ -189,6 +189,28 @@ namespace Capstone2021.Services
             return result;
         }
 
+        public bool updateImage(string imageUrl, int id)
+        {
+            var checkRecruiter = context.students.Find(id);
+            if(checkRecruiter == null)
+            {
+                return false;
+            }
+            using (context)
+            {
+                try
+                {
+                    checkRecruiter.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
+                    context.SaveChanges();
+                    return true;
+                }catch(Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in StudentServiceImpl");
+                    return false;
+                }
+            }
+        }
+
         public bool updatePassword(string password, string username)
         {
             bool result = false;

@@ -42,6 +42,7 @@
           <Property Name="working_form" Type="int" />
           <Property Name="create_date" Type="date" />
           <Property Name="is_subscribed" Type="bit" />
+          <Property Name="is_public" Type="bit" />
         </EntityType>
         <EntityType Name="job">
           <Key>
@@ -101,6 +102,7 @@
           <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="is_banned" Type="bit" />
           <Property Name="full_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="sex" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="student">
           <Key>
@@ -364,6 +366,7 @@
           <Property Name="create_date" Type="DateTime" Precision="0" />
           <Property Name="is_subscribed" Type="Boolean" />
           <NavigationProperty Name="student" Relationship="DbCapstoneModel.FK_cv_student" FromRole="cv" ToRole="student" />
+          <Property Name="is_public" Type="Boolean" />
         </EntityType>
         <EntityType Name="job">
           <Key>
@@ -421,6 +424,7 @@
           <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
           <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
           <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sex" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="student_apply_job">
           <Key>
@@ -599,6 +603,7 @@
           <EntitySetMapping Name="cvs">
             <EntityTypeMapping TypeName="DbCapstoneModel.cv">
               <MappingFragment StoreEntitySet="cv">
+                <ScalarProperty Name="is_public" ColumnName="is_public" />
                 <ScalarProperty Name="is_subscribed" ColumnName="is_subscribed" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="working_form" ColumnName="working_form" />
@@ -654,6 +659,7 @@
           <EntitySetMapping Name="recruiters">
             <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
               <MappingFragment StoreEntitySet="recruiter">
+                <ScalarProperty Name="sex" ColumnName="sex" />
                 <ScalarProperty Name="full_name" ColumnName="full_name" />
                 <ScalarProperty Name="is_banned" ColumnName="is_banned" />
                 <ScalarProperty Name="role" ColumnName="role" />

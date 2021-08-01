@@ -14,6 +14,10 @@ namespace Capstone2021.DTO
         public DateTime createDate { get; set; }
         public string role { get; set; }
 
+        /// <summary>
+        /// true là nam
+        /// </summary>
+        public bool sex { get; set; }
         public Boolean isBanned { get; set; }
     }
 }

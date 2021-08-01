@@ -31,5 +31,8 @@ namespace Capstone2021.DTO
         [Required]
         [StringLength(50, ErrorMessage = "Fullname's length minimum is 1 and maximum is 100", MinimumLength = 1)]
         public string fullname { get; set; }
+
+        [Required]
+        public bool sex { get; set; }
     }
 }

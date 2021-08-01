@@ -26,6 +26,7 @@ namespace Capstone2021
         public Nullable<int> working_form { get; set; }
         public Nullable<System.DateTime> create_date { get; set; }
         public Nullable<bool> is_subscribed { get; set; }
+        public Nullable<bool> is_public { get; set; }
     
         public virtual student student { get; set; }
     }

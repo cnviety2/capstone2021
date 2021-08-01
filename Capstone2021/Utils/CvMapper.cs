@@ -36,13 +36,14 @@ namespace Capstone2021.Utils
             result.sex = obj.sex;
             result.working_form = obj.workingForm;
             result.school = obj.school.Trim();
-            result.is_subscribed = obj.isSubscribed;
+            result.is_subscribed = false;
             result.foreign_language = obj.foreignLanguage.Trim();
             result.experience = obj.experience.Trim();
             result.dob = obj.dob;
-            result.create_date = obj.createDate;
+            result.create_date = DateTime.Now;
             result.avatar = obj.avatar.Trim();
             result.desired_salary_minimum = obj.desiredSalaryMinimum;
+            result.is_public = false;
             return result;
         }
     }

@@ -108,6 +108,7 @@ namespace Capstone2021.Services
                         role = c.role,
                         username = c.username,
                         fullName = c.full_name,
+                        sex = c.sex
                     }).ToList<Recruiter>();
                 return listResult;
             }
@@ -159,7 +160,7 @@ namespace Capstone2021.Services
             throw new NotImplementedException();
         }
 
-        public bool update(UpdateInformationRecruiterDTO obj,string username)
+        public bool update(UpdateInformationRecruiterDTO obj, string username)
         {
             bool result = false;
             using (context)

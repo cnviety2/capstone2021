@@ -7,7 +7,7 @@
       <Diagram DiagramId="32fe905d997c406a8e48607ab2621eea" Name="Diagram1">
         <EntityTypeShape EntityType="DbCapstoneModel.sysdiagram" Width="1.5" PointX="12.5" PointY="0.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DbCapstoneModel.company" Width="1.5" PointX="1.875" PointY="4.625" />
-        <EntityTypeShape EntityType="DbCapstoneModel.cv" Width="1.5" PointX="9.375" PointY="4.375" />
+        <EntityTypeShape EntityType="DbCapstoneModel.cv" Width="1.5" PointX="9.25" PointY="2.375" />
         <EntityTypeShape EntityType="DbCapstoneModel.job" Width="1.5" PointX="7.125" PointY="1.5" />
         <EntityTypeShape EntityType="DbCapstoneModel.manager" Width="1.5" PointX="4.375" PointY="0.875" />
         <EntityTypeShape EntityType="DbCapstoneModel.recruiter" Width="1.5" PointX="2" PointY="0.875" />

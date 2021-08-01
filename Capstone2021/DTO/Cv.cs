@@ -34,5 +34,10 @@ namespace Capstone2021.DTO
         /// true là được nhận thông báo về email khi có công việc phù hợp, false là không nhận email
         /// </summary>
         public bool isSubscribed { get; set; }
+
+        /// <summary>
+        /// True nếu muốn cv public và mọi recruiter có thể tìm thấy cv 
+        /// </summary>
+        public bool isPublic { get; set; }
     }
 }

@@ -359,6 +359,10 @@ namespace Capstone2021.Services
                     result.Add(element);
                 }
             }
+            if (result.Count > 5)
+            {
+                result.RemoveRange(5, result.Count - 5);
+            }
             return result;
         }
     }

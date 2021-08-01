@@ -62,7 +62,7 @@ namespace Capstone2021.Services
 
         /// <summary>
         /// Bỏ vào string của job cuối cùng student apply,search trong db những job gần equal như vậy(job đã đc approve và chưa quá 30 ngày)
-        /// nếu trong list suggest có job đã đc apply rồi thì sẽ bỏ những job đó đi
+        /// nếu trong list suggest có job đã đc apply rồi thì sẽ bỏ những job đó đi,chỉ trả về 5 job là nhiều nhất
         /// </summary>
         /// <param name="studentLastAppliedJobString"></param>
         /// <returns></returns>

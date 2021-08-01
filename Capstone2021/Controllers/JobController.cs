@@ -26,6 +26,44 @@ namespace Capstone2021.Controllers
 
         [HttpGet]
         [Authorize(Roles = "ROLE_STUDENT")]
+        [Route("applied-jobs")]
+        public IHttpActionResult getApplliedJobs()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getAppliedJobByStudentId(studentId);
+            if (list.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        [Route("posted-jobs")]
+        public IHttpActionResult getPostedJobs()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getPostedJobByRecruiterId(recruiterId);
+            if (list.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "ROLE_STUDENT")]
         [Route("suggest")]
         public IHttpActionResult getSuggestions()
         {

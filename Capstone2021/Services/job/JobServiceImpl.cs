@@ -365,5 +365,43 @@ namespace Capstone2021.Services
             }
             return result;
         }
+
+        public IList<Job> getPostedJobByRecruiterId(int recruiterId)
+        {
+            IList<Job> listResult = new List<Job>();
+            using (context)
+            {
+                listResult = context.jobs.AsEnumerable().Where(s => s.recruiter_id == recruiterId).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                foreach (Job element in listResult)
+                {
+                    element.categories = new List<Category>();
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            code = s.code,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
+            }
+            return listResult;
+        }
+
+        public IList<Job> getAppliedJobByStudentId(int studentId)
+        {
+            IList<Job> listResult = new List<Job>();
+            using (context)
+            {
+                IList<int> listJobId = context.student_apply_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => s.job_id).ToList<int>();
+                foreach (int jobId in listJobId)
+                {
+                    listResult.Add(context.jobs.AsEnumerable().Where(s => s.id == jobId).Select(s => JobUtils.mapFromDbContext(s)).FirstOrDefault<Job>());
+                }
+            }
+            return listResult;
+        }
     }
 }

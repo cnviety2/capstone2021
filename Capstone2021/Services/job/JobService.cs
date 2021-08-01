@@ -67,5 +67,19 @@ namespace Capstone2021.Services
         /// <param name="studentLastAppliedJobString"></param>
         /// <returns></returns>
         IList<Job> getSuggestedJob(string studentLastAppliedJobString, int studentId);
+
+        /// <summary>
+        /// Lấy những job đc tạo bởi recruiter này
+        /// </summary>
+        /// <param name="recruiterId"></param>
+        /// <returns></returns>
+        IList<Job> getPostedJobByRecruiterId(int recruiterId);
+
+        /// <summary>
+        /// Lấy những job đc apply bởi student này
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        IList<Job> getAppliedJobByStudentId(int studentId);
     }
 }

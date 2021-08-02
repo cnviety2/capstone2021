@@ -171,5 +171,24 @@ namespace Capstone2021.Controllers
             }
             return BadRequest("Error occured");
         }
+        [HttpGet]
+        [Route("self")]
+        public IHttpActionResult getSelfInfo()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int id = HttpContextUtils.getUserID(claims);
+            Recruiter currentRecruiter = _recruiterService.get(id);
+            ResponseDTO response = new ResponseDTO();
+            if (currentRecruiter == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                response.message = "OK";
+            }
+            response.data = currentRecruiter;
+            return Ok(response);
+        }
     }
 }

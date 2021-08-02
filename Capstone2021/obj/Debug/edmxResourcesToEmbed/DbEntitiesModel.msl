@@ -29,6 +29,7 @@
     <EntitySetMapping Name="cvs">
       <EntityTypeMapping TypeName="DbCapstoneModel.cv">
         <MappingFragment StoreEntitySet="cv">
+          <ScalarProperty Name="is_public" ColumnName="is_public" />
           <ScalarProperty Name="is_subscribed" ColumnName="is_subscribed" />
           <ScalarProperty Name="create_date" ColumnName="create_date" />
           <ScalarProperty Name="working_form" ColumnName="working_form" />
@@ -84,6 +85,7 @@
     <EntitySetMapping Name="recruiters">
       <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
         <MappingFragment StoreEntitySet="recruiter">
+          <ScalarProperty Name="sex" ColumnName="sex" />
           <ScalarProperty Name="full_name" ColumnName="full_name" />
           <ScalarProperty Name="is_banned" ColumnName="is_banned" />
           <ScalarProperty Name="role" ColumnName="role" />

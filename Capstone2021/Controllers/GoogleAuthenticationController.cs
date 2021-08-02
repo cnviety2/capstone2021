@@ -26,11 +26,12 @@ namespace Capstone2021.Controllers
         [Route("login")]
         public async Task<IHttpActionResult> test(string code)
         {
+            /*"https://localhost:44315/google/login"*/
             var values = new Dictionary<string, string>
             {
                 { "client_id", GoogleAuthenConstants.GOOGLE_CLIENT_ID },
                 { "client_secret", GoogleAuthenConstants.GOOGLE_CLIENT_SECRET },
-                { "redirect_uri", "https://localhost:44315/google/login" },
+                { "redirect_uri", "http://localhost:8080" },
                 { "grant_type", GoogleAuthenConstants.GOOGLE_GRANT_TYPE },
                 { "code", code }
             };

@@ -107,6 +107,24 @@ namespace Capstone2021.Services.Student
                     profileStatus = s.profile_status
                 }
                 ).FirstOrDefault<DTO.Student>();
+
+                if (std == null)
+                {
+                    try
+                    {
+                        student saveObj = StudentMapper.mapToDbModel(obj);
+                        context.students.Add(saveObj);
+                        context.SaveChanges();
+                        obj = StudentMapper.mapToDto(saveObj);
+                        return obj;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in StudentServiceImpl");
+                        return null;
+                    }
+                }
+
                 if (std != null)
                 {
                     if (std.googleId.Equals(obj.googleId)) return std;

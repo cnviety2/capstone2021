@@ -85,6 +85,7 @@
     <Property Name="create_date" Type="DateTime" Precision="0" />
     <Property Name="is_subscribed" Type="Boolean" />
     <NavigationProperty Name="student" Relationship="DbCapstoneModel.FK_cv_student" FromRole="cv" ToRole="student" />
+    <Property Name="is_public" Type="Boolean" />
   </EntityType>
   <EntityType Name="job">
     <Key>
@@ -142,6 +143,7 @@
     <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
     <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
     <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sex" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="student_apply_job">
     <Key>

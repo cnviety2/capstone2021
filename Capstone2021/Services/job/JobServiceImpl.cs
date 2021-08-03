@@ -403,5 +403,20 @@ namespace Capstone2021.Services
             }
             return listResult;
         }
+
+        public IList<Category> getAllCategories()
+        {
+            IList<Category> listResult = new List<Category>();
+            using (context)
+            {
+                listResult = context.categories.Select(s => new Category()
+                {
+                    id = s.id,
+                    code = s.code,
+                    value = s.value
+                }).ToList<Category>();
+            }
+            return listResult;
+        }
     }
 }

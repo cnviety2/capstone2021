@@ -81,5 +81,8 @@ namespace Capstone2021.Services
         /// <param name="studentId"></param>
         /// <returns></returns>
         IList<Job> getAppliedJobByStudentId(int studentId);
+
+        IList<Category> getAllCategories();
+
     }
 }

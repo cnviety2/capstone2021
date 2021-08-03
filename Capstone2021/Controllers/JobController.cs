@@ -25,6 +25,23 @@ namespace Capstone2021.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        [Route("categories")]
+        public IHttpActionResult getAllCategories()
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Category> list = jobService.getAllCategories();
+            if (list.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Authorize(Roles = "ROLE_STUDENT")]
         [Route("applied-jobs")]
         public IHttpActionResult getApplliedJobs()
@@ -225,7 +242,7 @@ namespace Capstone2021.Controllers
         [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult createAJob([FromBody] CreateJobDTO dto)
         {
-            if (dto.categories.Length == 0)
+            if (dto.categories == null || dto.categories.Length == 0)
             {
                 ModelState.AddModelError("dto.categories", "At least one category");
                 return BadRequest(ModelState);

@@ -82,6 +82,8 @@ namespace Capstone2021.DTO
         /// <summary>
         /// Chuỗi tạo ra để thể hiện cho job này,dùng để kiểm tra suggest cho 1 student
         /// </summary>
+        /// 
+        [JsonIgnore]
         public string stringForSuggestion { get; set; }
 
         /// <summary>

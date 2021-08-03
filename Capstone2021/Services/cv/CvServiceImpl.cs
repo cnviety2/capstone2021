@@ -21,38 +21,122 @@ namespace Capstone2021.Services
         public bool create(Cv obj)
         {
             bool result = false;
-            int student_id = obj.studentId;
-            cv saveObj = new cv();
+            /*  int student_id = obj.studentId;
+              cv saveObj = new cv();
+              using (context)
+              {
+                  Cv checkCv = context.cvs.AsEnumerable().
+                      Where(c => c.student_id.Equals(obj.studentId)).
+                      Select(c => new Cv()
+                      {
+                          studentId = c.student_id,
+
+                      }).FirstOrDefault<Cv>();
+                  if (checkCv != null)
+                  {
+                      result = false;
+                  }
+                  else
+                  {
+                      try
+                      {
+                          saveObj = CvMapper.map(obj);
+                          context.cvs.Add(saveObj);
+                          context.SaveChanges();
+
+                      }
+                      catch (Exception e)
+                      {
+                          logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                          result = false;
+                      }
+                  }
+              }*/
+            return result;
+        }
+
+        public bool create(CreateCvDTO dto, int studentId)
+        {
             using (context)
             {
-                Cv checkCv = context.cvs.AsEnumerable().
-                    Where(c => c.student_id.Equals(obj.studentId)).
-                    Select(c => new Cv()
-                    {
-                        studentId = c.student_id,
-
-                    }).FirstOrDefault<Cv>();
-                if (checkCv != null)
+                using (var contextTransaction = context.Database.BeginTransaction())
                 {
-                    result = false;
-                }
-                else
-                {
-                    try
+                    var student = context.students.Find(studentId);
+                    if (student != null)
                     {
-                        saveObj = CvMapper.map(obj);
-                        context.cvs.Add(saveObj);
-                        context.SaveChanges();
-
+                        if (student.profile_status == false)
+                        {
+                            try
+                            {
+                                cv model = CvMapper.mapToDatabaseModel(dto);
+                                model.student_id = studentId;
+                                context.cvs.Add(model);
+                                context.SaveChanges();
+                                student.profile_status = true;
+                                context.SaveChanges();
+                                contextTransaction.Commit();
+                                return true;
+                            }
+                            catch (Exception e)
+                            {
+                                logger.Info("Exception " + e.InnerException.Message + "in CvServiceImpl");
+                                contextTransaction.Rollback();
+                                return false;
+                            }
+                        }
                     }
-                    catch (Exception e)
+                    else
+                    {
+                        return false;
+                    }
+                    /*try
+                    {
+                        cv model = CvMapper.mapToDatabaseModel(dto);
+                        model.student_id = studentId;
+                        context.cvs.Add(model);
+                        //đổi status profile student
+                        int studentID = model.student_id;
+                        var checkStudent = context.students.Find(studentID);
+                        if(checkStudent == null)
+                        {
+                            result = false;//ko tim thay student
+                        }
+                        else
+                        {
+                            if(checkStudent.profile_status == true)
+                            {
+                                result = true;//da co cv
+                            }
+                            else
+                            {
+                                using (context)
+                                {
+                                    try
+                                    {
+                                        checkStudent.profile_status = true;
+                                        Console.WriteLine(checkStudent);
+                                        result = true;
+                                        context.SaveChanges();
+                                        contextTransaction.Commit();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        logger.Info("Exception " + e.InnerException.Message + "in CvServiceImpl");
+                                        contextTransaction.Rollback();
+                                        result = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch(Exception e)
                     {
                         logger.Info("Exception " + e.Message + "in CvServiceImpl");
                         result = false;
-                    }
+                    }*/
                 }
             }
-            return result;
+            return false;
         }
 
         public void Dispose()
@@ -87,6 +171,57 @@ namespace Capstone2021.Services
         public bool softRemove(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public bool update(UpdateCvDTO dto, int id)
+        {
+            bool result = false;
+            using (context)
+            {
+                var cv = context.cvs
+                    .SingleOrDefault(c => c.student_id.Equals(id));
+                if (cv == null)
+                {
+                    return result;
+                }
+                else
+                {
+                    try
+                    {
+                        cv = CvMapper.mapFromDtoToDbModelForUpdating(dto, cv);
+                        context.SaveChanges();
+                        result = true;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public bool updateImage(string imageUrl, int id)
+        {
+            var checkCv = context.cvs.Find(id);
+            if (checkCv == null)
+                return false;
+            using (context)
+            {
+                try
+                {
+                    checkCv.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
+                    context.SaveChanges();
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                    return false;
+                }
+            }
         }
     }
 }

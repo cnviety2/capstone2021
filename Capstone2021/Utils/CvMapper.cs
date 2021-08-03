@@ -1,5 +1,6 @@
 ﻿using Capstone2021.DTO;
 using System;
+using System.Web.WebPages;
 
 namespace Capstone2021.Utils
 {
@@ -28,23 +29,59 @@ namespace Capstone2021.Utils
         ///<summary>
         ///Map từ Cv sang cv để lưu xuống db
         ///</summary>
-        public static cv map(Cv obj)
+        public static cv mapToDatabaseModel(CreateCvDTO dto)
         {
-            cv result = new cv();
-            result.student_id = obj.studentId;
-            result.name = obj.name.Trim();
-            result.sex = obj.sex;
-            result.working_form = obj.workingForm;
-            result.school = obj.school.Trim();
-            result.is_subscribed = false;
-            result.foreign_language = obj.foreignLanguage.Trim();
-            result.experience = obj.experience.Trim();
-            result.dob = obj.dob;
-            result.create_date = DateTime.Now;
-            result.avatar = obj.avatar.Trim();
-            result.desired_salary_minimum = obj.desiredSalaryMinimum;
-            result.is_public = false;
-            return result;
+            cv model = new cv();
+            model.name = dto.name.Trim();
+            model.sex = dto.sex;
+            model.working_form = dto.workingForm;
+            model.school = dto.school.Trim();
+            model.is_subscribed = false;
+            model.foreign_language = dto.foreignLanguage.Trim();
+            model.experience = dto.experience.Trim();
+            model.dob = dto.dob;
+            model.create_date = DateTime.Now;
+            model.desired_salary_minimum = dto.desiredSalaryMinimum;
+            model.is_public = false;
+            return model;
+        }
+        /// <summary>
+        /// Hàm map từ UpadteCvDTO sang model trong db để update,sẽ kiểm tra trong dto field nào khác null thì mới map sang model
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static cv mapFromDtoToDbModelForUpdating(UpdateCvDTO dto, cv model)
+        {
+            if (dto.name != null || !dto.name.IsEmpty())
+            {
+                model.name = dto.name;
+            }
+            if (dto.school != null || !dto.school.IsEmpty())
+            {
+                model.school = dto.school;
+            }
+            if (dto.experience != null || !dto.experience.IsEmpty())
+            {
+                model.experience = dto.experience;
+            }
+            if (dto.foreignLanguage != null || !dto.foreignLanguage.IsEmpty())
+            {
+                model.foreign_language = dto.foreignLanguage;
+            }
+            if (dto.sex.HasValue && dto.sex != model.sex)
+            {
+                model.sex = dto.sex;
+            }
+            if (dto.desiredSalaryMinimum.HasValue && dto.desiredSalaryMinimum != model.desired_salary_minimum && dto.desiredSalaryMinimum != 0)
+            {
+                model.desired_salary_minimum = dto.desiredSalaryMinimum;
+            }
+            if (dto.workingForm.HasValue && dto.workingForm != model.working_form && dto.workingForm != 0)
+            {
+                model.working_form = dto.workingForm.Value;
+            }
+            return model;
         }
     }
 }

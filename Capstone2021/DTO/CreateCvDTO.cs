@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Capstone2021.DTO
 {
@@ -13,17 +14,18 @@ namespace Capstone2021.DTO
         [Required]
         public bool sex { get; set; }
         [Required]
-        public string dob { get; set; }
-        [Required]
-        public string avatar { get; set; }
-        [Required]
+        public DateTime dob { get; set; }
+        [Required(ErrorMessage = "School you study")]
         public string school { get; set; }
         [Required]
         public string experience { get; set; }
+        [Required]
         public string foreignLanguage { get; set; }
+        [Required]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Minimum value is 1")]
         public int desiredSalaryMinimum { get; set; }
+        [Required]
+        [Range(1, 3, ErrorMessage = "`Part-time:1,Full-time:2,Both:3")]
         public int workingForm { get; set; }
-        public string createDate { get; set; }
-        public bool isSubscribed { get; set; }
     }
 }

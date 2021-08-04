@@ -49,7 +49,7 @@ namespace Capstone2021.Controllers
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int studentId = HttpContextUtils.getUserID(claims);
             ResponseDTO response = new ResponseDTO();
-            IList<Job> list = jobService.getAppliedJobByStudentId(studentId);
+            IList<AppliedJobDTO> list = jobService.getAppliedJobByStudentId(studentId);
             if (list.Count == 0)
             {
                 response.message = "No data";

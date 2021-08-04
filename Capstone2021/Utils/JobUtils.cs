@@ -131,6 +131,25 @@ namespace Capstone2021.Utils
             return model;
         }
 
+        public static AppliedJobDTO mapFromDbModelToAppliedDTO(job model)
+        {
+            AppliedJobDTO result = new AppliedJobDTO();
+            result.id = model.id;
+            result.name = model.name;
+            result.workingForm = model.working_form;
+            result.location = model.location;
+            result.workingPlace = model.working_place;
+            result.description = model.description;
+            result.requirement = model.requirement;
+            result.type = model.type;
+            result.offer = model.offer;
+            result.sex = model.sex.Value;
+            result.quantity = model.quantity;
+            result.salaryMax = model.salary_max;
+            result.salaryMin = model.salary_min;
+            return result;
+        }
+
         /// <summary>
         /// Hàm map từ UpadteJobDTO sang model trong db để update,sẽ kiểm tra trong dto field nào khác null thì mới map sang model
         /// </summary>

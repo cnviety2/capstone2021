@@ -390,15 +390,31 @@ namespace Capstone2021.Services
             return listResult;
         }
 
-        public IList<Job> getAppliedJobByStudentId(int studentId)
+        public IList<AppliedJobDTO> getAppliedJobByStudentId(int studentId)
         {
-            IList<Job> listResult = new List<Job>();
+            IList<AppliedJobDTO> listResult = new List<AppliedJobDTO>();
             using (context)
             {
                 IList<int> listJobId = context.student_apply_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => s.job_id).ToList<int>();
                 foreach (int jobId in listJobId)
                 {
-                    listResult.Add(context.jobs.AsEnumerable().Where(s => s.id == jobId).Select(s => JobUtils.mapFromDbContext(s)).FirstOrDefault<Job>());
+                    listResult.Add(context.jobs.AsEnumerable().Where(s => s.id == jobId).Select(s => JobUtils.mapFromDbModelToAppliedDTO(s)).FirstOrDefault<AppliedJobDTO>());
+                }
+                List<student_apply_job> listRelation = context.student_apply_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => new student_apply_job()
+                {
+                    create_date = s.create_date,
+                    job_id = s.job_id
+                }).ToList<student_apply_job>();
+                foreach (student_apply_job element in listRelation)
+                {
+                    foreach (AppliedJobDTO dto in listResult)
+                    {
+                        if (dto.id == element.job_id)
+                        {
+                            dto.appliedDate = element.create_date.ToString("dd/MM/yyyy");
+                            break;
+                        }
+                    }
                 }
             }
             return listResult;

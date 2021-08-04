@@ -413,6 +413,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DTO\AppliedJobDTO.cs" />
     <Compile Include="DTO\ApplyAJobDTO.cs" />
     <Compile Include="DTO\ApproveAJobDTO.cs" />
     <Compile Include="DTO\Category.cs" />

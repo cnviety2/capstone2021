@@ -17,6 +17,7 @@ namespace Capstone2021
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public student()
         {
+            this.cvs = new HashSet<cv>();
             this.student_apply_job = new HashSet<student_apply_job>();
         }
     
@@ -30,7 +31,8 @@ namespace Capstone2021
         public string google_id { get; set; }
         public string last_applied_job_string { get; set; }
     
-        public virtual cv cv { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cv> cvs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_apply_job> student_apply_job { get; set; }
     }

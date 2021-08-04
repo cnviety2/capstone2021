@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="DbCapstoneModelStoreContainer" CdmEntityContainer="DbEntities">
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="DbCapstoneModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
+    <EntitySetMapping Name="categories">
+      <EntityTypeMapping TypeName="DbCapstoneModel.category">
+        <MappingFragment StoreEntitySet="category">
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -42,6 +40,7 @@
           <ScalarProperty Name="sex" ColumnName="sex" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -65,6 +64,16 @@
           <ScalarProperty Name="location" ColumnName="location" />
           <ScalarProperty Name="working_form" ColumnName="working_form" />
           <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="job_has_category">
+      <EntityTypeMapping TypeName="DbCapstoneModel.job_has_category">
+        <MappingFragment StoreEntitySet="job_has_category">
+          <ScalarProperty Name="create_date" ColumnName="create_date" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="job_id" ColumnName="job_id" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -99,16 +108,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="student_apply_job">
-      <EntityTypeMapping TypeName="DbCapstoneModel.student_apply_job">
-        <MappingFragment StoreEntitySet="student_apply_job">
-          <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="student_id" ColumnName="student_id" />
-          <ScalarProperty Name="job_id" ColumnName="job_id" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="students">
       <EntityTypeMapping TypeName="DbCapstoneModel.student">
         <MappingFragment StoreEntitySet="student">
@@ -124,20 +123,11 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="categories">
-      <EntityTypeMapping TypeName="DbCapstoneModel.category">
-        <MappingFragment StoreEntitySet="category">
-          <ScalarProperty Name="value" ColumnName="value" />
-          <ScalarProperty Name="code" ColumnName="code" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="job_has_category">
-      <EntityTypeMapping TypeName="DbCapstoneModel.job_has_category">
-        <MappingFragment StoreEntitySet="job_has_category">
+    <EntitySetMapping Name="student_apply_job">
+      <EntityTypeMapping TypeName="DbCapstoneModel.student_apply_job">
+        <MappingFragment StoreEntitySet="student_apply_job">
           <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
           <ScalarProperty Name="job_id" ColumnName="job_id" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>

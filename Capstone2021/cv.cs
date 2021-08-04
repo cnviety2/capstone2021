@@ -14,6 +14,7 @@ namespace Capstone2021
     
     public partial class cv
     {
+        public int id { get; set; }
         public int student_id { get; set; }
         public string name { get; set; }
         public Nullable<bool> sex { get; set; }

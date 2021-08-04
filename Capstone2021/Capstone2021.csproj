@@ -432,6 +432,7 @@
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />
     <Compile Include="DTO\Student.cs" />
+    <Compile Include="DTO\UpdateCvDTO.cs" />
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdateJobDTO.cs" />
@@ -476,9 +477,6 @@
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="student_apply_job.cs">
-      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />

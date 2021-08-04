@@ -25,15 +25,14 @@ namespace Capstone2021
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<company> companies { get; set; }
         public virtual DbSet<cv> cvs { get; set; }
         public virtual DbSet<job> jobs { get; set; }
+        public virtual DbSet<job_has_category> job_has_category { get; set; }
         public virtual DbSet<manager> managers { get; set; }
         public virtual DbSet<recruiter> recruiters { get; set; }
-        public virtual DbSet<student_apply_job> student_apply_job { get; set; }
         public virtual DbSet<student> students { get; set; }
-        public virtual DbSet<category> categories { get; set; }
-        public virtual DbSet<job_has_category> job_has_category { get; set; }
+        public virtual DbSet<student_apply_job> student_apply_job { get; set; }
     }
 }

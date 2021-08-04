@@ -23,9 +23,10 @@
   </EntityType>
   <EntityType Name="cv">
     <Key>
-      <PropertyRef Name="student_id" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="student_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="student_id" Type="int" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="50" />
     <Property Name="sex" Type="bit" />
     <Property Name="dob" Type="date" />
@@ -122,16 +123,6 @@
     <Property Name="student_id" Type="int" Nullable="false" />
     <Property Name="create_date" Type="date" Nullable="false" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
-  </EntityType>
   <Association Name="FK_company_recruiter">
     <End Role="recruiter" Type="Self.recruiter" Multiplicity="1" />
     <End Role="company" Type="Self.company" Multiplicity="*" />
@@ -146,7 +137,7 @@
   </Association>
   <Association Name="FK_cv_student">
     <End Role="student" Type="Self.student" Multiplicity="1" />
-    <End Role="cv" Type="Self.cv" Multiplicity="0..1" />
+    <End Role="cv" Type="Self.cv" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="student">
         <PropertyRef Name="id" />
@@ -238,7 +229,6 @@
     <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_company_recruiter" Association="Self.FK_company_recruiter">
       <End Role="recruiter" EntitySet="recruiter" />
       <End Role="company" EntitySet="company" />

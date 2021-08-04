@@ -17,8 +17,8 @@ namespace Capstone2021
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public job()
         {
-            this.student_apply_job = new HashSet<student_apply_job>();
             this.job_has_category = new HashSet<job_has_category>();
+            this.student_apply_job = new HashSet<student_apply_job>();
         }
     
         public int id { get; set; }
@@ -40,11 +40,11 @@ namespace Capstone2021
         public int status { get; set; }
         public string string_for_suggestion { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<job_has_category> job_has_category { get; set; }
         public virtual manager manager { get; set; }
         public virtual recruiter recruiter { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_apply_job> student_apply_job { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<job_has_category> job_has_category { get; set; }
     }
 }

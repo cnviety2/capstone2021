@@ -9,7 +9,6 @@ namespace Capstone2021.Utils
         public static recruiter map(Recruiter recruiter)
         {
             recruiter result = new recruiter();
-            result.avatar = recruiter.avatar.Trim();
             result.create_date = recruiter.createDate;
             result.gmail = recruiter.gmail.Trim();
             result.password = recruiter.password.Trim();

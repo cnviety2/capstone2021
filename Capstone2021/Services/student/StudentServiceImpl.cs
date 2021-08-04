@@ -1,4 +1,5 @@
-﻿using Capstone2021.Utils;
+﻿using Capstone2021.DTO;
+using Capstone2021.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,51 @@ namespace Capstone2021.Services.Student
         public IList<DTO.Student> getAll()
         {
             throw new NotImplementedException();
+        }
+
+        public IList<DTO.ReturnAppliedStudentDTO> getAppliedStudentsOfThisJob(int jobId)
+        {
+            IList<ReturnAppliedStudentDTO> result = new List<ReturnAppliedStudentDTO>();
+            using (context)
+            {
+                var job = context.jobs.Find(jobId);
+                if (job == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    IList<int> listStudentIdApplied = context.student_apply_job.AsEnumerable().Where(s => s.job_id == jobId).Select(s => s.student_id).ToList<int>();
+                    if (listStudentIdApplied == null || listStudentIdApplied.Count == 0)
+                    {
+                        return result;
+                    }
+                    foreach (int studentId in listStudentIdApplied)
+                    {
+                        var student = context.students.Find(studentId);
+                        ReturnCvDTO cv = context.cvs.Where(s => s.student_id == student.id).Select(s => new ReturnCvDTO()
+                        {
+                            avatar = s.avatar,
+                            desiredSalaryMinimum = s.desired_salary_minimum.Value,
+                            dob = s.dob.Value,
+                            experience = s.experience,
+                            foreignLanguage = s.foreign_language,
+                            name = s.name,
+                            school = s.school,
+                            sex = s.sex.Value,
+                            workingForm = s.working_form.Value
+                        }).FirstOrDefault<ReturnCvDTO>();
+                        if (cv == null)
+                        {
+                            return null;
+                        }
+                        ReturnAppliedStudentDTO returnStudent = new ReturnAppliedStudentDTO() { gmail = student.gmail, id = student.id };
+                        returnStudent.cv = cv;
+                        result.Add(returnStudent);
+                    }
+                }
+                return result;
+            }
         }
 
         public string getLastAppliedJobString(int studentId)

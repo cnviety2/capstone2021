@@ -1,5 +1,7 @@
-﻿using Capstone2021.Repositories.StudentRepository;
+﻿using Capstone2021.DTO;
+using Capstone2021.Repositories.StudentRepository;
 using System;
+using System.Collections.Generic;
 
 namespace Capstone2021.Services
 {
@@ -27,5 +29,12 @@ namespace Capstone2021.Services
         /// <param name="studentId"></param>
         /// <returns></returns>
         string getLastAppliedJobString(int studentId);
+
+        /// <summary>
+        /// Trả về thông tin của những student apply vào job này
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        IList<ReturnAppliedStudentDTO> getAppliedStudentsOfThisJob(int jobId);
     }
 }

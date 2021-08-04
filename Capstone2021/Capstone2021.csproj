@@ -424,6 +424,8 @@
     <Compile Include="DTO\Manager.cs" />
     <Compile Include="DTO\Recruiter.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />
+    <Compile Include="DTO\ReturnAppliedStudentDTO.cs" />
+    <Compile Include="DTO\ReturnCvDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />
     <Compile Include="DTO\Student.cs" />
     <Compile Include="DTO\UpdateCvDTO.cs" />

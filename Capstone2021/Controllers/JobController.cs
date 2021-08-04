@@ -237,6 +237,33 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        [Route("applied-students/{jobId}")]
+        public IHttpActionResult getAppliedStudents([FromUri] int jobId)
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<ReturnAppliedStudentDTO> list = studentService.getAppliedStudentsOfThisJob(jobId);
+            if (list == null)
+            {
+                return InternalServerError();
+            }
+            else
+            {
+                if (list.Count == 0)
+                {
+                    response.message = "No data";
+                    return Ok(response);
+                }
+                else
+                {
+                    response.message = "OK";
+                }
+            }
+            response.data = list;
+            return Ok(response);
+        }
+
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "ROLE_RECRUITER")]

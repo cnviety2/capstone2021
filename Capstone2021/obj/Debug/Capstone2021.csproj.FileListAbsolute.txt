@@ -55,8 +55,7 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\roslyn\vbc.rsp
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\roslyn\VBCSCompiler.exe
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Antlr3.Runtime.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.SqlServer.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.AspNet.Identity.Core.dll
@@ -102,7 +101,6 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Extensions.Op
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Extensions.Primitives.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Extensions.WebEncoders.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Net.Http.Headers.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.OpenApi.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Cors.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Host.SystemWeb.dll
@@ -140,10 +138,7 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.Web.WebPages.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.Web.WebPages.Razor.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\WebActivatorEx.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\WebGrease.dll
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.Core.xml
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.S3.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\AWSSDK.pdb
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\EntityFramework.SqlServer.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.AspNet.Identity.Core.xml
@@ -186,8 +181,6 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Extensions.Op
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Extensions.Primitives.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Extensions.WebEncoders.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Net.Http.Headers.xml
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.OpenApi.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.OpenApi.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Cors.xml
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\Microsoft.Owin.Host.SystemWeb.xml
@@ -225,4 +218,3 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.cspr
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CopyComplete
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
-C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csprojAssemblyReference.cache

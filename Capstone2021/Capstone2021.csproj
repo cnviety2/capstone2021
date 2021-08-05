@@ -381,7 +381,6 @@
     </Compile>
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
-    <Compile Include="Controllers\GoogleAuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\RecruiterController.cs" />
@@ -417,8 +416,6 @@
     <Compile Include="DTO\CreateManagerDTO.cs" />
     <Compile Include="DTO\CreateRecruiterDTO.cs" />
     <Compile Include="DTO\Cv.cs" />
-    <Compile Include="DTO\GoogleAccessTokenDTO.cs" />
-    <Compile Include="DTO\GoogleAuthenConstants.cs" />
     <Compile Include="DTO\GoogleAuthenDTO.cs" />
     <Compile Include="DTO\Job.cs" />
     <Compile Include="DTO\Manager.cs" />
@@ -453,8 +450,6 @@
     <Compile Include="student_save_job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Test\Maybe later\Interfaces\IGenericRepository.cs" />
-    <Compile Include="Test\Maybe later\Interfaces\IUnitOfWork.cs" />
     <Compile Include="DTO\UpdatePasswordRecruiterDTO.cs" />
     <Compile Include="job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
@@ -481,7 +476,6 @@
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
-    <Compile Include="Test\Maybe later\GenericRepository.cs" />
     <Compile Include="Utils\AmazonUploader.cs" />
     <Compile Include="Utils\CompanyMapper.cs" />
     <Compile Include="Utils\CvMapper.cs" />
@@ -489,7 +483,6 @@
     <Compile Include="Utils\HttpContextUtils.cs" />
     <Compile Include="Utils\JobUtils.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />
-    <Compile Include="Test\Maybe later\UnitOfWork.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\StudentMapper.cs" />
   </ItemGroup>
@@ -563,6 +556,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Test\" />
     <Folder Include="Views\Recruiter\" />
   </ItemGroup>
   <ItemGroup>

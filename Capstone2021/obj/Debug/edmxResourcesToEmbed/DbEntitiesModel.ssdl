@@ -39,6 +39,7 @@
     <Property Name="create_date" Type="date" />
     <Property Name="is_subscribed" Type="bit" />
     <Property Name="is_public" Type="bit" />
+    <Property Name="cv_name" Type="ntext" Nullable="false" />
   </EntityType>
   <EntityType Name="job">
     <Key>
@@ -97,8 +98,9 @@
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="is_banned" Type="bit" />
-    <Property Name="full_name" Type="nvarchar" MaxLength="50" />
     <Property Name="sex" Type="bit" Nullable="false" />
+    <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="student">
     <Key>

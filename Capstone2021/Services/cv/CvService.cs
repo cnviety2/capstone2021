@@ -1,6 +1,7 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Repositories.StudentRepository;
 using System;
+using System.Collections.Generic;
 
 namespace Capstone2021.Services
 {
@@ -24,5 +25,12 @@ namespace Capstone2021.Services
         ///chỉ student mới đc sử dụng
         ///</summary>
         bool update(UpdateCvDTO dto, int id);
+
+        /// <summary>
+        /// Lấy tất cả cv của student này
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        IList<ReturnListCvDTO> getListCvs(int studentId);
     }
 }

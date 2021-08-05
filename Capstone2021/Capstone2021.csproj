@@ -423,6 +423,7 @@
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\ReturnAppliedStudentDTO.cs" />
     <Compile Include="DTO\ReturnCvDTO.cs" />
+    <Compile Include="DTO\ReturnListCvDTO.cs" />
     <Compile Include="DTO\ReturnSavedJobDTO.cs" />
     <Compile Include="DTO\SaveAJobDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />

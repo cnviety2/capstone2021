@@ -15,7 +15,8 @@ namespace Capstone2021.Utils
             result.phone = recruiter.phone.Trim();
             result.role = recruiter.role.Trim();
             result.username = recruiter.username.Trim();
-            result.full_name = recruiter.fullName.Trim();
+            result.first_name = recruiter.firstName.Trim();
+            result.last_name = recruiter.lastName.Trim();
             result.sex = recruiter.sex;
             return result;
         }
@@ -29,7 +30,8 @@ namespace Capstone2021.Utils
             result.phone = dto.phone.Trim();
             result.role = "ROLE_RECRUITER";
             result.username = dto.username.Trim();
-            result.fullName = dto.fullname.Trim();
+            result.firstName = dto.firstname.Trim();
+            result.lastName = dto.lastName.Trim();
             result.sex = dto.sex;
             return result;
         }

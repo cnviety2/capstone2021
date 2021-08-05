@@ -64,79 +64,30 @@ namespace Capstone2021.Services
                     var student = context.students.Find(studentId);
                     if (student != null)
                     {
-                        if (student.profile_status == false)
+                        try
                         {
-                            try
-                            {
-                                cv model = CvMapper.mapToDatabaseModel(dto);
-                                model.student_id = studentId;
-                                context.cvs.Add(model);
-                                context.SaveChanges();
-                                student.profile_status = true;
-                                context.SaveChanges();
-                                contextTransaction.Commit();
-                                return true;
-                            }
-                            catch (Exception e)
-                            {
-                                logger.Info("Exception " + e.InnerException.Message + "in CvServiceImpl");
-                                contextTransaction.Rollback();
-                                return false;
-                            }
+                            cv model = CvMapper.mapToDatabaseModel(dto);
+                            model.student_id = studentId;
+                            context.cvs.Add(model);
+                            context.SaveChanges();
+                            student.profile_status = true;
+                            context.SaveChanges();
+                            contextTransaction.Commit();
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.InnerException.Message + "in CvServiceImpl");
+                            contextTransaction.Rollback();
+                            return false;
                         }
                     }
                     else
                     {
                         return false;
                     }
-                    /*try
-                    {
-                        cv model = CvMapper.mapToDatabaseModel(dto);
-                        model.student_id = studentId;
-                        context.cvs.Add(model);
-                        //đổi status profile student
-                        int studentID = model.student_id;
-                        var checkStudent = context.students.Find(studentID);
-                        if(checkStudent == null)
-                        {
-                            result = false;//ko tim thay student
-                        }
-                        else
-                        {
-                            if(checkStudent.profile_status == true)
-                            {
-                                result = true;//da co cv
-                            }
-                            else
-                            {
-                                using (context)
-                                {
-                                    try
-                                    {
-                                        checkStudent.profile_status = true;
-                                        Console.WriteLine(checkStudent);
-                                        result = true;
-                                        context.SaveChanges();
-                                        contextTransaction.Commit();
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        logger.Info("Exception " + e.InnerException.Message + "in CvServiceImpl");
-                                        contextTransaction.Rollback();
-                                        result = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch(Exception e)
-                    {
-                        logger.Info("Exception " + e.Message + "in CvServiceImpl");
-                        result = false;
-                    }*/
                 }
             }
-            return false;
         }
 
         public void Dispose()
@@ -160,6 +111,12 @@ namespace Capstone2021.Services
 
         public IList<Cv> getAll()
         {
+            throw new NotImplementedException();
+        }
+
+        public IList<ReturnListCvDTO> getListCvs(int studentId)
+        {
+            IList<ReturnListCvDTO> result = new List<ReturnListCvDTO>();
             throw new NotImplementedException();
         }
 

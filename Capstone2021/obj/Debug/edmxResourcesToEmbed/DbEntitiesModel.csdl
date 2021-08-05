@@ -94,6 +94,7 @@
     <Property Name="is_subscribed" Type="Boolean" />
     <Property Name="is_public" Type="Boolean" />
     <NavigationProperty Name="student" Relationship="DbCapstoneModel.FK_cv_student" FromRole="cv" ToRole="student" />
+    <Property Name="cv_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="job">
     <Key>
@@ -160,10 +161,11 @@
     <Property Name="create_date" Type="DateTime" Precision="0" />
     <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="is_banned" Type="Boolean" />
-    <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="sex" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
     <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
+    <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="last_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="student">
     <Key>

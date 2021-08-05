@@ -15,7 +15,10 @@ namespace Capstone2021.DTO
         [StringLength(12, ErrorMessage = "Phone number length minimum is 8 and maximum is 12", MinimumLength = 8)]
         public string phone { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage = "Full name's maximum length is 50")]
-        public string fullName { get; set; }
+        [StringLength(50, ErrorMessage = "Last name's maximum length is 50")]
+        public string lastName { get; set; }
+        [Required]
+        [StringLength(50, ErrorMessage = "First name's maximum length is 50")]
+        public string firstName { get; set; }
     }
 }

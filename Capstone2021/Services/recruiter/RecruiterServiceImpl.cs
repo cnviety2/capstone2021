@@ -81,11 +81,11 @@ namespace Capstone2021.Services
                         createDate = (DateTime)c.create_date,
                         gmail = c.gmail,
                         id = c.id,
-                        password = c.password,
                         phone = c.phone,
                         role = c.role,
                         username = c.username,
-                        fullName = c.full_name
+                        firstName = c.first_name,
+                        lastName = c.last_name
                     }).FirstOrDefault<Recruiter>();
             }
             return result;
@@ -107,7 +107,8 @@ namespace Capstone2021.Services
                         phone = c.phone,
                         role = c.role,
                         username = c.username,
-                        fullName = c.full_name,
+                        firstName = c.first_name,
+                        lastName = c.last_name,
                         sex = c.sex
                     }).ToList<Recruiter>();
                 return listResult;
@@ -175,7 +176,8 @@ namespace Capstone2021.Services
                 {
                     try
                     {
-                        recruiter.full_name = obj.fullName;
+                        recruiter.first_name = obj.firstName;
+                        recruiter.last_name = obj.lastName;
                         recruiter.gmail = obj.gmail;
                         recruiter.phone = obj.phone;
                         context.SaveChanges();

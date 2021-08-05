@@ -29,9 +29,11 @@ namespace Capstone2021.DTO
         public string phone { get; set; }
         public string createDate { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage = "Fullname's length minimum is 1 and maximum is 100", MinimumLength = 1)]
-        public string fullname { get; set; }
-
+        [StringLength(50, ErrorMessage = "First name's length minimum is 1 and maximum is 100", MinimumLength = 1)]
+        public string firstname { get; set; }
+        [Required]
+        [StringLength(50, ErrorMessage = "Last name's length minimum is 1 and maximum is 100", MinimumLength = 1)]
+        public string lastName { get; set; }
         [Required]
         public bool sex { get; set; }
     }

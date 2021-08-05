@@ -20,6 +20,7 @@ namespace Capstone2021.Utils
         public static Student mapToDto(student model)
         {
             Student result = new Student();
+            result.id = model.id;
             result.gmail = model.gmail.Trim();
             result.googleId = model.google_id.Trim();
             result.isBanned = model.is_banned.Value;

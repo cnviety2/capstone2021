@@ -149,7 +149,10 @@ namespace Capstone2021.Controllers
             }
 
             ResponseDTO response = new ResponseDTO();
-            bool saveState = cvService.update(cv, cv.id);
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+
+            int studentId = HttpContextUtils.getUserID(claims);
+            bool saveState = cvService.update(cv, studentId);
             if (saveState)
             {
                 response.message = "Ok";

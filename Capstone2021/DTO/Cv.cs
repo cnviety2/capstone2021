@@ -10,7 +10,7 @@ namespace Capstone2021.DTO
         /// Yêu cầu giới tính,true là nam,false là nữ
         /// </summary>
         public bool sex { get; set; }
-        public DateTime dob { get; set; }
+        public string dob { get; set; }
         public string avatar { get; set; }
         public string school { get; set; }
         /// <summary>

@@ -20,9 +20,9 @@ namespace Capstone2021.Utils
             result.isSubscribed = (bool)model.is_subscribed;
             result.foreignLanguage = model.foreign_language.Trim();
             result.experience = model.experience.Trim();
-            result.dob = (DateTime)model.dob;
+            result.dob = model.dob.Value.ToString("dd/MM/yyyy");
             result.createDate = (DateTime)model.create_date;
-            result.avatar = model.avatar.Trim();
+            result.avatar = /*model.avatar.Trim()*/ "";
             result.desiredSalaryMinimum = (int)model.desired_salary_minimum;
             return result;
         }

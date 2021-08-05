@@ -149,16 +149,34 @@ namespace Capstone2021.Controllers
             }
 
             ResponseDTO response = new ResponseDTO();
-            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-            bool saveState = cvService.update(cv, HttpContextUtils.getUserID(claims));
+            bool saveState = cvService.update(cv, cv.id);
             if (saveState)
             {
                 response.message = "Ok";
             }
             else
             {
-                return InternalServerError();
+                return BadRequest("Cannot Update");
             }
+            return Ok(response);
+        }
+        [HttpGet]
+        [Route("cv")]
+        public IHttpActionResult getACv()
+        {
+            ResponseDTO response = new ResponseDTO();
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            Cv currentCv = cvService.get(studentId);
+            if(currentCv == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                response.message = "OK";
+            }
+            response.data = currentCv;
             return Ok(response);
         }
     }

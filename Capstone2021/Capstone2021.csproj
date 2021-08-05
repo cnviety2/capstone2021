@@ -426,6 +426,8 @@
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\ReturnAppliedStudentDTO.cs" />
     <Compile Include="DTO\ReturnCvDTO.cs" />
+    <Compile Include="DTO\ReturnSavedJobDTO.cs" />
+    <Compile Include="DTO\SaveAJobDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />
     <Compile Include="DTO\Student.cs" />
     <Compile Include="DTO\UpdateCvDTO.cs" />
@@ -448,6 +450,9 @@
     <Compile Include="Services\job\JobServiceImpl.cs" />
     <Compile Include="Services\student\StudentService.cs" />
     <Compile Include="Services\student\StudentServiceImpl.cs" />
+    <Compile Include="student_save_job.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Test\Maybe later\Interfaces\IGenericRepository.cs" />
     <Compile Include="Test\Maybe later\Interfaces\IUnitOfWork.cs" />
     <Compile Include="DTO\UpdatePasswordRecruiterDTO.cs" />

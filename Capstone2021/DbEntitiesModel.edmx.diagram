@@ -22,6 +22,9 @@
         <AssociationConnector Association="DbCapstoneModel.FK_job_recruiter" />
         <AssociationConnector Association="DbCapstoneModel.FK_student_apply_job_job" />
         <AssociationConnector Association="DbCapstoneModel.FK_student_apply_job_student" />
+        <EntityTypeShape EntityType="DbCapstoneModel.student_save_job" Width="1.5" PointX="5.25" PointY="10.125" />
+        <AssociationConnector Association="DbCapstoneModel.FK_student_save_job_job" />
+        <AssociationConnector Association="DbCapstoneModel.FK_student_save_job_student" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

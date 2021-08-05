@@ -133,5 +133,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="student_save_job">
+      <EntityTypeMapping TypeName="DbCapstoneModel.student_save_job">
+        <MappingFragment StoreEntitySet="student_save_job">
+          <ScalarProperty Name="createDate" ColumnName="createDate" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="job_id" ColumnName="job_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

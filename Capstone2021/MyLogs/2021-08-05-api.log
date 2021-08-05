@@ -1,0 +1,2 @@
+2021-08-05 09:52:03.3696|INFO|Capstone2021.Services.Student.StudentServiceImpl|Exception The object cannot be deleted because it was not found in the ObjectStateManager.in StudentServiceImpl
+2021-08-05 09:52:56.9577|INFO|Capstone2021.Services.Student.StudentServiceImpl|Exception The object cannot be deleted because it was not found in the ObjectStateManager.in StudentServiceImpl

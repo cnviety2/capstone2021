@@ -139,6 +139,30 @@ namespace Capstone2021.Services.Student
             }
         }
 
+        public IList<ReturnSavedJobDTO> getSavedJobs(int studentId)
+        {
+            IList<ReturnSavedJobDTO> result = new List<ReturnSavedJobDTO>();
+            using (context)
+            {
+                IList<int> listSaveJobId = context.student_save_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => s.job_id)
+                    .ToList<int>();
+                if (listSaveJobId.Count == 0)
+                {
+                    return result;
+                }
+                else
+                {
+                    foreach (int jobId in listSaveJobId)
+                    {
+                        var job = context.jobs.Find(jobId);
+                        ReturnSavedJobDTO saveJobDTO = new ReturnSavedJobDTO() { id = job.id, name = job.name };
+                        result.Add(saveJobDTO);
+                    }
+                }
+            }
+            return result;
+        }
+
         public DTO.Student login(DTO.Student obj)
         {
             using (context)
@@ -183,6 +207,68 @@ namespace Capstone2021.Services.Student
         public bool remove(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public int removeSavedJob(int jobId, int studentId)
+        {
+            using (context)
+            {
+                var relationship = context.student_save_job.SingleOrDefault(s => s.student_id == studentId && s.job_id == jobId);
+                if (relationship == null)
+                    return 2;
+                else
+                {
+                    try
+                    {
+                        context.student_save_job.Remove(relationship);
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in StudentServiceImpl");
+                        return 3;
+                    }
+                }
+            }
+        }
+
+        public int saveJob(int jobId, int studentId)
+        {
+            using (context)
+            {
+                var job = context.jobs.Find(jobId);
+                if (job == null)
+                {
+                    return 3;
+                }
+                IList<student_save_job> check = context.student_save_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => new student_save_job()
+                {
+                    job_id = s.job_id
+                }).ToList<student_save_job>();
+                foreach (student_save_job element in check)
+                {
+                    if (element.job_id == jobId)
+                        return 2;
+                }
+                {
+                    try
+                    {
+                        student_save_job relatetionship = new student_save_job();
+                        relatetionship.job_id = jobId;
+                        relatetionship.student_id = studentId;
+                        relatetionship.createDate = DateTime.Now;
+                        context.student_save_job.Add(relatetionship);
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in StudentServiceImpl");
+                        return 4;
+                    }
+                }
+            }
         }
 
         public bool softRemove(int id)

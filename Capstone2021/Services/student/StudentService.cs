@@ -36,5 +36,26 @@ namespace Capstone2021.Services
         /// <param name="jobId"></param>
         /// <returns></returns>
         IList<ReturnAppliedStudentDTO> getAppliedStudentsOfThisJob(int jobId);
+
+        /// <summary>
+        /// Lưu lại job,1 : ok,2 : đă lưu,3 : job ko tìm thấy,4 : exception
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        int saveJob(int jobId, int studentId);
+
+        /// <summary>
+        /// Bỏ lưu job,1 : ok,2 : ko tồn tại relationship,3 : exception
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        int removeSavedJob(int jobId, int studentId);
+
+        /// <summary>
+        /// Trả về những job student đã save
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        IList<ReturnSavedJobDTO> getSavedJobs(int studentId);
     }
 }

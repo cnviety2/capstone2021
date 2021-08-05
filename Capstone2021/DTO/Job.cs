@@ -77,6 +77,8 @@ namespace Capstone2021.DTO
         [JsonIgnore]
         public ICollection<student_apply_job> relationShipWithStudent { get; set; }
 
+        public Boolean isOver30Days { get; set; }
+
         public IList<Category> categories { get; set; }
 
         /// <summary>

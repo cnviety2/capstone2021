@@ -34,5 +34,6 @@ namespace Capstone2021
         public virtual DbSet<recruiter> recruiters { get; set; }
         public virtual DbSet<student> students { get; set; }
         public virtual DbSet<student_apply_job> student_apply_job { get; set; }
+        public virtual DbSet<student_save_job> student_save_job { get; set; }
     }
 }

@@ -238,8 +238,80 @@ namespace Capstone2021.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ROLE_STUDENT")]
+        [Route("saved-jobs")]
+        public IHttpActionResult getSavedJobs()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            IList<ReturnSavedJobDTO> result = studentService.getSavedJobs(studentId);
+            ResponseDTO response = new ResponseDTO();
+            if (result.Count == 0)
+            {
+                response.message = "No data";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = result;
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "ROLE_STUDENT")]
+        [Route("save")]
+        public IHttpActionResult saveAJob([FromBody] SaveAJobDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("invalid_id", "Id is an integer");
+                return BadRequest(ModelState);
+            }
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int jobId = dto.jobId;
+            int studentId = HttpContextUtils.getUserID(claims);
+            int saveState = studentService.saveJob(jobId, studentId);
+            switch (saveState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Already saved");
+                case 3:
+                    return NotFound();
+                case 4:
+                    return InternalServerError();
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "ROLE_STUDENT")]
+        [Route("remove-saved-job/{jobId}")]
+        public IHttpActionResult removeASavedJob([FromUri] int jobId)
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            int removeState = studentService.removeSavedJob(jobId, studentId);
+            switch (removeState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return NotFound();
+                case 3:
+                    return InternalServerError();
+            }
+            return BadRequest();
+        }
+
+
+        [HttpGet]
         [Authorize(Roles = "ROLE_RECRUITER")]
-        [Route("applied-students/{jobId}")]
+        [Route("{jobId}/applied-students")]
         public IHttpActionResult getAppliedStudents([FromUri] int jobId)
         {
             ResponseDTO response = new ResponseDTO();
@@ -359,27 +431,24 @@ namespace Capstone2021.Controllers
             {
                 return BadRequest(ModelState);
             }
-            ResponseDTO response = new ResponseDTO();
             int updateState = jobService.update(dto, dto.id);
             switch (updateState)
             {
                 case -1:
-                    response.message = "Doesn't exist";
-                    break;
+                    return NotFound();
                 case 0:
+                    ResponseDTO response = new ResponseDTO();
                     response.message = "OK";
-                    break;
+                    return Ok(response);
                 case 1:
-                    response.message = "Error occured";
-                    break;
+                    return InternalServerError();
                 case 2:
-                    response.message = "This job was updated,in pending state";
-                    break;
+                    return BadRequest("This job was updated,in pending state");
                 case 3:
                     ModelState.AddModelError("dto.salary", "salaryMin can't >= salaryMax or salaryMax <= salaryMin");
                     return BadRequest(ModelState);
             }
-            return Ok(response);
+            return BadRequest();
 
         }
     }

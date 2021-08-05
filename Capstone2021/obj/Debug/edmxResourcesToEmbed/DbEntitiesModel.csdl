@@ -42,6 +42,15 @@
       <End Role="student" EntitySet="students" />
       <End Role="student_apply_job" EntitySet="student_apply_job" />
     </AssociationSet>
+    <EntitySet Name="student_save_job" EntityType="DbCapstoneModel.student_save_job" />
+    <AssociationSet Name="FK_student_save_job_job" Association="DbCapstoneModel.FK_student_save_job_job">
+      <End Role="job" EntitySet="jobs" />
+      <End Role="student_save_job" EntitySet="student_save_job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_save_job_student" Association="DbCapstoneModel.FK_student_save_job_student">
+      <End Role="student" EntitySet="students" />
+      <End Role="student_save_job" EntitySet="student_save_job" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="category">
     <Key>
@@ -112,6 +121,7 @@
     <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
     <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
     <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
+    <NavigationProperty Name="student_save_job" Relationship="DbCapstoneModel.FK_student_save_job_job" FromRole="job" ToRole="student_save_job" />
   </EntityType>
   <EntityType Name="job_has_category">
     <Key>
@@ -170,6 +180,7 @@
     <Property Name="last_applied_job_string" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="cvs" Relationship="DbCapstoneModel.FK_cv_student" FromRole="student" ToRole="cv" />
     <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_student" FromRole="student" ToRole="student_apply_job" />
+    <NavigationProperty Name="student_save_job" Relationship="DbCapstoneModel.FK_student_save_job_student" FromRole="student" ToRole="student_save_job" />
   </EntityType>
   <EntityType Name="student_apply_job">
     <Key>
@@ -274,6 +285,41 @@
         <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="student_apply_job">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="student_save_job">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="job_id" Type="Int32" Nullable="false" />
+    <Property Name="student_id" Type="Int32" Nullable="false" />
+    <Property Name="createDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="job" Relationship="DbCapstoneModel.FK_student_save_job_job" FromRole="student_save_job" ToRole="job" />
+    <NavigationProperty Name="student" Relationship="DbCapstoneModel.FK_student_save_job_student" FromRole="student_save_job" ToRole="student" />
+  </EntityType>
+  <Association Name="FK_student_save_job_job">
+    <End Type="DbCapstoneModel.job" Role="job" Multiplicity="1" />
+    <End Type="DbCapstoneModel.student_save_job" Role="student_save_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="job">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="student_save_job">
+        <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_save_job_student">
+    <End Type="DbCapstoneModel.student" Role="student" Multiplicity="1" />
+    <End Type="DbCapstoneModel.student_save_job" Role="student_save_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="student_save_job">
         <PropertyRef Name="student_id" />
       </Dependent>
     </ReferentialConstraint>

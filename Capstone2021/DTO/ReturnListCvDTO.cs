@@ -7,5 +7,8 @@
         public string cvName { get; set; }
 
         public string createDate { get; set; }
+
+        public int workingForm { get; set; }
+        public int desiredSalary { get; set; }
     }
 }

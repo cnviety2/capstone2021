@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Capstone2021.DTO
+﻿namespace Capstone2021.DTO
 {
     public class ReturnCvDTO
     {
@@ -9,7 +7,7 @@ namespace Capstone2021.DTO
         /// Yêu cầu giới tính,true là nam,false là nữ
         /// </summary>
         public bool sex { get; set; }
-        public DateTime dob { get; set; }
+        public string dob { get; set; }
         public string avatar { get; set; }
         public string school { get; set; }
         /// <summary>
@@ -28,5 +26,8 @@ namespace Capstone2021.DTO
         /// Part time hay full time hay cả 2,1 cho pt,2 cho ft,3 cho cả 2
         /// </summary>
         public int workingForm { get; set; }
+
+        public string skill { get; set; }
+        public string cvName { get; set; }
     }
 }

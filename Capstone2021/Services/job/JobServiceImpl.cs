@@ -40,6 +40,11 @@ namespace Capstone2021.Services
             using (context)
             {
                 result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobUtils.mapFromDbContext(s)).FirstOrDefault<Job>();
+                if (DateTimeUtils.isOver30Days(result.createDate2))
+                {
+                    result.isOver30Days = true;
+                }
+                else result.isOver30Days = false;
                 result.categories = new List<Category>();
                 foreach (job_has_category relationship in result.relationship)
                 {
@@ -61,7 +66,8 @@ namespace Capstone2021.Services
             IList<Job> listResult = new List<Job>();
             using (context)
             {
-                listResult = context.jobs.AsEnumerable().Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date))
+                    .OrderByDescending(s => s.create_date).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in listResult)
                 {
                     element.categories = new List<Category>();
@@ -128,9 +134,9 @@ namespace Capstone2021.Services
                 {
                     return -1;// ko tìm thấy
                 }
-                if (checkJob.status == 3)
+                if (checkJob.status == 2)
                 {
-                    return 2;//đã update
+                    return 2;//đã đc duyệt
                 }
                 try
                 {
@@ -253,39 +259,47 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public int applyAJob(int jobId, int studentId)
+        public int applyAJob(int jobId, int studentId, int cvId)
         {
             using (context)
             {
                 var job = context.jobs.Find(jobId);
                 var student = context.students.Find(studentId);
+                if (student == null || !student.profile_status) return 3;
+                IList<int> listCvsOfThisStudent = student.cvs.Select(s => s.id).ToList<int>();
+                if (!listCvsOfThisStudent.Contains(cvId))
+                {
+                    return 7;
+                }
                 if (job == null) return 2;
                 else
                 {
                     if (job.status == 1) return 5;
                     if (DateTimeUtils.isOver30Days(job.create_date)) return 4;
                 }
-                if (student == null || !student.profile_status) return 3;
-                ICollection<student_apply_job> listAppliedJobs = student.student_apply_job;
-                if (listAppliedJobs.Any(s => s.job_id == jobId)) return 7;
-                else
+                var checkApplied = context.student_apply_job.
+                    Where(s => s.cv_id == cvId && s.student_id == studentId && s.job_id == jobId).FirstOrDefault<student_apply_job>();
+                if (checkApplied != null)
                 {
-                    try
-                    {
-                        student_apply_job relationship = new student_apply_job();
-                        relationship.create_date = DateTime.Now;
-                        relationship.job_id = jobId;
-                        relationship.student_id = studentId;
-                        student.last_applied_job_string = JobUtils.getJobSuggestStringFromDTO(job);
-                        context.student_apply_job.Add(relationship);
-                        context.SaveChanges();
-                        return 1;
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Info("Exception " + e.Message + "in JobServiceImpl");
-                        return 6;
-                    }
+                    return 8;
+                }
+
+                try
+                {
+                    student_apply_job relationship = new student_apply_job();
+                    relationship.create_date = DateTime.Now;
+                    relationship.job_id = jobId;
+                    relationship.student_id = studentId;
+                    relationship.cv_id = cvId;
+                    student.last_applied_job_string = JobUtils.getJobSuggestStringFromDTO(job);
+                    context.student_apply_job.Add(relationship);
+                    context.SaveChanges();
+                    return 1;
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                    return 6;
                 }
             }
         }
@@ -300,7 +314,7 @@ namespace Capstone2021.Services
         {
             if (searchDTO.keyword != null && !searchDTO.isEmpty())
             {
-                list = list.Cast<Job>().Where(s => s.name.Contains(searchDTO.keyword)).ToList<Job>();
+                list = list.Cast<Job>().Where(s => StringUtils.convertToUnSign3(s.name).ToLower().Contains(searchDTO.keyword.ToLower())).ToList<Job>();
             }
             if (searchDTO.categoryCode.HasValue)
             {
@@ -395,26 +409,14 @@ namespace Capstone2021.Services
             IList<AppliedJobDTO> listResult = new List<AppliedJobDTO>();
             using (context)
             {
-                IList<int> listJobId = context.student_apply_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => s.job_id).ToList<int>();
-                foreach (int jobId in listJobId)
+                IList<student_apply_job> listRelationship = context.student_apply_job.Where(s => s.student_id == studentId).ToList<student_apply_job>();
+                foreach (student_apply_job element in listRelationship)
                 {
-                    listResult.Add(context.jobs.AsEnumerable().Where(s => s.id == jobId).Select(s => JobUtils.mapFromDbModelToAppliedDTO(s)).FirstOrDefault<AppliedJobDTO>());
-                }
-                List<student_apply_job> listRelation = context.student_apply_job.AsEnumerable().Where(s => s.student_id == studentId).Select(s => new student_apply_job()
-                {
-                    create_date = s.create_date,
-                    job_id = s.job_id
-                }).ToList<student_apply_job>();
-                foreach (student_apply_job element in listRelation)
-                {
-                    foreach (AppliedJobDTO dto in listResult)
-                    {
-                        if (dto.id == element.job_id)
-                        {
-                            dto.appliedDate = element.create_date.ToString("dd/MM/yyyy");
-                            break;
-                        }
-                    }
+                    AppliedJobDTO dto = new AppliedJobDTO();
+                    dto.id = element.job_id;
+                    dto.name = context.jobs.Where(s => s.id == dto.id).Select(s => s.name).FirstOrDefault<string>();
+                    dto.appliedDate = element.create_date.ToString("dd/MM/yyyy");
+                    listResult.Add(dto);
                 }
             }
             return listResult;

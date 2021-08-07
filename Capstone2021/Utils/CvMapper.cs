@@ -13,17 +13,19 @@ namespace Capstone2021.Utils
         {
             Cv result = new Cv();
             result.studentId = model.student_id;
-            result.name = model.name.Trim();
+            result.name = model.name;
             result.sex = (bool)model.sex;
             result.workingForm = (int)model.working_form;
-            result.school = model.school.Trim();
+            result.school = model.school;
             result.isSubscribed = (bool)model.is_subscribed;
-            result.foreignLanguage = model.foreign_language.Trim();
-            result.experience = model.experience.Trim();
+            result.foreignLanguage = model.foreign_language;
+            result.experience = model.experience;
             result.dob = model.dob.Value.ToString("dd/MM/yyyy");
-            result.createDate = (DateTime)model.create_date;
-            result.avatar = /*model.avatar.Trim()*/ "";
+            result.createDate = model.create_date.Value.ToString("dd/MM/yyyy");
+            result.avatar = model.avatar;
             result.desiredSalaryMinimum = (int)model.desired_salary_minimum;
+            result.skill = model.skill;
+            result.cvName = model.cv_name;
             return result;
         }
         ///<summary>
@@ -32,15 +34,18 @@ namespace Capstone2021.Utils
         public static cv mapToDatabaseModel(CreateCvDTO dto)
         {
             cv model = new cv();
+            model.cv_name = dto.cvName.Trim();
+            model.avatar = "";
             model.name = dto.name.Trim();
             model.sex = dto.sex;
             model.working_form = dto.workingForm;
-            model.school = dto.school.Trim();
+            model.school = dto.school != null ? dto.school.Trim() : "";
             model.is_subscribed = false;
-            model.foreign_language = dto.foreignLanguage.Trim();
-            model.experience = dto.experience.Trim();
-            model.dob = dto.dob;
+            model.foreign_language = dto.foreignLanguage != null ? dto.foreignLanguage.Trim() : "";
+            model.experience = dto.experience != null ? dto.experience.Trim() : "";
+            model.dob = DateTimeUtils.parse(dto.dob);
             model.create_date = DateTime.Now;
+            model.skill = dto.skill != null ? dto.skill.Trim() : "";
             model.desired_salary_minimum = dto.desiredSalaryMinimum;
             model.is_public = false;
             return model;
@@ -80,6 +85,18 @@ namespace Capstone2021.Utils
             if (dto.workingForm.HasValue && dto.workingForm != model.working_form && dto.workingForm != 0)
             {
                 model.working_form = dto.workingForm.Value;
+            }
+            if (dto.skill != null || !dto.skill.IsEmpty())
+            {
+                model.skill = dto.skill;
+            }
+            if (dto.dob != null || !dto.dob.IsEmpty())
+            {
+                model.dob = DateTimeUtils.parse(dto.dob);
+            }
+            if (dto.cvName != null || !dto.cvName.IsEmpty())
+            {
+                model.cv_name = dto.cvName.Trim();
             }
             return model;
         }

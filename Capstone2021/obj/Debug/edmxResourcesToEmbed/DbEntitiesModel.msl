@@ -10,41 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="companies">
-      <EntityTypeMapping TypeName="DbCapstoneModel.company">
-        <MappingFragment StoreEntitySet="company">
-          <ScalarProperty Name="recruiter_id" ColumnName="recruiter_id" />
-          <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="avatar" ColumnName="avatar" />
-          <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="website" ColumnName="website" />
-          <ScalarProperty Name="headquarters" ColumnName="headquarters" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="cvs">
-      <EntityTypeMapping TypeName="DbCapstoneModel.cv">
-        <MappingFragment StoreEntitySet="cv">
-          <ScalarProperty Name="cv_name" ColumnName="cv_name" />
-          <ScalarProperty Name="is_public" ColumnName="is_public" />
-          <ScalarProperty Name="is_subscribed" ColumnName="is_subscribed" />
-          <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="working_form" ColumnName="working_form" />
-          <ScalarProperty Name="desired_salary_minimum" ColumnName="desired_salary_minimum" />
-          <ScalarProperty Name="foreign_language" ColumnName="foreign_language" />
-          <ScalarProperty Name="experience" ColumnName="experience" />
-          <ScalarProperty Name="school" ColumnName="school" />
-          <ScalarProperty Name="avatar" ColumnName="avatar" />
-          <ScalarProperty Name="dob" ColumnName="dob" />
-          <ScalarProperty Name="sex" ColumnName="sex" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="student_id" ColumnName="student_id" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="jobs">
       <EntityTypeMapping TypeName="DbCapstoneModel.job">
         <MappingFragment StoreEntitySet="job">
@@ -92,24 +57,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="recruiters">
-      <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
-        <MappingFragment StoreEntitySet="recruiter">
-          <ScalarProperty Name="last_name" ColumnName="last_name" />
-          <ScalarProperty Name="first_name" ColumnName="first_name" />
-          <ScalarProperty Name="sex" ColumnName="sex" />
-          <ScalarProperty Name="is_banned" ColumnName="is_banned" />
-          <ScalarProperty Name="role" ColumnName="role" />
-          <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="avatar" ColumnName="avatar" />
-          <ScalarProperty Name="phone" ColumnName="phone" />
-          <ScalarProperty Name="gmail" ColumnName="gmail" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="students">
       <EntityTypeMapping TypeName="DbCapstoneModel.student">
         <MappingFragment StoreEntitySet="student">
@@ -128,6 +75,7 @@
     <EntitySetMapping Name="student_apply_job">
       <EntityTypeMapping TypeName="DbCapstoneModel.student_apply_job">
         <MappingFragment StoreEntitySet="student_apply_job">
+          <ScalarProperty Name="cv_id" ColumnName="cv_id" />
           <ScalarProperty Name="create_date" ColumnName="create_date" />
           <ScalarProperty Name="student_id" ColumnName="student_id" />
           <ScalarProperty Name="job_id" ColumnName="job_id" />
@@ -141,6 +89,61 @@
           <ScalarProperty Name="createDate" ColumnName="createDate" />
           <ScalarProperty Name="student_id" ColumnName="student_id" />
           <ScalarProperty Name="job_id" ColumnName="job_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cvs">
+      <EntityTypeMapping TypeName="DbCapstoneModel.cv">
+        <MappingFragment StoreEntitySet="cv">
+          <ScalarProperty Name="skill" ColumnName="skill" />
+          <ScalarProperty Name="cv_name" ColumnName="cv_name" />
+          <ScalarProperty Name="is_public" ColumnName="is_public" />
+          <ScalarProperty Name="is_subscribed" ColumnName="is_subscribed" />
+          <ScalarProperty Name="create_date" ColumnName="create_date" />
+          <ScalarProperty Name="working_form" ColumnName="working_form" />
+          <ScalarProperty Name="desired_salary_minimum" ColumnName="desired_salary_minimum" />
+          <ScalarProperty Name="foreign_language" ColumnName="foreign_language" />
+          <ScalarProperty Name="experience" ColumnName="experience" />
+          <ScalarProperty Name="school" ColumnName="school" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="recruiters">
+      <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
+        <MappingFragment StoreEntitySet="recruiter">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="is_banned" ColumnName="is_banned" />
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="create_date" ColumnName="create_date" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="gmail" ColumnName="gmail" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="companies">
+      <EntityTypeMapping TypeName="DbCapstoneModel.company">
+        <MappingFragment StoreEntitySet="company">
+          <ScalarProperty Name="recruiter_id" ColumnName="recruiter_id" />
+          <ScalarProperty Name="create_date" ColumnName="create_date" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="website" ColumnName="website" />
+          <ScalarProperty Name="headquarters" ColumnName="headquarters" />
+          <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

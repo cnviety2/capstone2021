@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Web.WebPages;
 
 namespace Capstone2021.DTO
 {
@@ -7,18 +8,26 @@ namespace Capstone2021.DTO
     //</summary>
     public class UpdateInformationRecruiterDTO
     {
-        [Required]
-        [RegularExpression("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", ErrorMessage = "Email Invalid. Example: recruiter123@gmail.com ")]
-        public string gmail { get; set; }
-        [Required]
-        [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "Phone Invalid")]
-        [StringLength(12, ErrorMessage = "Phone number length minimum is 8 and maximum is 12", MinimumLength = 8)]
-        public string phone { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Last name's maximum length is 50")]
-        public string lastName { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "First name's maximum length is 50")]
-        public string firstName { get; set; }
+
+        public String phone { get; set; }
+
+        public String gmail { get; set; }
+
+        public String lastName { get; set; }
+
+        public String firstName { get; set; }
+
+        public Nullable<Boolean> sex { get; set; }
+
+        public bool isEmpty()
+        {
+            if ((phone == null && phone.IsEmpty()) && (gmail == null && gmail.IsEmpty())
+                && (lastName == null && lastName.IsEmpty()) && (firstName == null && lastName.IsEmpty()) && !sex.HasValue)
+            {
+                return true;
+
+            }
+            else return false;
+        }
     }
 }

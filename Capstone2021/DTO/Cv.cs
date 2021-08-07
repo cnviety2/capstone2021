@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Capstone2021.DTO
 {
@@ -11,7 +12,7 @@ namespace Capstone2021.DTO
         /// </summary>
         public bool sex { get; set; }
         public string dob { get; set; }
-        public string avatar { get; set; }
+        public String avatar { get; set; }
         public string school { get; set; }
         /// <summary>
         /// Kinh nghiệm cá nhân
@@ -29,15 +30,23 @@ namespace Capstone2021.DTO
         /// Part time hay full time hay cả 2,1 cho pt,2 cho ft,3 cho cả 2
         /// </summary>
         public int workingForm { get; set; }
-        public DateTime createDate { get; set; }
+        public string createDate { get; set; }
         /// <summary>
         /// true là được nhận thông báo về email khi có công việc phù hợp, false là không nhận email
         /// </summary>
+        /// 
+        [JsonIgnore]
         public bool isSubscribed { get; set; }
 
         /// <summary>
         /// True nếu muốn cv public và mọi recruiter có thể tìm thấy cv 
         /// </summary>
+        /// 
+        [JsonIgnore]
         public bool isPublic { get; set; }
+
+        public string cvName { get; set; }
+
+        public string skill { get; set; }
     }
 }

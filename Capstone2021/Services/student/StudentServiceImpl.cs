@@ -90,25 +90,31 @@ namespace Capstone2021.Services.Student
                 }
                 else
                 {
-                    IList<int> listStudentIdApplied = context.student_apply_job.AsEnumerable().Where(s => s.job_id == jobId).Select(s => s.student_id).ToList<int>();
-                    if (listStudentIdApplied == null || listStudentIdApplied.Count == 0)
+                    IList<StudentIdAndCvIdDTO> listStudentdApplied = context.student_apply_job.AsEnumerable().Where(s => s.job_id == jobId).Select(s => new StudentIdAndCvIdDTO()
+                    {
+                        cvId = s.cv_id,
+                        studentId = s.student_id
+                    }).ToList<StudentIdAndCvIdDTO>();
+                    if (listStudentdApplied.Count == 0)
                     {
                         return result;
                     }
-                    foreach (int studentId in listStudentIdApplied)
+                    foreach (StudentIdAndCvIdDTO dto in listStudentdApplied)
                     {
-                        var student = context.students.Find(studentId);
-                        ReturnCvDTO cv = context.cvs.Where(s => s.student_id == student.id).Select(s => new ReturnCvDTO()
+                        var student = context.students.Find(dto.studentId);
+                        ReturnCvDTO cv = context.cvs.Where(s => s.id == dto.cvId).Select(s => new ReturnCvDTO()
                         {
                             avatar = s.avatar,
                             desiredSalaryMinimum = s.desired_salary_minimum.Value,
-                            dob = s.dob.Value,
+                            dob = s.dob.Value.ToString(),
                             experience = s.experience,
                             foreignLanguage = s.foreign_language,
                             name = s.name,
                             school = s.school,
                             sex = s.sex.Value,
-                            workingForm = s.working_form.Value
+                            workingForm = s.working_form.Value,
+                            skill = s.skill,
+                            cvName = s.cv_name
                         }).FirstOrDefault<ReturnCvDTO>();
                         if (cv == null)
                         {
@@ -161,6 +167,42 @@ namespace Capstone2021.Services.Student
                 }
             }
             return result;
+        }
+
+        public ReturnStudentDTO getSelfInfo(int studentId)
+        {
+            using (context)
+            {
+                var student = context.students.Find(studentId);
+                if (student == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    ReturnStudentDTO result = new ReturnStudentDTO();
+                    result.id = student.id;
+                    result.googleId = student.google_id;
+                    result.gmail = student.gmail;
+                    result.phone = student.phone;
+                    result.profileStatus = student.profile_status;
+                    result.avatar = student.avatar;
+                    result.createDate = student.create_date.ToString("dd/MM/yyyy");
+                    if (student.cvs.Count != 0)
+                    {
+                        result.listCv = new List<ReturnListCvDTO>();
+                        foreach (cv element in student.cvs)
+                        {
+                            ReturnListCvDTO cv = new ReturnListCvDTO();
+                            cv.id = element.id;
+                            cv.createDate = element.create_date.Value.ToString("dd/MM/yyyy");
+                            cv.cvName = element.cv_name;
+                            result.listCv.Add(cv);
+                        }
+                    }
+                    return result;
+                }
+            }
         }
 
         public DTO.Student login(DTO.Student obj)
@@ -276,24 +318,26 @@ namespace Capstone2021.Services.Student
             throw new NotImplementedException();
         }
 
-        public bool updateImage(string imageUrl, int id)
+        public string updateImage(string imageUrl, int id)
         {
+            string url = "";
             var checkStudent = context.students.Find(id);
             if (checkStudent == null)
-                return false;
+                return url;
             using (context)
             {
                 try
                 {
                     checkStudent.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
                     context.SaveChanges();
-                    return true;
+                    url = checkStudent.avatar;
+                    return url;
 
                 }
                 catch (Exception e)
                 {
                     logger.Info("Exception " + e.Message + "in StudentServiceImpl");
-                    return false;
+                    return url;
                 }
             }
         }

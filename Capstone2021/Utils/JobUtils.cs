@@ -102,6 +102,7 @@ namespace Capstone2021.Utils
             result.relationship = model.job_has_category;
             result.relationShipWithStudent = model.student_apply_job;
             result.stringForSuggestion = model.string_for_suggestion;
+            result.createDate2 = model.create_date;
             return result;
         }
 
@@ -138,17 +139,6 @@ namespace Capstone2021.Utils
             AppliedJobDTO result = new AppliedJobDTO();
             result.id = model.id;
             result.name = model.name;
-            result.workingForm = model.working_form;
-            result.location = model.location;
-            result.workingPlace = model.working_place;
-            result.description = model.description;
-            result.requirement = model.requirement;
-            result.type = model.type;
-            result.offer = model.offer;
-            result.sex = model.sex.Value;
-            result.quantity = model.quantity;
-            result.salaryMax = model.salary_max;
-            result.salaryMin = model.salary_min;
             return result;
         }
 

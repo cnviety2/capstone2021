@@ -9,9 +9,11 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
+using System.Web.WebPages;
 
 namespace Capstone2021.Controllers
 {
+    //check
     [RoutePrefix("recruiter")]
     [Authorize]//chỉ có những user có role là recruiter chứa trong HttpContext là được sử dụng những api này
     public class RecruiterController : ApiController
@@ -21,6 +23,8 @@ namespace Capstone2021.Controllers
         {
             _recruiterService = new RecruiterServiceImpl();
         }
+
+        //Đăng ký 1 register mới,check
         [HttpPost]
         [Route("register")]
         [AllowAnonymous]
@@ -35,25 +39,30 @@ namespace Capstone2021.Controllers
             recruiter.password = Crypto.HashPassword(recruiter.password.Trim());
             if (StringUtils.isContainSpecialCharacter(recruiter.username) == true)
             {
-                response.message = "Username not contain sepecial character";
-                return Ok(response);
+                return BadRequest("Username không được chứa ký tự đặc biệt");
             }
-            else
+            if ((recruiter.firstname != null && !recruiter.firstname.IsEmpty()) || (recruiter.lastName != null && !recruiter.lastName.IsEmpty()))
             {
-                Recruiter model = RecruiterMapper.mapFromDto(recruiter);
-                bool saveState = _recruiterService.create(model);
-                if (saveState)
-                {
+                if (StringUtils.isContainSpecialCharacter(recruiter.firstname) || StringUtils.isContainSpecialCharacter(recruiter.lastName))
+                    return BadRequest("Tên không được chứa ký tự đặc biệt");
+            }
+
+            int saveState = _recruiterService.register(recruiter);
+            switch (saveState)
+            {
+                case 1:
                     response.message = "OK";
-                }
-                else
-                {
-                    response.message = "Error occured";
-                }
-                return Ok(response);
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Username bị trùng");
+                case 3:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
             }
         }
 
+        //Update thông tin recruiter,check
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "ROLE_RECRUITER")]
@@ -63,7 +72,38 @@ namespace Capstone2021.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            if (recruiter.isEmpty())
+            {
+                return BadRequest("Data không được trống");
+            }
+            if (recruiter.gmail != null && !recruiter.gmail.IsEmpty())
+            {
+                if (!StringUtils.isValidEmailFormat(recruiter.gmail))
+                {
+                    return BadRequest("Email không đúng định dạng");
+                }
+            }
+            if (recruiter.firstName != null && !recruiter.firstName.IsEmpty())
+            {
+                if (StringUtils.isContainSpecialCharacter(recruiter.firstName))
+                {
+                    return BadRequest("Tên không được chứa ký tự đặc biệt");
+                }
+            }
+            if (recruiter.lastName != null && !recruiter.lastName.IsEmpty())
+            {
+                if (StringUtils.isContainSpecialCharacter(recruiter.lastName))
+                {
+                    return BadRequest("Tên không được chứa ký tự đặc biệt");
+                }
+            }
+            if (recruiter.phone != null && !recruiter.phone.IsEmpty())
+            {
+                if (!StringUtils.isDigitsOnly(recruiter.phone))
+                {
+                    return BadRequest("SĐT chỉ chứa số");
+                }
+            }
             ResponseDTO response = new ResponseDTO();
             String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
             bool saveState = _recruiterService.update(recruiter, currentUser);
@@ -73,10 +113,12 @@ namespace Capstone2021.Controllers
             }
             else
             {
-                response.message = "Error occured";
+                response.message = "Xảy ra lỗi";
             }
             return Ok(response);
         }
+
+        //update lại mât khẩu,check
         [Route("update/password")]
         [HttpPut]
         [Authorize(Roles = "ROLE_RECRUITER")]
@@ -99,6 +141,7 @@ namespace Capstone2021.Controllers
             }
             return Ok(response);
         }
+        //test
         [HttpGet]
         [Route("")]
         [Authorize(Roles = "ROLE_ADMIN")]
@@ -115,13 +158,15 @@ namespace Capstone2021.Controllers
             response.data = list;
             return Ok(response);
         }
+
+        //Trả về thông tin 1 recruiter dựa trên id,check
         [HttpGet]
         [Route("{id:int:min(0)}")]
-        [Authorize(Roles = "ROLE_RECRUITER")]
+        [AllowAnonymous]
         public IHttpActionResult getARecruiter([FromUri] int id)
         {
             ResponseDTO response = new ResponseDTO();
-            Recruiter recruiter = _recruiterService.get(id);
+            ReturnRecruiterDTO recruiter = _recruiterService.getById(id);
             if (recruiter == null)
             {
                 return NotFound();
@@ -133,6 +178,8 @@ namespace Capstone2021.Controllers
             response.data = recruiter;
             return Ok(response);
         }
+
+        //upload ảnh của recruiter,check
         [HttpPost]
         [Route("upload-image")]
         [Authorize(Roles = "ROLE_RECRUITER")]
@@ -158,19 +205,22 @@ namespace Capstone2021.Controllers
                     a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
                     if (a == true)
                     {
-                        _recruiterService.updateImage(name, HttpContextUtils.getUserID(claims));
-                        response.message = "Upload avatar successfull";
+                        string imgUrl = _recruiterService.updateImage(name, HttpContextUtils.getUserID(claims));
+                        response.message = "Upload avatar thành công";
+                        response.data = imgUrl;
                         return Ok(response);
                     }
                     else
                     {
-                        return BadRequest("Error occured while sending request to AWS S3");
+                        return BadRequest("Lỗi xảy ra khi upload ảnh lên aws");
 
                     }
                 }
             }
-            return BadRequest("Error occured");
+            return BadRequest("Lỗi xảy ra");
         }
+
+        //Trả về data của recruiter gửi request,check
         [HttpGet]
         [Route("self")]
         public IHttpActionResult getSelfInfo()

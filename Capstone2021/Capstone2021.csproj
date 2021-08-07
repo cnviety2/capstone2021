@@ -422,18 +422,26 @@
     <Compile Include="DTO\Recruiter.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />
     <Compile Include="DTO\ReturnAppliedStudentDTO.cs" />
+    <Compile Include="DTO\ReturnCompanyDTO.cs" />
     <Compile Include="DTO\ReturnCvDTO.cs" />
     <Compile Include="DTO\ReturnListCvDTO.cs" />
+    <Compile Include="DTO\ReturnRecruiterDTO.cs" />
     <Compile Include="DTO\ReturnSavedJobDTO.cs" />
+    <Compile Include="DTO\ReturnStudentDTO.cs" />
     <Compile Include="DTO\SaveAJobDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />
     <Compile Include="DTO\Student.cs" />
+    <Compile Include="DTO\StudentIdAndCvIdDTO.cs" />
+    <Compile Include="DTO\UpdateCompanyDTO.cs" />
     <Compile Include="DTO\UpdateCvDTO.cs" />
     <Compile Include="DTO\UpdateFullNameManagerDTO.cs" />
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdateJobDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
     <Compile Include="job_has_category.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="recruiter.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\CompanyRepository\CompanyRepository.cs" />
@@ -459,9 +467,6 @@
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="recruiter.cs">
-      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Repositories\ManagerRepository\IManagerRepository.cs" />
     <Compile Include="Repositories\IBasicRepository.cs" />
     <Compile Include="Repositories\RecruiterRepository\IRecruiterRepository.cs" />

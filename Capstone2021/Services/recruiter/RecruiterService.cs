@@ -17,10 +17,25 @@ namespace Capstone2021.Services
         ///Method update password của recruiter,return true nếu thành công
         ///</summary>
         bool updatePassword(string password, string username);
+
+        /// <summary>
+        /// Trả về recruiter data dựa trên recruiterId
+        /// </summary>
+        /// <param name="recruiterId"></param>
+        /// <returns></returns>
+        ReturnRecruiterDTO getById(int recruiterId);
+
         ///<summary>
-        ///Method create account của recruiter,return true nếu thành công
+        ///Method register account của recruiter,return 1: OK,2:đã có username này,3:lôĩ
         ///</summary>
-        bool create(CreateRecruiterDTO obj);
-        bool updateImage(string imageUrl, int id);
+        int register(CreateRecruiterDTO dto);
+
+        /// <summary>
+        /// Return về url của image nếu thành công
+        /// </summary>
+        /// <param name="imageUrl"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        string updateImage(string imageUrl, int id);
     }
 }

@@ -20,7 +20,7 @@ namespace Capstone2021.Services
         /// </summary>
         /// <param name="imageUrl"></param>
         /// <returns></returns>
-        bool updateImage(String imageUrl, int id);
+        string updateImage(String imageUrl, int id);
 
 
         /// <summary>
@@ -57,5 +57,12 @@ namespace Capstone2021.Services
         /// <param name="studentId"></param>
         /// <returns></returns>
         IList<ReturnSavedJobDTO> getSavedJobs(int studentId);
+
+        /// <summary>
+        /// Trả về thông tin của student gửi request
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        ReturnStudentDTO getSelfInfo(int studentId);
     }
 }

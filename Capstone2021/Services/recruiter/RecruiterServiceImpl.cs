@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Helpers;
+using System.Web.WebPages;
 
 namespace Capstone2021.Services
 {
@@ -78,7 +79,7 @@ namespace Capstone2021.Services
                     .Select(c => new Recruiter()
                     {
                         avatar = c.avatar,
-                        createDate = (DateTime)c.create_date,
+                        createDate = c.create_date.Value.ToString("dd/MM/YYYY"),
                         gmail = c.gmail,
                         id = c.id,
                         phone = c.phone,
@@ -87,6 +88,11 @@ namespace Capstone2021.Services
                         firstName = c.first_name,
                         lastName = c.last_name
                     }).FirstOrDefault<Recruiter>();
+                var company = context.companies.Where(s => s.recruiter_id == result.id).FirstOrDefault<company>();
+                if (company != null)
+                {
+                    result.companyId = company.id;
+                }
             }
             return result;
         }
@@ -100,7 +106,7 @@ namespace Capstone2021.Services
                     .Select(c => new Recruiter()
                     {
                         avatar = c.avatar,
-                        createDate = (DateTime)c.create_date,
+                        createDate = c.create_date.Value.ToString("dd/MM/YYYY"),
                         gmail = c.gmail,
                         id = c.id,
                         password = c.password,
@@ -141,6 +147,34 @@ namespace Capstone2021.Services
             return result;
         }
 
+        public int register(CreateRecruiterDTO dto)
+        {
+
+            using (context)
+            {
+                var recruiter = context.recruiters.Where(s => s.username.Equals(dto.username)).FirstOrDefault<recruiter>();
+                if (recruiter != null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    try
+                    {
+                        recruiter model = RecruiterMapper.mapFromDtoRegister(dto);
+                        context.recruiters.Add(model);
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
+                        return 3;
+                    }
+                }
+            }
+        }
+
         public bool remove(int id)
         {
             /*  var recruiter = context.recruiters.Where(c => c.id == id).FirstOrDefault();
@@ -176,10 +210,26 @@ namespace Capstone2021.Services
                 {
                     try
                     {
-                        recruiter.first_name = obj.firstName;
-                        recruiter.last_name = obj.lastName;
-                        recruiter.gmail = obj.gmail;
-                        recruiter.phone = obj.phone;
+                        if (obj.gmail != null && !obj.gmail.IsEmpty())
+                        {
+                            recruiter.gmail = obj.gmail;
+                        }
+                        if (obj.lastName != null && !obj.lastName.IsEmpty())
+                        {
+                            recruiter.last_name = obj.lastName;
+                        }
+                        if (obj.firstName != null && !obj.firstName.IsEmpty())
+                        {
+                            recruiter.first_name = obj.firstName;
+                        }
+                        if (obj.phone != null && !obj.phone.IsEmpty())
+                        {
+                            recruiter.phone = obj.phone;
+                        }
+                        if (obj.sex.HasValue)
+                        {
+                            recruiter.sex = obj.sex.Value;
+                        }
                         context.SaveChanges();
                         result = true;
                     }
@@ -194,25 +244,51 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public bool updateImage(string imageUrl, int id)
+        public string updateImage(string imageUrl, int id)
         {
-            var checkRecruiter = context.students.Find(id);
+            string result = "";
+            var checkRecruiter = context.recruiters.Find(id);
             if (checkRecruiter == null)
             {
-                return false;
+                return result;
             }
             using (context)
             {
                 try
                 {
                     checkRecruiter.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
+                    result = checkRecruiter.avatar;
                     context.SaveChanges();
-                    return true;
+                    return result;
                 }
                 catch (Exception e)
                 {
                     logger.Info("Exception " + e.Message + "in StudentServiceImpl");
-                    return false;
+                    return result;
+                }
+            }
+        }
+
+        public ReturnRecruiterDTO getById(int recruiterId)
+        {
+            ReturnRecruiterDTO result = new ReturnRecruiterDTO();
+            using (context)
+            {
+                var recruiter = context.recruiters.Find(recruiterId);
+                if (recruiter == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    result.id = recruiter.id;
+                    result.firstName = recruiter.first_name;
+                    result.lastName = recruiter.last_name;
+                    result.phone = recruiter.phone;
+                    result.sex = recruiter.sex;
+                    result.gmail = recruiter.gmail;
+                    result.avatar = recruiter.avatar;
+                    return result;
                 }
             }
         }

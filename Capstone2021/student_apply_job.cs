@@ -18,8 +18,10 @@ namespace Capstone2021
         public int job_id { get; set; }
         public int student_id { get; set; }
         public System.DateTime create_date { get; set; }
+        public int cv_id { get; set; }
     
         public virtual job job { get; set; }
         public virtual student student { get; set; }
+        public virtual cv cv { get; set; }
     }
 }

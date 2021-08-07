@@ -67,8 +67,8 @@ namespace Capstone2021.Services
                         try
                         {
                             cv model = CvMapper.mapToDatabaseModel(dto);
-                            model.student_id = studentId;
                             context.cvs.Add(model);
+                            model.student_id = studentId;
                             context.SaveChanges();
                             student.profile_status = true;
                             context.SaveChanges();
@@ -95,18 +95,31 @@ namespace Capstone2021.Services
             context.Dispose();
         }
 
-        public Cv get(int id)
+        public Cv get(int studentId, int cvId)
         {
             Cv result = null;
             using (context)
             {
-                //context.cvs sẽ lấy ra DataSet của table cv ở phía dưới db
-                result = context.cvs.AsEnumerable()
-                    .Where(c => c.student_id == id)
-                    .Select(c => CvMapper.getFromDbContext(c))
-                    .FirstOrDefault<Cv>();
+                var student = context.students.Find(studentId);
+                if (student != null)
+                {
+                    IList<int> listStudentCvId = student.cvs.Select(s => s.id).ToList<int>();
+                    if (listStudentCvId.Contains(cvId))
+                    {
+                        //context.cvs sẽ lấy ra DataSet của table cv ở phía dưới db
+                        result = context.cvs.AsEnumerable()
+                            .Where(c => c.id == cvId)
+                            .Select(c => CvMapper.getFromDbContext(c))
+                            .FirstOrDefault<Cv>();
+                    }
+                }
             }
             return result;
+        }
+
+        public Cv get(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IList<Cv> getAll()
@@ -117,7 +130,24 @@ namespace Capstone2021.Services
         public IList<ReturnListCvDTO> getListCvs(int studentId)
         {
             IList<ReturnListCvDTO> result = new List<ReturnListCvDTO>();
-            throw new NotImplementedException();
+            using (context)
+            {
+                var student = context.students.Find(studentId);
+                if (student != null)
+                {
+                    result = student.cvs.Select(s => new ReturnListCvDTO()
+                    {
+                        createDate = s.create_date.Value.ToString("dd/MM/yyyy"),
+                        cvName = s.cv_name,
+                        id = s.id
+                    }).ToList<ReturnListCvDTO>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return result;
         }
 
         public bool remove(int id)
@@ -130,54 +160,86 @@ namespace Capstone2021.Services
             throw new NotImplementedException();
         }
 
-        public bool update(UpdateCvDTO dto, int id)
+        public int update(UpdateCvDTO dto, int studentId)
         {
-            bool result = false;
             using (context)
             {
-                var cv = context.cvs
-                    .SingleOrDefault(c => c.student_id.Equals(id));
-                if (cv == null)
+                var student = context.students.Find(studentId);
+                if (student != null)
                 {
-                    return result;
+                    IList<int> listStudentCvId = student.cvs.Select(s => s.id).ToList<int>();
+                    if (listStudentCvId.Contains(dto.id))
+                    {
+                        var cv = context.cvs.Find(dto.id);
+                        if (cv == null)
+                        {
+                            return 2;//ko tim thay
+                        }
+                        else
+                        {
+                            try
+                            {
+                                cv = CvMapper.mapFromDtoToDbModelForUpdating(dto, cv);
+                                context.SaveChanges();
+                                return 1;//OK
+                            }
+                            catch (Exception e)
+                            {
+                                logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                                return 3;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return 2;
+                    }
                 }
                 else
                 {
-                    try
-                    {
-                        cv = CvMapper.mapFromDtoToDbModelForUpdating(dto, cv);
-                        context.SaveChanges();
-                        result = true;
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Info("Exception " + e.Message + "in CvServiceImpl");
-                        result = false;
-                    }
+                    return 2;
                 }
             }
-            return result;
         }
 
-        public bool updateImage(string imageUrl, int id)
+        public string updateImage(String imageUrl, int studentId, int cvId)
         {
-            var checkCv = context.cvs.Find(id);
-            if (checkCv == null)
-                return false;
+            string url = "";
+            var student = context.students.Find(studentId);
+            if (student == null)
+                return url;
             using (context)
             {
-                try
+                if (student.cvs.Count == 0)
                 {
-                    checkCv.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
-                    context.SaveChanges();
-                    return true;
+                    return url;
+                }
+                else
+                {
+                    IList<int> listCvs = student.cvs.Select(s => s.id).ToList<int>();
+                    if (!listCvs.Contains(cvId))
+                    {
+                        return url;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var cv = context.cvs.Find(cvId);
+                            cv.avatar = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + imageUrl;
+                            context.SaveChanges();
+                            url = cv.avatar;
+                            return url;
 
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                            return url;
+                        }
+                    }
                 }
-                catch (Exception e)
-                {
-                    logger.Info("Exception " + e.Message + "in CvServiceImpl");
-                    return false;
-                }
+
             }
         }
     }

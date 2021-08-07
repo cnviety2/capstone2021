@@ -79,6 +79,12 @@ namespace Capstone2021.DTO
 
         public Boolean isOver30Days { get; set; }
 
+        /// <summary>
+        /// Dùng để kiểm tra,ko show ra
+        /// </summary>
+        [JsonIgnore]
+        public DateTime createDate2 { get; set; }
+
         public IList<Category> categories { get; set; }
 
         /// <summary>
@@ -107,7 +113,6 @@ namespace Capstone2021.DTO
             }
             return false;
         }
-
 
         /// <summary>
         /// Trả về trọng số của job này match với lastAppliedJobString của student,best case là 4,worst case là 0,suggesst sẽ lấy từ 2 đến 4

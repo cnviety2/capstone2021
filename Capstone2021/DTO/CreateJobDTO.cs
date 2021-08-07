@@ -13,15 +13,15 @@ namespace Capstone2021.DTO
         public string name { get; set; }
 
         [Required]
-        [Range(1, 3, ErrorMessage = "`Part-time:1,Full-time:2,Both:3")]
+        [Range(1, 3, ErrorMessage = "Part-time:1,Full-time:2,Both:3")]
         public int workingForm { get; set; }
 
         [Required]
-        [Range(1, 24, ErrorMessage = "District 1 to 12 : 1 -> 12,13 : bình tân,14 : bình thạnh,15 : gò vấp,16 : phú nhuận,17 : tân bình,18 : " +
+        [Range(1, 24, ErrorMessage = "Quận 1 -> 12 : 1 -> 12,13 : bình tân,14 : bình thạnh,15 : gò vấp,16 : phú nhuận,17 : tân bình,18 : " +
             "tân phú,19 : thủ đức,20 : bình chánh,21 : cần giờ,22 : củ chi,23 : hóc môn,24 : nhà bè")]
         public int location { get; set; }
 
-        [Required(ErrorMessage = "The details of working place")]
+        [Required(ErrorMessage = "Địa chỉ chính xác của nơi làm việc không bỏ trống")]
         public string workingPlace { get; set; }
 
         [Required]
@@ -38,19 +38,19 @@ namespace Capstone2021.DTO
         public string offer { get; set; }
 
         [Required]
-        [Range(1, 3, ErrorMessage = "1 is male,2 is female,3 is both")]
+        [Range(1, 3, ErrorMessage = "Yêu cầu giới tính : 1 nam,2 nữ,3 cả 2")]
         public Int32 sex { get; set; }
 
         [Required]
-        [Range(1, Int32.MaxValue, ErrorMessage = "Minimum value is 1")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Giá trị nhỏ nhất là 1")]
         public int quantity { get; set; }
 
         [Required]
-        [Range(1, Int32.MaxValue, ErrorMessage = "Minimum value is 1")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Giá trị nhỏ nhất là 1")]
         public int salaryMin { get; set; }
 
         [Required]
-        [Range(1, Int32.MaxValue, ErrorMessage = "Minimum value is 1")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Giá trị nhỏ nhất là 1")]
         public int salaryMax { get; set; }
 
         [Required]

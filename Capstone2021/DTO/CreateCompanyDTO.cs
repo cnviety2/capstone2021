@@ -11,6 +11,5 @@ namespace Capstone2021.DTO
         public string headquaters { get; set; }
         public String website { get; set; }
         public String description { get; set; }
-        public String avatar { get; set; }
     }
 }

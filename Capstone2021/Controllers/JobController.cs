@@ -24,6 +24,7 @@ namespace Capstone2021.Controllers
             studentService = new StudentServiceImpl();
         }
 
+        //api trả về list những category,check
         [HttpGet]
         [AllowAnonymous]
         [Route("categories")]
@@ -41,6 +42,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Trả về list những job đã apply,có thể bị trùng vì apply 1 job nhiều lần bằng nhiều cv khác nhau,check
         [HttpGet]
         [Authorize(Roles = "ROLE_STUDENT")]
         [Route("applied-jobs")]
@@ -79,6 +81,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //api trả về những job suggest từ job cuối cùng student apply,check
         [HttpGet]
         [Authorize(Roles = "ROLE_STUDENT")]
         [Route("suggest")]
@@ -90,7 +93,7 @@ namespace Capstone2021.Controllers
             ResponseDTO response = new ResponseDTO();
             if (lastAppliedJobString == null || lastAppliedJobString.IsEmpty())
             {
-                response.message = "This user hasn't performed apply action";
+                response.message = "User chưa thực hiện nộp đơn vào 1 công việc";
                 return Ok(response);
             }
             else
@@ -107,6 +110,7 @@ namespace Capstone2021.Controllers
             }
         }
 
+        //api apply job của student,student gửi id của cv đi,check
         [HttpPost]
         [Route("apply")]
         [Authorize(Roles = "ROLE_STUDENT")]
@@ -114,13 +118,14 @@ namespace Capstone2021.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("invalid_id", "Id is an integer");
+                ModelState.AddModelError("invalid_id", "Id là những con số");
                 return BadRequest(ModelState);
             }
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-            int jobId = dto.id;
+            int jobId = dto.jobId;
+            int cvId = dto.cvId;
             int studentId = HttpContextUtils.getUserID(claims);
-            int applyState = jobService.applyAJob(jobId, studentId);
+            int applyState = jobService.applyAJob(jobId, studentId, cvId);
             ResponseDTO response = new ResponseDTO();
             switch (applyState)
             {
@@ -128,17 +133,19 @@ namespace Capstone2021.Controllers
                     response.message = "OK";
                     return Ok(response);
                 case 2:
-                    return BadRequest("This job doesn't exist");
+                    return BadRequest("Không tìm thấy công việc này");
                 case 3:
-                    return BadRequest("This student doesn't exist");
+                    return BadRequest("Không tìm thấy user này");
                 case 4:
-                    return BadRequest("This job is over 30 days");
+                    return BadRequest("Công việc đã quá 30 ngày");
                 case 5:
-                    return BadRequest("This job is pending");
+                    return BadRequest("Công việc đang ở trạng thái chờ");
                 case 6:
                     return InternalServerError();
                 case 7:
-                    return BadRequest("This student already applied for this job");
+                    return BadRequest("CV không tồn tại");
+                case 8:
+                    return BadRequest("Bạn đã gửi CV này đến nhà tuyển dụng rồi");
             }
             return InternalServerError();
         }
@@ -201,6 +208,7 @@ namespace Capstone2021.Controllers
 
         }
 
+        //Trả về những job vừa đc approve mới nhất và không quá 30 ngày sort theo thời gian create,check
         [HttpGet]
         [Route("")]
         [AllowAnonymous]
@@ -218,6 +226,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Trả về chi tiết thông tin 1 job,check 
         [HttpGet]
         [Route("{id:int:min(0)}")]
         [AllowAnonymous]
@@ -237,6 +246,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Trả về những job đã lưu,check
         [HttpGet]
         [Authorize(Roles = "ROLE_STUDENT")]
         [Route("saved-jobs")]
@@ -256,6 +266,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //lưu 1 job dựa trên jobId,check
         [HttpPost]
         [Authorize(Roles = "ROLE_STUDENT")]
         [Route("save")]
@@ -263,7 +274,7 @@ namespace Capstone2021.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("invalid_id", "Id is an integer");
+                ModelState.AddModelError("invalid_id", "Id là số nguyên");
                 return BadRequest(ModelState);
             }
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
@@ -277,7 +288,7 @@ namespace Capstone2021.Controllers
                     response.message = "OK";
                     return Ok(response);
                 case 2:
-                    return BadRequest("Already saved");
+                    return BadRequest("User đã lưu rồi");
                 case 3:
                     return NotFound();
                 case 4:
@@ -286,6 +297,7 @@ namespace Capstone2021.Controllers
             return BadRequest();
         }
 
+        //Xoá lưu 1 job trong list đã lưu,check
         [HttpDelete]
         [Authorize(Roles = "ROLE_STUDENT")]
         [Route("remove-saved-job/{jobId}")]
@@ -308,7 +320,7 @@ namespace Capstone2021.Controllers
             return BadRequest();
         }
 
-
+        //Trả về list những cv đã apply vào job này,check
         [HttpGet]
         [Authorize(Roles = "ROLE_RECRUITER")]
         [Route("{jobId}/applied-students")]
@@ -336,6 +348,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Tạo mới 1 job của recruiter,tạm thời set status bằng 2,check
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "ROLE_RECRUITER")]
@@ -371,6 +384,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Update 1 job của recruiter,ko thể update nếu đã đc duyệt,check
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "ROLE_RECRUITER")]
@@ -383,48 +397,48 @@ namespace Capstone2021.Controllers
             bool flag = false;
             if (dto.isEmpty())
             {
-                ModelState.AddModelError("dto", "Data to update is empty!!!");
+                ModelState.AddModelError("dto", "Dữ liệu không được bỏ trống hoàn toàn");
                 flag = true;
             }
             if (dto.workingForm.HasValue && (dto.workingForm < 1 || dto.workingForm > 3))
             {
-                ModelState.AddModelError("dto.workingForm", "`Part-time:1,Full-time:2,Both:3");
+                ModelState.AddModelError("dto.workingForm", "`Part-time:1,Full-time:2,Cả 2:3");
                 flag = true;
             }
             if (dto.location.HasValue && (dto.location < 1 || dto.location > 24))
             {
-                ModelState.AddModelError("dto.location", "District 1 to 12 : 1 -> 12,13 : bình tân,14 : bình thạnh,15 : gò vấp,16 : phú nhuận,17 : tân bình,18 : " +
+                ModelState.AddModelError("dto.location", "Quận 1 -> 12 : 1 -> 12,13 : bình tân,14 : bình thạnh,15 : gò vấp,16 : phú nhuận,17 : tân bình,18 : " +
             "tân phú,19 : thủ đức,20 : bình chánh,21 : cần giờ,22 : củ chi,23 : hóc môn,24 : nhà bè");
                 flag = true;
             }
             if (dto.sex.HasValue && (dto.sex < 1 || dto.sex > 3))
             {
-                ModelState.AddModelError("dto.sex", "1 is male,2 is female,3 is both");
+                ModelState.AddModelError("dto.sex", "Yêu cầu giới tính : 1 name,2 nữ,3 cả 2");
                 flag = true;
             }
             if (dto.quantity.HasValue && dto.quantity < 1)
             {
-                ModelState.AddModelError("dto.quantity", "Minimum value is 1");
+                ModelState.AddModelError("dto.quantity", "Giá trị nhỏ nhất là 1");
                 flag = true;
             }
             if (dto.salaryMin.HasValue && dto.salaryMin < 1)
             {
-                ModelState.AddModelError("dto.salaryMin", "Minimum value is 1");
+                ModelState.AddModelError("dto.salaryMin", "Giá trị nhỏ nhất là 1");
                 flag = true;
             }
             if (dto.salaryMax.HasValue && dto.salaryMax < 1)
             {
-                ModelState.AddModelError("dto.salaryMax", "Minimum value is 1");
+                ModelState.AddModelError("dto.salaryMax", "Giá trị nhỏ nhất là 1");
                 flag = true;
             }
             if ((dto.salaryMax.HasValue && dto.salaryMin.HasValue) && dto.salaryMin >= dto.salaryMax)
             {
-                ModelState.AddModelError("dto.salaryMin", "salaryMin can't >= salaryMax");
+                ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
                 flag = true;
             }
-            if (dto.categories.Length == 0)
+            if (dto.categories != null && dto.categories.Length == 0)
             {
-                ModelState.AddModelError("dto.categories", "At least one category");
+                ModelState.AddModelError("dto.categories", "Ít nhất chọn 1");
                 flag = true;
             }
             if (flag)
@@ -443,9 +457,9 @@ namespace Capstone2021.Controllers
                 case 1:
                     return InternalServerError();
                 case 2:
-                    return BadRequest("This job was updated,in pending state");
+                    return BadRequest("Công việc này đã duyệt,không thể update nữa");
                 case 3:
-                    ModelState.AddModelError("dto.salary", "salaryMin can't >= salaryMax or salaryMax <= salaryMin");
+                    ModelState.AddModelError("dto.salary", "salaryMin không thể >= salaryMax hoặc salaryMax <= salaryMin");
                     return BadRequest(ModelState);
             }
             return BadRequest();

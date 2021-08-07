@@ -8,24 +8,34 @@ namespace Capstone2021.DTO
     ///</summary>
     public class CreateCvDTO
     {
-        [Required]
-        [StringLength(100, ErrorMessage = "Name length minimum is 1 and maximum is 100", MinimumLength = 1)]
+        [Required(ErrorMessage = "Tên không được thiếu")]
+        [StringLength(100, ErrorMessage = "Độ dài của tên lớn hơn 1 ký tự và không quá 100 ký tự", MinimumLength = 1)]
         public string name { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Tên CV không được thiếu")]
+        [StringLength(100, ErrorMessage = "Độ dài của tên lớn hơn 1 ký tự và không quá 100 ký tự", MinimumLength = 1)]
+        public string cvName { get; set; }
+
+        [Required(ErrorMessage = "Giới tính không được thiếu")]
         public bool sex { get; set; }
-        [Required]
-        public DateTime dob { get; set; }
-        [Required(ErrorMessage = "School you study")]
-        public string school { get; set; }
-        [Required]
-        public string experience { get; set; }
-        [Required]
-        public string foreignLanguage { get; set; }
-        [Required]
-        [Range(1, Int32.MaxValue, ErrorMessage = "Minimum value is 1")]
+
+        [Required(ErrorMessage = "Ngày sinh không được thiếu")]
+        public string dob { get; set; }
+
+        public String school { get; set; }
+
+        public String experience { get; set; }
+
+        public String foreignLanguage { get; set; }
+
+        [Required(ErrorMessage = "Mức lương mong muốn không được thiếu")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Giá trị nhỏ nhất là 1")]
         public int desiredSalaryMinimum { get; set; }
-        [Required]
-        [Range(1, 3, ErrorMessage = "`Part-time:1,Full-time:2,Both:3")]
+
+        [Required(ErrorMessage = "Bán thời gian ? Toàn thời gian ? Cả 2 ?")]
+        [Range(1, 3, ErrorMessage = "Part-time:1,Full-time:2,Cả 2:3")]
         public int workingForm { get; set; }
+
+        public String skill { get; set; }
     }
 }

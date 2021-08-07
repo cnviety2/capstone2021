@@ -14,6 +14,12 @@ namespace Capstone2021
     
     public partial class cv
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public cv()
+        {
+            this.student_apply_job = new HashSet<student_apply_job>();
+        }
+    
         public int id { get; set; }
         public int student_id { get; set; }
         public string name { get; set; }
@@ -29,7 +35,10 @@ namespace Capstone2021
         public Nullable<bool> is_subscribed { get; set; }
         public Nullable<bool> is_public { get; set; }
         public string cv_name { get; set; }
+        public string skill { get; set; }
     
         public virtual student student { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<student_apply_job> student_apply_job { get; set; }
     }
 }

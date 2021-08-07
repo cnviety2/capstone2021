@@ -1,13 +1,17 @@
 ﻿using Capstone2021.DTO;
 using Capstone2021.Services;
 using Capstone2021.Utils;
-using System.Collections.Generic;
+using System;
+using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Web;
 using System.Web.Http;
+using System.Web.WebPages;
 
 namespace Capstone2021.Controllers
 {
+    //check
     public class CompanyController : ApiController
     {
         private CompanyService companyService;
@@ -17,31 +21,37 @@ namespace Capstone2021.Controllers
             companyService = new CompanyServiceImpl();
         }
 
+        //Trả về thông tin công ty dựa trên recruiterId,check
         [HttpGet]
-        [Route("company")]
-        [Authorize]
-        public IHttpActionResult getAllCompany()
+        [Route("company/{recruiterId}")]
+        [AllowAnonymous]
+        public IHttpActionResult getACompanyInfoByRecruiterId([FromUri] int recruiterId)
         {
-            ResponseDTO response = new ResponseDTO();
-            IList<Company> list = companyService.getAll();
-            if (list.Count == 0)
+            ReturnCompanyDTO result = companyService.getCompanyByRecruiterId(recruiterId);
+            if (result == null)
             {
-                response.message = "No data";
+                return NotFound();
+            }
+            else
+            {
+                ResponseDTO response = new ResponseDTO();
+                response.message = "OK";
+                response.data = result;
                 return Ok(response);
             }
-            response.message = "OK";
-            response.data = list;
-            return Ok(response);
         }
 
+        //trả về company data của recruiter này,check
         [HttpGet]
-        [Route("company/{id:int:min(0)}")]
-        [Authorize]
-        public IHttpActionResult getACompany([FromUri] int id)
+        [Route("recruiter/company/self")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult getSelfCompany()
         {
             ResponseDTO response = new ResponseDTO();
-            Company manager = companyService.get(id);
-            if (manager == null)
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            Company company = companyService.getSelfCompany(recruiterId);
+            if (company == null)
             {
                 return NotFound();
             }
@@ -49,32 +59,126 @@ namespace Capstone2021.Controllers
             {
                 response.message = "OK";
             }
-            response.data = manager;
+            response.data = company;
             return Ok(response);
         }
 
+        //Tạo mới info company của recruiter này,check
         [HttpPost]
         [Route("recruiter/company/create")]
         [Authorize(Roles = "ROLE_RECRUITER")]
-        public IHttpActionResult createACompany([FromBody] CreateCompanyDTO dto)
+        public IHttpActionResult createSelfCompanyInfo([FromBody] CreateCompanyDTO dto)
         {
             if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
+            if (dto.website != null && !dto.website.IsEmpty())
+            {
+                if (!StringUtils.isValidHttpUrl(dto.website))
+                {
+                    return BadRequest("Url website chưa đúng,VD:http://abc.com");
+                }
+            }
             ResponseDTO response = new ResponseDTO();
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-            int id = HttpContextUtils.getUserID(claims);
-            bool createState = companyService.create(dto, id);
-            if (createState)
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            int createState = companyService.createNewCompanyInfo(dto, recruiterId);
+            switch (createState)
             {
-                response.message = "OK";
+                case 1:
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Đã tạo rồi");
+                case 3:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
             }
-            else
+        }
+
+        //upload ảnh của company,check
+        [HttpPost]
+        [Route("recruiter/company/upload-image")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult upload()
+        {
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
             {
-                return InternalServerError();
+                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+                {
+                    return BadRequest("Only jpeg or png");
+                }
+                using (Stream st = file.InputStream)
+                {
+                    ResponseDTO response = new ResponseDTO();
+                    ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                    string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
+                    string s3DirectoryName = "";
+                    string s3FileName = @name;
+                    bool a;
+                    AmazonUploader myUploader = new AmazonUploader();
+                    a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
+                    if (a == true)
+                    {
+                        string imgUrl = companyService.updateImage(name, HttpContextUtils.getUserID(claims));
+                        response.message = "Upload avatar thành công";
+                        response.data = imgUrl;
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return BadRequest("Lỗi xảy ra khi upload ảnh lên aws");
+
+                    }
+                }
             }
-            return Ok(response);
+            return BadRequest("Lỗi xảy ra");
+        }
+
+        //Update lại thông tin company của recruiter này,check
+        [HttpPut]
+        [Route("recruiter/company/update")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult updateSelfCompanyInfo([FromBody] UpdateCompanyDTO dto)
+        {
+            if (!ModelState.IsValid || dto == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (dto.isEmpty())
+            {
+                return BadRequest("Data không được trống");
+            }
+            if (dto.website != null && !dto.website.IsEmpty())
+            {
+                if (!StringUtils.isValidHttpUrl(dto.website))
+                {
+                    return BadRequest("Url website chưa đúng,VD:http://abc.com");
+                }
+            }
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            int updateState = companyService.updateCompanyInfo(dto, recruiterId);
+            switch (updateState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Không tồn tại user này");
+                case 3:
+                    return BadRequest("Chưa tạo thông tin công ty");
+                case 4:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
+
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Capstone2021.DTO;
 using System;
-using System.Web.WebPages;
 
 namespace Capstone2021.Utils
 {
@@ -11,10 +10,10 @@ namespace Capstone2021.Utils
             company model = new company();
             model.name = dto.name.Trim();
             model.headquarters = dto.headquaters.Trim();
-            if (!dto.website.IsEmpty()) model.website = dto.website.Trim();
-            if (!dto.avatar.IsEmpty()) model.avatar = dto.avatar.Trim();
-            if (!dto.description.IsEmpty()) model.description = dto.description.Trim();
+            model.website = dto.website != null ? dto.website.Trim() : "";
+            model.description = dto.description != null ? dto.description.Trim() : "";
             model.create_date = DateTime.Now;
+            model.avatar = "";
             return model;
         }
 
@@ -31,5 +30,6 @@ namespace Capstone2021.Utils
             dto.recruiterId = model.recruiter_id;
             return dto;
         }
+
     }
 }

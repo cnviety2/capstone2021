@@ -6,25 +6,26 @@
     <edmx:Diagrams>
       <Diagram DiagramId="32fe905d997c406a8e48607ab2621eea" Name="Diagram1">
         <EntityTypeShape EntityType="DbCapstoneModel.category" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="DbCapstoneModel.company" Width="1.5" PointX="3" PointY="11.25" />
-        <EntityTypeShape EntityType="DbCapstoneModel.cv" Width="1.5" PointX="5.25" PointY="14.75" />
         <EntityTypeShape EntityType="DbCapstoneModel.job" Width="1.5" PointX="3" PointY="4" />
         <EntityTypeShape EntityType="DbCapstoneModel.job_has_category" Width="1.5" PointX="5.25" PointY="2.5" />
         <EntityTypeShape EntityType="DbCapstoneModel.manager" Width="1.5" PointX="0.75" PointY="1.375" />
-        <EntityTypeShape EntityType="DbCapstoneModel.recruiter" Width="1.5" PointX="0.75" PointY="4.875" />
         <EntityTypeShape EntityType="DbCapstoneModel.student" Width="1.5" PointX="3" PointY="15.125" />
         <EntityTypeShape EntityType="DbCapstoneModel.student_apply_job" Width="1.5" PointX="5.25" PointY="5.5" />
         <AssociationConnector Association="DbCapstoneModel.FK_job_has_category_category" />
-        <AssociationConnector Association="DbCapstoneModel.FK_company_recruiter" />
-        <AssociationConnector Association="DbCapstoneModel.FK_cv_student" />
         <AssociationConnector Association="DbCapstoneModel.FK_job_has_category_job_has_category" />
         <AssociationConnector Association="DbCapstoneModel.FK_job_manager" />
-        <AssociationConnector Association="DbCapstoneModel.FK_job_recruiter" />
         <AssociationConnector Association="DbCapstoneModel.FK_student_apply_job_job" />
         <AssociationConnector Association="DbCapstoneModel.FK_student_apply_job_student" />
         <EntityTypeShape EntityType="DbCapstoneModel.student_save_job" Width="1.5" PointX="5.25" PointY="10.125" />
         <AssociationConnector Association="DbCapstoneModel.FK_student_save_job_job" />
         <AssociationConnector Association="DbCapstoneModel.FK_student_save_job_student" />
+        <EntityTypeShape EntityType="DbCapstoneModel.cv" Width="1.5" PointX="5.25" PointY="14.625" />
+        <AssociationConnector Association="DbCapstoneModel.FK_cv_student" />
+        <EntityTypeShape EntityType="DbCapstoneModel.recruiter" Width="1.5" PointX="0.75" PointY="7" />
+        <AssociationConnector Association="DbCapstoneModel.FK_job_recruiter" />
+        <EntityTypeShape EntityType="DbCapstoneModel.company" Width="1.5" PointX="3" PointY="10.625" />
+        <AssociationConnector Association="DbCapstoneModel.FK_company_recruiter" />
+        <AssociationConnector Association="DbCapstoneModel.FK_student_apply_job_cv" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

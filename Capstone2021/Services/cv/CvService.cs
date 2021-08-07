@@ -19,12 +19,12 @@ namespace Capstone2021.Services
         /// </summary>
         /// <param name="imageUrl"></param>
         /// <returns></returns>
-        bool updateImage(String imageUrl, int id);
+        string updateImage(String imageUrl, int studentId, int cvId);
         ///<summary>
-        ///Method update cv,return true nếu thành công
+        ///Method update cv,return 1 : OK,2 : ko tìm thấy cv,3: exception
         ///chỉ student mới đc sử dụng
         ///</summary>
-        bool update(UpdateCvDTO dto, int id);
+        int update(UpdateCvDTO dto, int studentId);
 
         /// <summary>
         /// Lấy tất cả cv của student này
@@ -32,5 +32,13 @@ namespace Capstone2021.Services
         /// <param name="studentId"></param>
         /// <returns></returns>
         IList<ReturnListCvDTO> getListCvs(int studentId);
+
+        /// <summary>
+        /// Lấy 1 cv của student
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="cvId"></param>
+        /// <returns></returns>
+        Cv get(int studentId, int cvId);
     }
 }

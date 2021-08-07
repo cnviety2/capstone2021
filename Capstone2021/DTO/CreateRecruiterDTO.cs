@@ -7,34 +7,33 @@ namespace Capstone2021.DTO
     //</summary>
     public class CreateRecruiterDTO
     {
-        [Required]
-        [StringLength(20, ErrorMessage = "Username's length minimum is 3 and maximum is 20", MinimumLength = 3)]
+        [Required(ErrorMessage = "Username không được thiếu")]
+        [StringLength(20, ErrorMessage = "Độ dài username lớn hơn 3 ký tự và không quá 20 ký tự", MinimumLength = 3)]
         public string username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password không được thiếu")]
         [Display(Name = "password")]
         [DataType(DataType.Password)]
-        [RegularExpression("^[a-zA-Z0-9_]{6,20}$", ErrorMessage = "Password can only contain alphabet's characters and numbers")]
-        [StringLength(20, ErrorMessage = "Password's length minimum is 6 and maximum is 20", MinimumLength = 6)]
+        [StringLength(20, ErrorMessage = "Độ dài password lớn hơn 6 ký tự và không quá 20 ký tự", MinimumLength = 6)]
         public string password { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "confirm password")]
-        [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("password", ErrorMessage = "Password nhập lại chưa đúng")]
         public string confirmPassword { get; set; }
-        [Required]
-        [RegularExpression("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", ErrorMessage = "Email Invalid. Example: recruiter123@gmail.com ")]
+        [Required(ErrorMessage = "Email không được thiếu")]
+        [RegularExpression("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", ErrorMessage = "Email không chính xác. VD: recruiter123@gmail.com ")]
         public string gmail { get; set; }
-        [Required]
-        [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "Email Invalid. Example: recruiter123@gmail.com ")]
+        [Required(ErrorMessage = "SĐT không được thiếu")]
+        [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "SĐT chỉ chứa số và không quá 12 số")]
         [StringLength(12, ErrorMessage = "Phone number length minimum is 8 and maximum is 12", MinimumLength = 8)]
         public string phone { get; set; }
         public string createDate { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "First name's length minimum is 1 and maximum is 100", MinimumLength = 1)]
+        [Required(ErrorMessage = "Tên không được thiếu")]
+        [StringLength(50, ErrorMessage = "Tên không được thiếu", MinimumLength = 1)]
         public string firstname { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Last name's length minimum is 1 and maximum is 100", MinimumLength = 1)]
+        [Required(ErrorMessage = "Tên không được thiếu")]
+        [StringLength(50, ErrorMessage = "Tên không được thiếu", MinimumLength = 1)]
         public string lastName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Giới tính không được thiếu")]
         public bool sex { get; set; }
     }
 }

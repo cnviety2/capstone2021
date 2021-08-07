@@ -15,7 +15,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="headquarters" Type="ntext" Nullable="false" />
-    <Property Name="website" Type="varchar" MaxLength="50" />
+    <Property Name="website" Type="varchar" MaxLength="500" />
     <Property Name="description" Type="ntext" />
     <Property Name="avatar" Type="text" />
     <Property Name="create_date" Type="date" />
@@ -31,15 +31,16 @@
     <Property Name="sex" Type="bit" />
     <Property Name="dob" Type="date" />
     <Property Name="avatar" Type="text" />
-    <Property Name="school" Type="nvarchar" MaxLength="100" />
-    <Property Name="experience" Type="nvarchar" MaxLength="500" />
-    <Property Name="foreign_language" Type="nvarchar" MaxLength="10" />
+    <Property Name="school" Type="ntext" />
+    <Property Name="experience" Type="ntext" />
+    <Property Name="foreign_language" Type="ntext" />
     <Property Name="desired_salary_minimum" Type="int" />
     <Property Name="working_form" Type="int" />
     <Property Name="create_date" Type="date" />
     <Property Name="is_subscribed" Type="bit" />
     <Property Name="is_public" Type="bit" />
-    <Property Name="cv_name" Type="ntext" Nullable="false" />
+    <Property Name="cv_name" Type="ntext" />
+    <Property Name="skill" Type="ntext" />
   </EntityType>
   <EntityType Name="job">
     <Key>
@@ -101,6 +102,7 @@
     <Property Name="sex" Type="bit" Nullable="false" />
     <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="status" Type="int" />
   </EntityType>
   <EntityType Name="student">
     <Key>
@@ -124,6 +126,7 @@
     <Property Name="job_id" Type="int" Nullable="false" />
     <Property Name="student_id" Type="int" Nullable="false" />
     <Property Name="create_date" Type="date" Nullable="false" />
+    <Property Name="cv_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="student_save_job">
     <Key>
@@ -203,6 +206,18 @@
       </Principal>
       <Dependent Role="job">
         <PropertyRef Name="recruiter_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_apply_job_cv">
+    <End Role="cv" Type="Self.cv" Multiplicity="1" />
+    <End Role="student_apply_job" Type="Self.student_apply_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cv">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="student_apply_job">
+        <PropertyRef Name="cv_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -288,6 +303,10 @@
     <AssociationSet Name="FK_job_recruiter" Association="Self.FK_job_recruiter">
       <End Role="recruiter" EntitySet="recruiter" />
       <End Role="job" EntitySet="job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_apply_job_cv" Association="Self.FK_student_apply_job_cv">
+      <End Role="cv" EntitySet="cv" />
+      <End Role="student_apply_job" EntitySet="student_apply_job" />
     </AssociationSet>
     <AssociationSet Name="FK_student_apply_job_job" Association="Self.FK_student_apply_job_job">
       <End Role="job" EntitySet="job" />

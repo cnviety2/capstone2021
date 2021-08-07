@@ -15,7 +15,7 @@ namespace Capstone2021.Services
         bool create(CreateJobDTO dto, int recruiterID);
 
         /// <summary>
-        /// Update lại job,return 0 : OK,return 1 : Error,return -1 : không tồn tại,return 2 : đã update nên không thể update lại,return 3 : ràng buộc giữa salary max và salary min
+        /// Update lại job,return 0 : OK,return 1 : Error,return -1 : không tồn tại,return 2 : đã đc duyệt nên không thể update lại,return 3 : ràng buộc giữa salary max và salary min
         /// chỉ recruiter mới sử dụng
         /// </summary>
         /// <param name="job"></param>
@@ -51,12 +51,13 @@ namespace Capstone2021.Services
         ///   +4 : nếu job quá 30 ngày
         ///   +5 : nếu job đang ở trạng thái pending
         ///   +6 : nếu lỗi
-        ///   +7 : nếu student đã apply rồi
+        ///   +7 : cv không tồn tại
+        ///   +8 : cv đã nộp vào job này rồi
         /// </summary>
         /// <param name="jobId"></param>
         /// <param name="staffId"></param>
         /// <returns></returns>
-        int applyAJob(int jobId, int studentId);
+        int applyAJob(int jobId, int studentId, int cvId);
 
         IList<Job> search(SearchJobDTO searchDTO);
 

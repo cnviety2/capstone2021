@@ -36,6 +36,7 @@ namespace Capstone2021
         public Nullable<bool> is_public { get; set; }
         public string cv_name { get; set; }
         public string skill { get; set; }
+        public string phone { get; set; }
     
         public virtual student student { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

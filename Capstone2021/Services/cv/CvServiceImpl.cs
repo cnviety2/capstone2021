@@ -155,6 +155,55 @@ namespace Capstone2021.Services
             throw new NotImplementedException();
         }
 
+        public int removeACv(int studentId, int cvId)
+        {
+            using (context)
+            {
+                var student = context.students.Find(studentId);
+                if (student == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    if (student.cvs.Count == 0)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        IList<int> listCvOfThisStudent = student.cvs.Select(s => s.id).ToList<int>();
+                        if (!listCvOfThisStudent.Contains(cvId))
+                        {
+                            return 3;
+                        }
+                    }
+                    try
+                    {
+                        using (var contextTransaction = context.Database.BeginTransaction())
+                        {
+                            var relationship = context.student_apply_job.Where(s => s.cv_id == cvId).FirstOrDefault();
+                            if (relationship != null)
+                            {
+                                context.student_apply_job.Remove(relationship);
+                                context.SaveChanges();
+                            }
+                            var cv = context.cvs.Find(cvId);
+                            context.cvs.Remove(cv);
+                            context.SaveChanges();
+                            contextTransaction.Commit();
+                            return 1;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                        return 4;
+                    }
+                }
+            }
+        }
+
         public bool softRemove(int id)
         {
             throw new NotImplementedException();

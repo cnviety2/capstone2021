@@ -67,7 +67,9 @@ namespace Capstone2021.Services
             using (context)
             {
                 listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date))
-                    .OrderByDescending(s => s.create_date).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                   .Select(s => JobUtils.mapFromDbContext(s))
+                   .OrderByDescending(s => s.createDate2)
+                   .ToList<Job>();
                 foreach (Job element in listResult)
                 {
                     element.categories = new List<Category>();

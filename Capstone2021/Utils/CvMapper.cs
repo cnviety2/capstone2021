@@ -26,6 +26,7 @@ namespace Capstone2021.Utils
             result.desiredSalaryMinimum = (int)model.desired_salary_minimum;
             result.skill = model.skill;
             result.cvName = model.cv_name;
+            result.phone = model.phone;
             return result;
         }
         ///<summary>
@@ -48,6 +49,7 @@ namespace Capstone2021.Utils
             model.skill = dto.skill != null ? dto.skill.Trim() : "";
             model.desired_salary_minimum = dto.desiredSalaryMinimum;
             model.is_public = false;
+            model.phone = dto.phone.Trim();
             return model;
         }
         /// <summary>
@@ -58,6 +60,10 @@ namespace Capstone2021.Utils
         /// <returns></returns>
         public static cv mapFromDtoToDbModelForUpdating(UpdateCvDTO dto, cv model)
         {
+            if (dto.phone != null || !dto.phone.IsEmpty())
+            {
+                model.phone = dto.phone;
+            }
             if (dto.name != null || !dto.name.IsEmpty())
             {
                 model.name = dto.name;

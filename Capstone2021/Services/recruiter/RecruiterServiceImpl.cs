@@ -320,5 +320,69 @@ namespace Capstone2021.Services
             }
             return result;
         }
+
+        public int removeAJob(int recruiterId, int jobId)
+        {
+            using (context)
+            {
+                var recruiter = context.recruiters.Find(recruiterId);
+                if (recruiter == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    IList<int> listPostedJob = recruiter.jobs.Select(s => s.id).ToList<int>();
+                    if (listPostedJob == null || listPostedJob.Count == 0 || !listPostedJob.Contains(jobId))
+                    {
+                        return 3;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            using (var contextTransaction = context.Database.BeginTransaction())
+                            {
+                                var job = context.jobs.Find(jobId);
+                                if (job.job_has_category != null && job.job_has_category.Count != 0)
+                                {
+                                    foreach (job_has_category relationship in job.job_has_category.ToList())
+                                    {
+                                        context.job_has_category.Remove(relationship);
+                                    }
+                                    context.SaveChanges();
+                                }
+                                if (job.student_apply_job != null && job.student_apply_job.Count != 0)
+                                {
+                                    foreach (student_apply_job relationship in job.student_apply_job.ToList())
+                                    {
+                                        context.student_apply_job.Remove(relationship);
+                                    }
+                                    context.SaveChanges();
+                                }
+                                if (job.student_save_job != null && job.student_save_job.Count != 0)
+                                {
+                                    foreach (student_save_job relationship in job.student_save_job.ToList())
+                                    {
+                                        context.student_save_job.Remove(relationship);
+                                    }
+                                    context.SaveChanges();
+                                }
+                                context.jobs.Remove(job);
+                                context.SaveChanges();
+                                contextTransaction.Commit();
+                                return 1;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
+                            return 4;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

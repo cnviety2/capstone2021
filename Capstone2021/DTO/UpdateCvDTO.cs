@@ -26,6 +26,8 @@ namespace Capstone2021.DTO
 
         public String skill { get; set; }
 
+        public String phone { get; set; }
+
         /// <summary>
         /// Method kiểm tra nếu tất cả các field đều null (trừ field id)
         /// </summary>
@@ -33,7 +35,7 @@ namespace Capstone2021.DTO
         public bool isEmpty()
         {
             if (name == null && !sex.HasValue && school == null && experience == null && foreignLanguage == null
-                && !desiredSalaryMinimum.HasValue && !workingForm.HasValue && skill == null && dob == null && cvName == null)
+                && !desiredSalaryMinimum.HasValue && !workingForm.HasValue && skill == null && dob == null && cvName == null && phone == null)
                 return true;
             else
                 return false;

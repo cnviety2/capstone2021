@@ -44,10 +44,10 @@ namespace Capstone2021
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<job_has_category> job_has_category { get; set; }
         public virtual manager manager { get; set; }
+        public virtual recruiter recruiter { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_apply_job> student_apply_job { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_save_job> student_save_job { get; set; }
-        public virtual recruiter recruiter { get; set; }
     }
 }

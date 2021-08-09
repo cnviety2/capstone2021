@@ -482,6 +482,9 @@
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Utils\AmazonUploader.cs" />
     <Compile Include="Utils\CompanyMapper.cs" />
     <Compile Include="Utils\CvMapper.cs" />

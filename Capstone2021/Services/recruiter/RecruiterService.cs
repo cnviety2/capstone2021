@@ -37,5 +37,13 @@ namespace Capstone2021.Services
         /// <param name="id"></param>
         /// <returns></returns>
         string updateImage(string imageUrl, int id);
+
+        /// <summary>
+        /// Xóa 1 job ở phía recruiter,return 1 : ok , 2 : ko tìm thấy recruiter, 3 : job ko tồn tại , 4 : lỗi
+        /// </summary>
+        /// <param name="recruiterId"></param>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        int removeAJob(int recruiterId, int jobId);
     }
 }

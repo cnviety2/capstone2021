@@ -40,5 +40,13 @@ namespace Capstone2021.Services
         /// <param name="cvId"></param>
         /// <returns></returns>
         Cv get(int studentId, int cvId);
+
+        /// <summary>
+        /// Xóa 1 cv của student,return 1 : ok, 2 : cv ko tồn tại, 3 : ko tìm thấy cv, 4 : lỗi
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="cvId"></param>
+        /// <returns></returns>
+        int removeACv(int studentId, int cvId);
     }
 }

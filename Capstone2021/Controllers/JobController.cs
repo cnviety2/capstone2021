@@ -17,11 +17,13 @@ namespace Capstone2021.Controllers
     {
         private JobService jobService;
         private StudentService studentService;
+        private RecruiterService recruiterService;
 
         public JobController()
         {
             jobService = new JobServiceImpl();
             studentService = new StudentServiceImpl();
+            recruiterService = new RecruiterServiceImpl();
         }
 
         //api trả về list những category,check
@@ -463,7 +465,32 @@ namespace Capstone2021.Controllers
                     return BadRequest(ModelState);
             }
             return BadRequest();
+        }
 
+        //Xóa những job tạo bởi recruiter,check
+        [HttpDelete]
+        [Route("remove-posted-job/{jobId}")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult removePostedJobs([FromUri] int jobId)
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            int removeState = recruiterService.removeAJob(recruiterId, jobId);
+            switch (removeState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Không tồn tại user");
+                case 3:
+                    return BadRequest("Không tồn tại công việc này");
+                case 4:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
         }
     }
 }

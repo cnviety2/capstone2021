@@ -48,5 +48,7 @@ namespace Capstone2021.DTO
         public string cvName { get; set; }
 
         public string skill { get; set; }
+
+        public string phone { get; set; }
     }
 }

@@ -185,6 +185,14 @@ namespace Capstone2021.Controllers
                 }
 
             }
+            if (cv.phone != null && !cv.phone.IsEmpty())
+            {
+                if (!StringUtils.isDigitsOnly(cv.phone) || cv.phone.Length < 8 || cv.phone.Length > 12)
+                {
+                    ModelState.AddModelError("dto.phone", "SĐT chỉ chứa số và không quá 12 số");
+                    return BadRequest(ModelState);
+                }
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -250,6 +258,31 @@ namespace Capstone2021.Controllers
                 response.data = result;
             }
             return Ok(response);
+        }
+
+        //Xóa 1 cv của student,check
+        [HttpDelete]
+        [Route("cv/{cvId}/remove")]
+        public IHttpActionResult remoceACv([FromUri] int cvId)
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            int removeState = cvService.removeACv(studentId, cvId);
+            switch (removeState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("CV Không tồn tại");
+                case 3:
+                    return BadRequest("Không tìm thấy CV");
+                case 4:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
         }
     }
 }

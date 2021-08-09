@@ -93,7 +93,8 @@ namespace Capstone2021.Services.Student
                     IList<StudentIdAndCvIdDTO> listStudentdApplied = context.student_apply_job.AsEnumerable().Where(s => s.job_id == jobId).Select(s => new StudentIdAndCvIdDTO()
                     {
                         cvId = s.cv_id,
-                        studentId = s.student_id
+                        studentId = s.student_id,
+                        appliedDate = s.create_date.ToString("dd/MM/yyyy")
                     }).ToList<StudentIdAndCvIdDTO>();
                     if (listStudentdApplied.Count == 0)
                     {
@@ -114,7 +115,8 @@ namespace Capstone2021.Services.Student
                             sex = s.sex.Value,
                             workingForm = s.working_form.Value,
                             skill = s.skill,
-                            cvName = s.cv_name
+                            cvName = s.cv_name,
+                            phone = s.phone
                         }).FirstOrDefault<ReturnCvDTO>();
                         if (cv == null)
                         {

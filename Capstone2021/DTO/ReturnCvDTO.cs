@@ -29,5 +29,7 @@
 
         public string skill { get; set; }
         public string cvName { get; set; }
+
+        public string phone { get; set; }
     }
 }

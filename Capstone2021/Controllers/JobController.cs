@@ -56,7 +56,7 @@ namespace Capstone2021.Controllers
             IList<AppliedJobDTO> list = jobService.getAppliedJobByStudentId(studentId);
             if (list.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";
@@ -64,6 +64,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Trả về những job đã đăng của recuriter này,check
         [HttpGet]
         [Authorize(Roles = "ROLE_RECRUITER")]
         [Route("posted-jobs")]
@@ -75,7 +76,7 @@ namespace Capstone2021.Controllers
             IList<Job> list = jobService.getPostedJobByRecruiterId(recruiterId);
             if (list.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";
@@ -103,7 +104,7 @@ namespace Capstone2021.Controllers
                 IList<Job> result = jobService.getSuggestedJob(lastAppliedJobString, studentId);
                 if (result.Count == 0)
                 {
-                    response.message = "No data";
+                    response.message = "Không có dữ liệu";
                     return Ok(response);
                 }
                 response.message = "OK";
@@ -161,7 +162,7 @@ namespace Capstone2021.Controllers
             IList<Job> list = jobService.getAllPendingJobs();
             if (list.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";
@@ -178,7 +179,7 @@ namespace Capstone2021.Controllers
             IList<Job> list = jobService.getAllApprovedJobs();
             if (list.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";
@@ -193,7 +194,7 @@ namespace Capstone2021.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("invalid_id", "Id is an integer");
+                ModelState.AddModelError("invalid_id", "Id là số nguyên");
                 return BadRequest(ModelState);
             }
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
@@ -202,7 +203,7 @@ namespace Capstone2021.Controllers
             bool approveState = jobService.approveAJob(jobId, staffId);
             if (!approveState)
             {
-                return BadRequest("Error occured");
+                return BadRequest("Lỗi xảy ra ");
             }
             ResponseDTO response = new ResponseDTO();
             response.message = "OK";
@@ -225,6 +226,34 @@ namespace Capstone2021.Controllers
             }
             response.message = "OK";
             response.data = list;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("")]
+        [AllowAnonymous]
+        public IHttpActionResult getAllWithPaging([FromUri] int page)
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getAllWithPaging(page);
+            if (list.Count == 0)
+            {
+                response.message = "Không có dữ liệu";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+        [HttpGet]
+        [Route("total-pages")]
+        [AllowAnonymous]
+        public IHttpActionResult getTotalPages()
+        {
+            ResponseDTO response = new ResponseDTO();
+            int result = jobService.getTotalPages();
+            response.message = "OK";
+            response.data = result;
             return Ok(response);
         }
 
@@ -260,7 +289,7 @@ namespace Capstone2021.Controllers
             ResponseDTO response = new ResponseDTO();
             if (result.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";
@@ -338,7 +367,7 @@ namespace Capstone2021.Controllers
             {
                 if (list.Count == 0)
                 {
-                    response.message = "No data";
+                    response.message = "Không có dữ liệu";
                     return Ok(response);
                 }
                 else
@@ -358,12 +387,12 @@ namespace Capstone2021.Controllers
         {
             if (dto.categories == null || dto.categories.Length == 0)
             {
-                ModelState.AddModelError("dto.categories", "At least one category");
+                ModelState.AddModelError("dto.categories", "Ít nhất 1 category");
                 return BadRequest(ModelState);
             }
             if (dto.salaryMin >= dto.salaryMax)
             {
-                ModelState.AddModelError("dto.salaryMin", "salaryMin can't >= salaryMax");
+                ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
                 return BadRequest(ModelState);
             }
             if (!ModelState.IsValid || dto == null)

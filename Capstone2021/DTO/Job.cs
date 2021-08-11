@@ -67,7 +67,7 @@ namespace Capstone2021.DTO
         public Int32 managerId { get; set; }
 
         /// <summary>
-        /// 1 là pending(đợi duyệt),2 là ok(đã duyệt),3 là edited(đã đc update,lúc này job sẽ ko thể update nữa)
+        /// 1 là pending(đợi duyệt),2 là ok(đã duyệt)
         /// </summary>
         public int status { get; set; }
 

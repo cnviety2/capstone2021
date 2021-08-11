@@ -85,5 +85,17 @@ namespace Capstone2021.Services
 
         IList<Category> getAllCategories();
 
+        /// <summary>
+        /// Lấy job có paging,chỉ trả về 5 job 1 page
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        IList<Job> getAllWithPaging(int page);
+
+        /// <summary>
+        /// Trả về tổng số trang nếu mỗi trang là 5 record
+        /// </summary>
+        /// <returns></returns>
+        int getTotalPages();
     }
 }

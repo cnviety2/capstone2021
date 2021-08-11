@@ -438,5 +438,47 @@ namespace Capstone2021.Services
             }
             return listResult;
         }
+
+        public int getTotalPages()
+        {
+            int result = 0;
+            using (context)
+            {
+                int count = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).ToList<job>().Count;
+                result = (int)Math.Ceiling((double)count / 5);
+            }
+            return result;
+        }
+
+        public IList<Job> getAllWithPaging(int page)
+        {
+            if (page == 0)
+                page = 1;
+            IList<Job> listResult = new List<Job>();
+            using (context)
+            {
+                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date))
+                   .Select(s => JobUtils.mapFromDbContext(s))
+                   .OrderByDescending(s => s.createDate2)
+                   .Skip(5 * (page - 1))
+                   .Take(5)
+                   .ToList<Job>();
+                foreach (Job element in listResult)
+                {
+                    element.categories = new List<Category>();
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            code = s.code,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
+            }
+            return listResult;
+        }
     }
 }

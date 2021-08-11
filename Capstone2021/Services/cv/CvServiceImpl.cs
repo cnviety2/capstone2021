@@ -150,6 +150,90 @@ namespace Capstone2021.Services
             return result;
         }
 
+        public int publicACv(int studentId, int cvId)
+        {
+            using (context)
+            {
+                var student = context.students.Find(studentId);
+                if (student == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    IList<int> listCv = student.cvs.Select(s => s.id).ToList<int>();
+                    if (!listCv.Contains(cvId))
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            cv cv = context.cvs.Find(cvId);
+                            if (cv.is_public == true)
+                            {
+                                return 3;
+                            }
+                            else
+                            {
+                                cv.is_public = true;
+                                context.SaveChanges();
+                                return 1;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                            return 4;
+                        }
+                    }
+                }
+            }
+        }
+
+        public int unpublicACv(int studentId, int cvId)
+        {
+            using (context)
+            {
+                var student = context.students.Find(studentId);
+                if (student == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    IList<int> listCv = student.cvs.Select(s => s.id).ToList<int>();
+                    if (!listCv.Contains(cvId))
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            cv cv = context.cvs.Find(cvId);
+                            if (cv.is_public == false)
+                            {
+                                return 3;
+                            }
+                            else
+                            {
+                                cv.is_public = false;
+                                context.SaveChanges();
+                                return 1;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in CvServiceImpl");
+                            return 4;
+                        }
+                    }
+                }
+            }
+        }
+
         public bool remove(int id)
         {
             throw new NotImplementedException();
@@ -249,6 +333,29 @@ namespace Capstone2021.Services
                     return 2;
                 }
             }
+        }
+
+        public IList<Cv> searchCvs(string keyword)
+        {
+            IList<Cv> result = new List<Cv>();
+            string newKeyword = StringUtils.convertToUnSign3(keyword).ToLower().Trim();
+            using (context)
+            {
+                result = context.cvs.AsEnumerable().Where(s => s.is_public == true &&
+                (StringUtils.convertToUnSign3(s.cv_name).ToLower().Trim().Contains(newKeyword) || StringUtils.convertToUnSign3(s.skill).ToLower().Trim().Contains(newKeyword)))
+                    .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+            }
+            return result;
+        }
+
+        public IList<Cv> getAllPublicCvs()
+        {
+            IList<Cv> result = new List<Cv>();
+            using (context)
+            {
+                result = context.cvs.AsEnumerable().Where(s => s.is_public == true).Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+            }
+            return result;
         }
 
         public string updateImage(String imageUrl, int studentId, int cvId)

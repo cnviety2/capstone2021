@@ -68,7 +68,7 @@ namespace Capstone2021.Controllers
             IList<Manager> list = managerService.getAll();
             if (list.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";
@@ -87,7 +87,7 @@ namespace Capstone2021.Controllers
             }
             if (StringUtils.isContainSpecialCharacter(dto.username))
             {
-                return BadRequest("Username can't contain special character");
+                return BadRequest("Username không chứa ký tự đặc biệt");
             }
             ResponseDTO response = new ResponseDTO();
             Manager saveObj = new Manager();
@@ -104,7 +104,7 @@ namespace Capstone2021.Controllers
             {
                 return InternalServerError();
             }
-            return Created<ResponseDTO>("database", response);
+            return Ok(response);
         }
 
         [Route("update/fullname")]
@@ -166,7 +166,7 @@ namespace Capstone2021.Controllers
             }
             else
             {
-                response.message = "Error occured";
+                return InternalServerError();
             }
             return Ok(response);
         }
@@ -183,7 +183,7 @@ namespace Capstone2021.Controllers
             }
             else
             {
-                response.message = "Error occured";
+                return InternalServerError();
             }
             return Ok(response);
         }

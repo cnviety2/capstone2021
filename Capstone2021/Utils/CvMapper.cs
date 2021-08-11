@@ -17,7 +17,6 @@ namespace Capstone2021.Utils
             result.sex = (bool)model.sex;
             result.workingForm = (int)model.working_form;
             result.school = model.school;
-            result.isSubscribed = (bool)model.is_subscribed;
             result.foreignLanguage = model.foreign_language;
             result.experience = model.experience;
             result.dob = model.dob.Value.ToString("dd/MM/yyyy");
@@ -41,7 +40,6 @@ namespace Capstone2021.Utils
             model.sex = dto.sex;
             model.working_form = dto.workingForm;
             model.school = dto.school != null ? dto.school.Trim() : "";
-            model.is_subscribed = false;
             model.foreign_language = dto.foreignLanguage != null ? dto.foreignLanguage.Trim() : "";
             model.experience = dto.experience != null ? dto.experience.Trim() : "";
             model.dob = DateTimeUtils.parse(dto.dob);

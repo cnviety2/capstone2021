@@ -32,7 +32,6 @@ namespace Capstone2021
         public Nullable<int> desired_salary_minimum { get; set; }
         public Nullable<int> working_form { get; set; }
         public Nullable<System.DateTime> create_date { get; set; }
-        public Nullable<bool> is_subscribed { get; set; }
         public Nullable<bool> is_public { get; set; }
         public string cv_name { get; set; }
         public string skill { get; set; }

@@ -72,7 +72,7 @@ namespace Capstone2021.Controllers
             IList<Manager> list = managerService.getAll();
             if (list.Count == 0)
             {
-                response.message = "No data";
+                response.message = "Không có dữ liệu";
                 return Ok(response);
             }
             response.message = "OK";

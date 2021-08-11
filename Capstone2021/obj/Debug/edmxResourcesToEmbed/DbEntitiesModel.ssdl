@@ -37,7 +37,6 @@
     <Property Name="desired_salary_minimum" Type="int" />
     <Property Name="working_form" Type="int" />
     <Property Name="create_date" Type="date" />
-    <Property Name="is_subscribed" Type="bit" />
     <Property Name="is_public" Type="bit" />
     <Property Name="cv_name" Type="ntext" />
     <Property Name="skill" Type="ntext" />
@@ -111,7 +110,6 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="phone" Type="varchar" MaxLength="15" />
     <Property Name="is_banned" Type="bit" />
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="profile_status" Type="bit" Nullable="false" />

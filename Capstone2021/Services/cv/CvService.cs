@@ -48,5 +48,34 @@ namespace Capstone2021.Services
         /// <param name="cvId"></param>
         /// <returns></returns>
         int removeACv(int studentId, int cvId);
+
+        /// <summary>
+        /// Update lại field is_public trong cv của student này, return 1 : ok , 2 : không tồn tại cv này , 3 : đã public rồi , 4 : lỗi
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="cvId"></param>
+        /// <returns></returns>
+        int publicACv(int studentId, int cvId);
+
+        /// <summary>
+        /// Update lại field is_public trong cv của student này, return 1 : ok , 2 : không tồn tại cv này , 3 : đã unpublic rồi , 4 : lỗi
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="cvId"></param>
+        /// <returns></returns>
+        int unpublicACv(int studentId, int cvId);
+
+        /// <summary>
+        /// Tìm kiếm những cv đã được public và chứa từ khóa dựa trên 2 field là cvName và skill,chỉ recruiter xài
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        IList<Cv> searchCvs(string keyword);
+
+        /// <summary>
+        /// Lấy tất cả những cv đc public
+        /// </summary>
+        /// <returns></returns>
+        IList<Cv> getAllPublicCvs();
     }
 }

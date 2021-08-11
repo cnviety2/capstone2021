@@ -284,5 +284,55 @@ namespace Capstone2021.Controllers
                     return InternalServerError();
             }
         }
+
+        //Public 1 cv của student này để recruiter có thể tìm kiếm cv này
+        [HttpPut]
+        [Route("cv/public/{cvId}")]
+        public IHttpActionResult publicACv([FromUri] int cvId)
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            int updateState = cvService.publicACv(studentId, cvId);
+            switch (updateState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Không tồn tại CV này");
+                case 3:
+                    return BadRequest("Đã public rồi");
+                case 4:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
+        }
+
+        //Vô hiệu hóa public của cv
+        [HttpPut]
+        [Route("cv/unpublic/{cvId}")]
+        public IHttpActionResult unpublicACv([FromUri] int cvId)
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int studentId = HttpContextUtils.getUserID(claims);
+            int updateState = cvService.unpublicACv(studentId, cvId);
+            switch (updateState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Không tồn tại CV này");
+                case 3:
+                    return BadRequest("Đã vô hiệu hóa public rồi");
+                case 4:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
+        }
     }
 }

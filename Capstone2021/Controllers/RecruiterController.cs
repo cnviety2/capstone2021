@@ -19,9 +19,11 @@ namespace Capstone2021.Controllers
     public class RecruiterController : ApiController
     {
         private readonly RecruiterService _recruiterService;
+        private CvService cvService;
         public RecruiterController()
         {
             _recruiterService = new RecruiterServiceImpl();
+            cvService = new CvServiceImpl();
         }
 
         //Đăng ký 1 register mới,check
@@ -238,6 +240,32 @@ namespace Capstone2021.Controllers
                 response.message = "OK";
             }
             response.data = currentRecruiter;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("search-cvs")]
+        public IHttpActionResult searchCvs([FromUri] string keyword)
+        {
+            IList<Cv> result = null;
+            if (keyword == null || keyword.IsEmpty())
+            {
+                result = cvService.getAllPublicCvs();
+            }
+            else
+            {
+                result = cvService.searchCvs(keyword);
+            }
+            ResponseDTO response = new ResponseDTO();
+            if (result.Count == 0)
+            {
+                response.message = "Không tìm thấy kết quả";
+            }
+            else
+            {
+                response.data = result;
+                response.message = "OK";
+            }
             return Ok(response);
         }
     }

@@ -186,7 +186,6 @@ namespace Capstone2021.Services.Student
                     result.id = student.id;
                     result.googleId = student.google_id;
                     result.gmail = student.gmail;
-                    result.phone = student.phone;
                     result.profileStatus = student.profile_status;
                     result.avatar = student.avatar;
                     result.createDate = student.create_date.ToString("dd/MM/yyyy");

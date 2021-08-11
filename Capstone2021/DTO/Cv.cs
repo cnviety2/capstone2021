@@ -32,13 +32,6 @@ namespace Capstone2021.DTO
         public int workingForm { get; set; }
         public string createDate { get; set; }
         /// <summary>
-        /// true là được nhận thông báo về email khi có công việc phù hợp, false là không nhận email
-        /// </summary>
-        /// 
-        [JsonIgnore]
-        public bool isSubscribed { get; set; }
-
-        /// <summary>
         /// True nếu muốn cv public và mọi recruiter có thể tìm thấy cv 
         /// </summary>
         /// 

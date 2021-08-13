@@ -3,10 +3,12 @@ using Capstone2021.Service;
 using Capstone2021.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
+using System.Web.WebPages;
 
 namespace Capstone2021.Controllers
 {
@@ -24,26 +26,6 @@ namespace Capstone2021.Controllers
         public StaffController()
         {
             managerService = new ManagerServiceImpl();
-        }
-
-        [HttpGet]
-        [Route("self")]
-        public IHttpActionResult getSelfInfo()
-        {
-            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-            int id = HttpContextUtils.getUserID(claims);
-            Manager currentManager = managerService.get(id);
-            ResponseDTO response = new ResponseDTO();
-            if (currentManager == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                response.message = "OK";
-            }
-            response.data = currentManager;
-            return Ok(response);
         }
 
         [Route("{id}")]
@@ -107,23 +89,133 @@ namespace Capstone2021.Controllers
         [HttpPut]
         public IHttpActionResult updatePassword([FromBody] UpdatePasswordManagerDTO dto)
         {
-            ResponseDTO response = new ResponseDTO();
-            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
+            if (dto.oldPassword == null || dto.oldPassword.IsEmpty())
+            {
+                ModelState.AddModelError("dto.oldPassword", "Password cũ không được thiếu");
+                return BadRequest(ModelState);
+            }
             if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
             }
-            bool updateState = managerService.updatePassword(dto.password, currentUser);
-            if (updateState)
+            ResponseDTO response = new ResponseDTO();
+            String currentUser = HttpContextUtils.getUsername(HttpContext.Current.User.Identity);
+            int updateState = managerService.updatePassword(dto.password, currentUser, dto.oldPassword);
+            switch (updateState)
             {
-                response.message = "OK";
+                case 1:
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Sai password cũ");
+                case 3:
+                    return InternalServerError();
+                case 4:
+                    return BadRequest("Tài khoản đã bị ban");
+                default:
+                    return InternalServerError();
+            }
+        }
+
+        //check
+        [HttpPut]
+        [Route("update/banner")]
+        public IHttpActionResult updateBanner([FromBody] UpdateBannerDTO dto)
+        {
+            if (dto == null || dto.isEmpty())
+            {
+                return BadRequest("Không được empty");
             }
             else
             {
-                return InternalServerError();
+                if (dto.url != null || !dto.url.IsEmpty())
+                {
+                    if (!StringUtils.isValidHttpUrl(dto.url))
+                        return BadRequest("Không đúng định dạng 1 url,VD:http//asd.com");
+                }
             }
-            return Ok(response);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int staffId = HttpContextUtils.getUserID(claims);
+            int updateState = managerService.updateBanner(dto, staffId);
+            switch (updateState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("User bị ban");
+                case 3:
+                    return InternalServerError();
+                case 4:
+                    return BadRequest("Không tìm thấy banner");
+                default:
+                    return InternalServerError();
+            }
+        }
 
+        //check
+        [HttpPost]
+        [Route("update/banner/image/{id}")]
+        public IHttpActionResult upload([FromUri] int id)
+        {
+            if (id < 1 || id > 4)
+            {
+                return BadRequest("Id từ 1 -> 4");
+            }
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+                {
+                    return BadRequest("Only jpeg or png");
+                }
+                using (Stream st = file.InputStream)
+                {
+                    ResponseDTO response = new ResponseDTO();
+                    ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+                    int staffId = HttpContextUtils.getUserID(claims);
+                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                    string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
+                    string s3DirectoryName = "";
+                    string s3FileName = @name;
+                    bool a;
+                    AmazonUploader myUploader = new AmazonUploader();
+                    a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
+                    if (a == true)
+                    {
+                        string imgUrl = managerService.updateBannerImgUrl(id, name, staffId);
+                        if (imgUrl.Equals("error"))
+                        {
+                            return InternalServerError();
+                        }
+                        response.message = "Upload avatar thành công";
+                        response.data = imgUrl;
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return BadRequest("Lỗi xảy ra khi upload ảnh lên aws");
+
+                    }
+                }
+            }
+            return BadRequest("Lỗi xảy ra");
+        }
+        //check
+        [HttpGet]
+        [Route("banners")]
+        public IHttpActionResult getAllBanners()
+        {
+            IList<Banner> result = managerService.getAllBanners();
+            ResponseDTO response = new ResponseDTO();
+            response.data = result;
+            response.message = "OK";
+            return Ok(response);
         }
 
     }

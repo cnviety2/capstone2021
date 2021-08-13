@@ -128,9 +128,7 @@ namespace Capstone2021.Utils
             model.salary_max = dto.salaryMax;
             model.recruiter_id = dto.recruiterId;
             model.create_date = DateTime.Now;
-            //model.status = 1;
-            model.status = 2;
-            model.manager_id = 1006;
+            model.status = 1;
             return model;
         }
 

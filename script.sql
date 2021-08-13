@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/11/2021 14:53:05
+-- Date Created: 08/13/2021 17:12:33
 -- Generated from EDMX file: C:\Users\DELL\source\repos\Capstone2021\Capstone2021\DbEntitiesModel.edmx
 -- --------------------------------------------------
 
@@ -55,6 +55,9 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[banner]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[banner];
+GO
 IF OBJECT_ID(N'[dbo].[category]', 'U') IS NOT NULL
     DROP TABLE [dbo].[category];
 GO
@@ -101,64 +104,6 @@ CREATE TABLE [dbo].[categories] (
 );
 GO
 
--- Creating table 'job_has_category'
-CREATE TABLE [dbo].[job_has_category] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [job_id] int  NOT NULL,
-    [category_id] int  NOT NULL,
-    [create_date] datetime  NOT NULL
-);
-GO
-
--- Creating table 'managers'
-CREATE TABLE [dbo].[managers] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [username] varchar(20)  NOT NULL,
-    [password] varchar(150)  NOT NULL,
-    [full_name] nvarchar(50)  NULL,
-    [create_date] datetime  NULL,
-    [role] varchar(20)  NOT NULL,
-    [is_banned] bit  NULL
-);
-GO
-
--- Creating table 'student_apply_job'
-CREATE TABLE [dbo].[student_apply_job] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [job_id] int  NOT NULL,
-    [student_id] int  NOT NULL,
-    [create_date] datetime  NOT NULL,
-    [cv_id] int  NOT NULL
-);
-GO
-
--- Creating table 'student_save_job'
-CREATE TABLE [dbo].[student_save_job] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [job_id] int  NOT NULL,
-    [student_id] int  NOT NULL,
-    [createDate] datetime  NOT NULL
-);
-GO
-
--- Creating table 'recruiters'
-CREATE TABLE [dbo].[recruiters] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [username] varchar(20)  NOT NULL,
-    [password] varchar(150)  NOT NULL,
-    [gmail] varchar(50)  NOT NULL,
-    [phone] varchar(max)  NOT NULL,
-    [avatar] varchar(max)  NULL,
-    [create_date] datetime  NULL,
-    [role] varchar(20)  NOT NULL,
-    [is_banned] bit  NULL,
-    [sex] bit  NOT NULL,
-    [first_name] nvarchar(50)  NOT NULL,
-    [last_name] nvarchar(50)  NOT NULL,
-    [status] int  NULL
-);
-GO
-
 -- Creating table 'companies'
 CREATE TABLE [dbo].[companies] (
     [id] int IDENTITY(1,1) NOT NULL,
@@ -169,6 +114,27 @@ CREATE TABLE [dbo].[companies] (
     [avatar] varchar(max)  NULL,
     [create_date] datetime  NULL,
     [recruiter_id] int  NOT NULL
+);
+GO
+
+-- Creating table 'cvs'
+CREATE TABLE [dbo].[cvs] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [student_id] int  NOT NULL,
+    [name] nvarchar(50)  NULL,
+    [sex] bit  NULL,
+    [dob] datetime  NULL,
+    [avatar] varchar(max)  NULL,
+    [school] nvarchar(max)  NULL,
+    [experience] nvarchar(max)  NULL,
+    [foreign_language] nvarchar(max)  NULL,
+    [desired_salary_minimum] int  NULL,
+    [working_form] int  NULL,
+    [create_date] datetime  NULL,
+    [is_public] bit  NULL,
+    [cv_name] nvarchar(max)  NULL,
+    [skill] nvarchar(max)  NULL,
+    [phone] varchar(15)  NULL
 );
 GO
 
@@ -195,13 +161,42 @@ CREATE TABLE [dbo].[jobs] (
 );
 GO
 
--- Creating table 'sysdiagrams'
-CREATE TABLE [dbo].[sysdiagrams] (
-    [name] nvarchar(128)  NOT NULL,
-    [principal_id] int  NOT NULL,
-    [diagram_id] int IDENTITY(1,1) NOT NULL,
-    [version] int  NULL,
-    [definition] varbinary(max)  NULL
+-- Creating table 'job_has_category'
+CREATE TABLE [dbo].[job_has_category] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [job_id] int  NOT NULL,
+    [category_id] int  NOT NULL,
+    [create_date] datetime  NOT NULL
+);
+GO
+
+-- Creating table 'managers'
+CREATE TABLE [dbo].[managers] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [username] varchar(20)  NOT NULL,
+    [password] varchar(150)  NOT NULL,
+    [full_name] nvarchar(50)  NULL,
+    [create_date] datetime  NULL,
+    [role] varchar(20)  NOT NULL,
+    [is_banned] bit  NULL
+);
+GO
+
+-- Creating table 'recruiters'
+CREATE TABLE [dbo].[recruiters] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [username] varchar(20)  NOT NULL,
+    [password] varchar(150)  NOT NULL,
+    [gmail] varchar(50)  NOT NULL,
+    [phone] varchar(max)  NOT NULL,
+    [avatar] varchar(max)  NULL,
+    [create_date] datetime  NULL,
+    [role] varchar(20)  NOT NULL,
+    [is_banned] bit  NULL,
+    [sex] bit  NOT NULL,
+    [first_name] nvarchar(50)  NOT NULL,
+    [last_name] nvarchar(50)  NOT NULL,
+    [status] int  NULL
 );
 GO
 
@@ -218,24 +213,40 @@ CREATE TABLE [dbo].[students] (
 );
 GO
 
--- Creating table 'cvs'
-CREATE TABLE [dbo].[cvs] (
+-- Creating table 'student_apply_job'
+CREATE TABLE [dbo].[student_apply_job] (
     [id] int IDENTITY(1,1) NOT NULL,
+    [job_id] int  NOT NULL,
     [student_id] int  NOT NULL,
-    [name] nvarchar(50)  NULL,
-    [sex] bit  NULL,
-    [dob] datetime  NULL,
-    [avatar] varchar(max)  NULL,
-    [school] nvarchar(max)  NULL,
-    [experience] nvarchar(max)  NULL,
-    [foreign_language] nvarchar(max)  NULL,
-    [desired_salary_minimum] int  NULL,
-    [working_form] int  NULL,
-    [create_date] datetime  NULL,
-    [is_public] bit  NULL,
-    [cv_name] nvarchar(max)  NULL,
-    [skill] nvarchar(max)  NULL,
-    [phone] varchar(15)  NULL
+    [create_date] datetime  NOT NULL,
+    [cv_id] int  NOT NULL
+);
+GO
+
+-- Creating table 'student_save_job'
+CREATE TABLE [dbo].[student_save_job] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [job_id] int  NOT NULL,
+    [student_id] int  NOT NULL,
+    [createDate] datetime  NOT NULL
+);
+GO
+
+-- Creating table 'sysdiagrams'
+CREATE TABLE [dbo].[sysdiagrams] (
+    [name] nvarchar(128)  NOT NULL,
+    [principal_id] int  NOT NULL,
+    [diagram_id] int IDENTITY(1,1) NOT NULL,
+    [version] int  NULL,
+    [definition] varbinary(max)  NULL
+);
+GO
+
+-- Creating table 'banners'
+CREATE TABLE [dbo].[banners] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [image_url] varchar(max)  NOT NULL,
+    [url] varchar(max)  NOT NULL
 );
 GO
 
@@ -246,6 +257,24 @@ GO
 -- Creating primary key on [id] in table 'categories'
 ALTER TABLE [dbo].[categories]
 ADD CONSTRAINT [PK_categories]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'companies'
+ALTER TABLE [dbo].[companies]
+ADD CONSTRAINT [PK_companies]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'cvs'
+ALTER TABLE [dbo].[cvs]
+ADD CONSTRAINT [PK_cvs]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'jobs'
+ALTER TABLE [dbo].[jobs]
+ADD CONSTRAINT [PK_jobs]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -261,6 +290,18 @@ ADD CONSTRAINT [PK_managers]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
+-- Creating primary key on [id] in table 'recruiters'
+ALTER TABLE [dbo].[recruiters]
+ADD CONSTRAINT [PK_recruiters]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'students'
+ALTER TABLE [dbo].[students]
+ADD CONSTRAINT [PK_students]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
 -- Creating primary key on [id] in table 'student_apply_job'
 ALTER TABLE [dbo].[student_apply_job]
 ADD CONSTRAINT [PK_student_apply_job]
@@ -273,39 +314,15 @@ ADD CONSTRAINT [PK_student_save_job]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
--- Creating primary key on [id] in table 'recruiters'
-ALTER TABLE [dbo].[recruiters]
-ADD CONSTRAINT [PK_recruiters]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'companies'
-ALTER TABLE [dbo].[companies]
-ADD CONSTRAINT [PK_companies]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'jobs'
-ALTER TABLE [dbo].[jobs]
-ADD CONSTRAINT [PK_jobs]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
 -- Creating primary key on [diagram_id] in table 'sysdiagrams'
 ALTER TABLE [dbo].[sysdiagrams]
 ADD CONSTRAINT [PK_sysdiagrams]
     PRIMARY KEY CLUSTERED ([diagram_id] ASC);
 GO
 
--- Creating primary key on [id] in table 'students'
-ALTER TABLE [dbo].[students]
-ADD CONSTRAINT [PK_students]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'cvs'
-ALTER TABLE [dbo].[cvs]
-ADD CONSTRAINT [PK_cvs]
+-- Creating primary key on [id] in table 'banners'
+ALTER TABLE [dbo].[banners]
+ADD CONSTRAINT [PK_banners]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -341,6 +358,36 @@ GO
 CREATE INDEX [IX_FK_company_recruiter]
 ON [dbo].[companies]
     ([recruiter_id]);
+GO
+
+-- Creating foreign key on [student_id] in table 'cvs'
+ALTER TABLE [dbo].[cvs]
+ADD CONSTRAINT [FK_cv_student]
+    FOREIGN KEY ([student_id])
+    REFERENCES [dbo].[students]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_cv_student'
+CREATE INDEX [IX_FK_cv_student]
+ON [dbo].[cvs]
+    ([student_id]);
+GO
+
+-- Creating foreign key on [cv_id] in table 'student_apply_job'
+ALTER TABLE [dbo].[student_apply_job]
+ADD CONSTRAINT [FK_student_apply_job_cv]
+    FOREIGN KEY ([cv_id])
+    REFERENCES [dbo].[cvs]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_student_apply_job_cv'
+CREATE INDEX [IX_FK_student_apply_job_cv]
+ON [dbo].[student_apply_job]
+    ([cv_id]);
 GO
 
 -- Creating foreign key on [job_id] in table 'job_has_category'
@@ -446,36 +493,6 @@ GO
 CREATE INDEX [IX_FK_student_save_job_student]
 ON [dbo].[student_save_job]
     ([student_id]);
-GO
-
--- Creating foreign key on [student_id] in table 'cvs'
-ALTER TABLE [dbo].[cvs]
-ADD CONSTRAINT [FK_cv_student]
-    FOREIGN KEY ([student_id])
-    REFERENCES [dbo].[students]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_cv_student'
-CREATE INDEX [IX_FK_cv_student]
-ON [dbo].[cvs]
-    ([student_id]);
-GO
-
--- Creating foreign key on [cv_id] in table 'student_apply_job'
-ALTER TABLE [dbo].[student_apply_job]
-ADD CONSTRAINT [FK_student_apply_job_cv]
-    FOREIGN KEY ([cv_id])
-    REFERENCES [dbo].[cvs]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_student_apply_job_cv'
-CREATE INDEX [IX_FK_student_apply_job_cv]
-ON [dbo].[student_apply_job]
-    ([cv_id]);
 GO
 
 -- --------------------------------------------------

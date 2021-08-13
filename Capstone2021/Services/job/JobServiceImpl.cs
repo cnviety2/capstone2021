@@ -56,6 +56,8 @@ namespace Capstone2021.Services
                     }).FirstOrDefault<Category>();
                     result.categories.Add(category);
                 }
+                var job = context.jobs.Find(id);
+                result.imgUrl = job.recruiter.avatar;
             }
             return result;
 
@@ -84,13 +86,17 @@ namespace Capstone2021.Services
                         element.categories.Add(category);
                     }
                 }
+                foreach (Job dto in listResult)
+                {
+                    dto.imgUrl = context.recruiters.Find(dto.recruiterId).avatar;
+                }
             }
             return listResult;
         }
 
-        public bool create(CreateJobDTO dto, int recruiterID)
+        public int create(CreateJobDTO dto, int recruiterID)
         {
-            bool result = false;
+            int result = -1;
             using (context)
             {
                 using (var contextTransaction = context.Database.BeginTransaction())
@@ -113,18 +119,18 @@ namespace Capstone2021.Services
                         }
                         context.SaveChanges();
                         contextTransaction.Commit();
-                        result = true;
+                        result = jobId;
                     }
                     catch (Exception e)
                     {
                         contextTransaction.Rollback();
                         logger.Info("Exception " + e.Message + "in JobServiceImpl");
-                        return result;
+                        return -1;
                     }
 
                 }
             }
-            return result;
+            return -1;
         }
 
         public int update(UpdateJobDTO dto, int id)
@@ -147,7 +153,7 @@ namespace Capstone2021.Services
                     {
                         return 3;
                     }
-                    //checkJob.status = 3; tạm ngưng update lại status của job
+                    checkJob.status = 1;
                     if (checkJob.job_has_category != null)
                     {
                         context.job_has_category.RemoveRange(context.job_has_category.Where(x => x.job_id == dto.id));
@@ -181,7 +187,6 @@ namespace Capstone2021.Services
             {
                 result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s =>
                     JobUtils.mapFromDbContext(s)
-
                 ).ToList<Job>();
 
                 //xử lý thêm category vào dto trả về cho frontend
@@ -204,10 +209,50 @@ namespace Capstone2021.Services
             return result;
         }
 
+        public bool denyAJob(int jobId, int staffId)
+        {
+            using (context)
+            {
+                var staff = context.managers.Find(staffId);
+                if (staff == null || staff.is_banned == true)
+                {
+                    return false;
+                }
+                else
+                {
+                    var job = context.jobs.Find(jobId);
+                    if (job == null || job.status == 2)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            job.status = 3;
+                            job.manager_id = staffId;
+                            context.SaveChanges();
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in JobServiceImpl");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
         public bool approveAJob(int jobId, int staffId)
         {
             using (context)
             {
+                var staff = context.managers.Find(staffId);
+                if (staff == null || staff.is_banned == true)
+                {
+                    return false;
+                }
                 var job = context.jobs.Find(jobId);
                 if (job == null) return false;//ko tìm thấy job
                 else
@@ -479,6 +524,26 @@ namespace Capstone2021.Services
                 }
             }
             return listResult;
+        }
+
+        public IList<Job> getAllDeniedJobs(int recruiterId)
+        {
+            IList<Job> result = new List<Job>();
+            using (context)
+            {
+                result = context.jobs.AsEnumerable().Where(s => s.status == 3 && s.recruiter_id == recruiterId).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+            }
+            return result;
+        }
+
+        public IList<Banner> getAllBanners()
+        {
+            IList<Banner> result = new List<Banner>();
+            using (context)
+            {
+                result = context.banners.Select(s => new Banner() { id = s.id, url = s.url, imgUrl = s.image_url }).ToList<Banner>();
+            }
+            return result;
         }
     }
 }

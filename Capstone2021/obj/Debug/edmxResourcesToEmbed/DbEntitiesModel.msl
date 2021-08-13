@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="DbCapstoneModelStoreContainer" CdmEntityContainer="DbEntities">
+    <EntitySetMapping Name="banners">
+      <EntityTypeMapping TypeName="DbCapstoneModel.banner">
+        <MappingFragment StoreEntitySet="banner">
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="image_url" ColumnName="image_url" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="categories">
       <EntityTypeMapping TypeName="DbCapstoneModel.category">
         <MappingFragment StoreEntitySet="category">

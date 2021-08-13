@@ -13,7 +13,7 @@ namespace Capstone2021.DTO
         public string name { get; set; }
 
         [Required]
-        [Range(1, 3, ErrorMessage = "Part-time:1,Full-time:2,Both:3")]
+        [Range(1, 3, ErrorMessage = "Part-time:1,Full-time:2,Cả 2:3")]
         public int workingForm { get; set; }
 
         [Required]

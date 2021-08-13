@@ -26,6 +26,19 @@ namespace Capstone2021.Controllers
             recruiterService = new RecruiterServiceImpl();
         }
 
+        //api trả về banner,check
+        [HttpGet]
+        [Route("banners")]
+        [AllowAnonymous]
+        public IHttpActionResult getAllBanners()
+        {
+            IList<Banner> result = jobService.getAllBanners();
+            ResponseDTO response = new ResponseDTO();
+            response.data = result;
+            response.message = "OK";
+            return Ok(response);
+        }
+
         //api trả về list những category,check
         [HttpGet]
         [AllowAnonymous]
@@ -153,6 +166,7 @@ namespace Capstone2021.Controllers
             return InternalServerError();
         }
 
+        //Lấy những job đang ở trạng thái chờ để staff duyệt,check
         [HttpGet]
         [Route("pending-jobs")]
         [Authorize(Roles = "ROLE_STAFF")]
@@ -170,6 +184,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Lấy listx những job đã đc duyệt,ko cần thiết,dư,check
         [HttpGet]
         [Route("approved-jobs")]
         [AllowAnonymous]
@@ -187,10 +202,55 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Deny 1 job,check
+        [HttpPut]
+        [Route("deny")]
+        [Authorize(Roles = "ROLE_STAFF")]
+        public IHttpActionResult denyAJob([FromBody] ApproveOrDenyAJobDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("invalid_id", "Id là số nguyên");
+                return BadRequest(ModelState);
+            }
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int jobId = dto.id;
+            int staffId = HttpContextUtils.getUserID(claims);
+            bool denyState = jobService.denyAJob(jobId, staffId);
+            if (!denyState)
+            {
+                return BadRequest("Lỗi xảy ra ");
+            }
+            ResponseDTO response = new ResponseDTO();
+            response.message = "OK";
+            return Ok(response);
+        }
+
+        //Lấy danh sách những job đã bị deny,check
+        [HttpGet]
+        [Route("denied-jobs")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult getAllDeniedJobs()
+        {
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getAllDeniedJobs(recruiterId);
+            if (list.Count == 0)
+            {
+                response.message = "Không có dữ liệu";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        //Approve 1 job,check
         [HttpPut]
         [Route("approve")]
         [Authorize(Roles = "ROLE_STAFF")]
-        public IHttpActionResult approveAJob([FromBody] ApproveAJobDTO dto)
+        public IHttpActionResult approveAJob([FromBody] ApproveOrDenyAJobDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -208,7 +268,6 @@ namespace Capstone2021.Controllers
             ResponseDTO response = new ResponseDTO();
             response.message = "OK";
             return Ok(response);
-
         }
 
         //Trả về những job vừa đc approve mới nhất và không quá 30 ngày sort theo thời gian create,check
@@ -229,6 +288,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        //Giống ở trên nhưng có paging,trả về chỉ 5 record,check
         [HttpGet]
         [Route("")]
         [AllowAnonymous]
@@ -245,6 +305,8 @@ namespace Capstone2021.Controllers
             response.data = list;
             return Ok(response);
         }
+
+        //Trả về tổng số page có trong db,support frontend,check
         [HttpGet]
         [Route("total-pages")]
         [AllowAnonymous]
@@ -403,10 +465,11 @@ namespace Capstone2021.Controllers
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;//claims đc lưu trong Request mà request có chứa token,từ token đó parse sang claims,
                                                                                               //có vài dữ liệu ko thể lấy đc từ HttpContext
             int id = HttpContextUtils.getUserID(claims);
-            bool createState = jobService.create(dto, id);
-            if (createState)
+            int createState = jobService.create(dto, id);
+            if (createState != -1)
             {
                 response.message = "OK";
+                response.data = createState;
             }
             else
             {

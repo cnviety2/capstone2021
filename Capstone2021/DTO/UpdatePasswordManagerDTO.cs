@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Capstone2021.DTO
 {
@@ -14,5 +15,7 @@ namespace Capstone2021.DTO
         [Display(Name = "confirm password")]
         [Compare("password", ErrorMessage = "Password nhập lại chưa chính xác")]
         public string confirmPassword { get; set; }
+
+        public String oldPassword { get; set; }
     }
 }

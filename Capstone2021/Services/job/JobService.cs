@@ -7,12 +7,12 @@ namespace Capstone2021.Services
     interface JobService : IJobRepository
     {
         /// <summary>
-        /// Method tạo mới 1 job,chỉ recruiter mới sử dụng 
+        /// Method tạo mới 1 job,chỉ recruiter mới sử dụng,return -1 lỗi , return lớn hơn 1 : id của job vừa tạo
         /// </summary>
         /// <param name="job"></param>
         /// <param name="recruiterID"></param>
         /// <returns></returns>
-        bool create(CreateJobDTO dto, int recruiterID);
+        int create(CreateJobDTO dto, int recruiterID);
 
         /// <summary>
         /// Update lại job,return 0 : OK,return 1 : Error,return -1 : không tồn tại,return 2 : đã đc duyệt nên không thể update lại,return 3 : ràng buộc giữa salary max và salary min
@@ -97,5 +97,22 @@ namespace Capstone2021.Services
         /// </summary>
         /// <returns></returns>
         int getTotalPages();
+
+        /// <summary>
+        /// Deny 1 job,update lại status của job đó là 3,4 : bị ban
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="staffId"></param>
+        /// <returns></returns>
+        bool denyAJob(int jobId, int staffId);
+
+        /// <summary>
+        /// Lấy tất cả những job bị deny của recruiter
+        /// </summary>
+        /// <param name="recruiterId"></param>
+        /// <returns></returns>
+        IList<Job> getAllDeniedJobs(int recruiterId);
+
+        IList<Banner> getAllBanners();
     }
 }

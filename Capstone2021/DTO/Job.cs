@@ -67,7 +67,7 @@ namespace Capstone2021.DTO
         public Int32 managerId { get; set; }
 
         /// <summary>
-        /// 1 là pending(đợi duyệt),2 là ok(đã duyệt)
+        /// 1 là pending(đợi duyệt),2 là ok(đã duyệt),3 là deny(bị từ chối)
         /// </summary>
         public int status { get; set; }
 
@@ -93,6 +93,8 @@ namespace Capstone2021.DTO
         /// 
         [JsonIgnore]
         public string stringForSuggestion { get; set; }
+
+        public String imgUrl { get; set; }
 
         /// <summary>
         /// Kiểm tra xem Job này có chứa category cần tìm hay ko,method này dùng trong việc search những job theo category,trả về 

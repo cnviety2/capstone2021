@@ -219,3 +219,11 @@ C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.cspr
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.csproj.CopyComplete
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.dll
 C:\Users\DELL\source\repos\Capstone2021\Capstone2021\obj\Debug\Capstone2021.pdb
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\ClosedXML.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\DocumentFormat.OpenXml.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\ExcelNumberFormat.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\System.IO.Packaging.dll
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\ClosedXML.pdb
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\ClosedXML.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\DocumentFormat.OpenXml.xml
+C:\Users\DELL\source\repos\Capstone2021\Capstone2021\bin\ExcelNumberFormat.xml

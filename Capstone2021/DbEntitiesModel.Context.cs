@@ -25,6 +25,7 @@ namespace Capstone2021
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<banner> banners { get; set; }
         public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<company> companies { get; set; }
         public virtual DbSet<cv> cvs { get; set; }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/13/2021 17:12:33
+-- Date Created: 08/14/2021 12:14:38
 -- Generated from EDMX file: C:\Users\DELL\source\repos\Capstone2021\Capstone2021\DbEntitiesModel.edmx
 -- --------------------------------------------------
 
@@ -95,6 +95,14 @@ GO
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
+
+-- Creating table 'banners'
+CREATE TABLE [dbo].[banners] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [image_url] varchar(max)  NOT NULL,
+    [url] varchar(max)  NOT NULL
+);
+GO
 
 -- Creating table 'categories'
 CREATE TABLE [dbo].[categories] (
@@ -196,7 +204,8 @@ CREATE TABLE [dbo].[recruiters] (
     [sex] bit  NOT NULL,
     [first_name] nvarchar(50)  NOT NULL,
     [last_name] nvarchar(50)  NOT NULL,
-    [status] int  NULL
+    [status] int  NULL,
+    [forgot_password_string] varchar(10)  NULL
 );
 GO
 
@@ -242,17 +251,15 @@ CREATE TABLE [dbo].[sysdiagrams] (
 );
 GO
 
--- Creating table 'banners'
-CREATE TABLE [dbo].[banners] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [image_url] varchar(max)  NOT NULL,
-    [url] varchar(max)  NOT NULL
-);
-GO
-
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
+
+-- Creating primary key on [id] in table 'banners'
+ALTER TABLE [dbo].[banners]
+ADD CONSTRAINT [PK_banners]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
 
 -- Creating primary key on [id] in table 'categories'
 ALTER TABLE [dbo].[categories]
@@ -318,12 +325,6 @@ GO
 ALTER TABLE [dbo].[sysdiagrams]
 ADD CONSTRAINT [PK_sysdiagrams]
     PRIMARY KEY CLUSTERED ([diagram_id] ASC);
-GO
-
--- Creating primary key on [id] in table 'banners'
-ALTER TABLE [dbo].[banners]
-ADD CONSTRAINT [PK_banners]
-    PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
 -- --------------------------------------------------

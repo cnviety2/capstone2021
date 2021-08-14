@@ -20,7 +20,7 @@ namespace Capstone2021.DTO
         [Compare("password", ErrorMessage = "Password nhập lại chưa đúng")]
         public string confirmPassword { get; set; }
         [Required(ErrorMessage = "Email không được thiếu")]
-        [RegularExpression("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", ErrorMessage = "Email không chính xác. VD: recruiter123@gmail.com ")]
+        [RegularExpression("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", ErrorMessage = "Email không chính xác. VD: recruiter123@gmail.com")]
         public string gmail { get; set; }
         [Required(ErrorMessage = "SĐT không được thiếu")]
         [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "SĐT chỉ chứa số và không quá 12 số")]

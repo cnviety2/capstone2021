@@ -580,6 +580,8 @@ namespace Capstone2021.Controllers
                     return BadRequest("Không tồn tại công việc này");
                 case 4:
                     return InternalServerError();
+                case 5:
+                    return BadRequest("Có sinh viên apply vào việc làm này nên không thể xóa");
                 default:
                     return InternalServerError();
             }

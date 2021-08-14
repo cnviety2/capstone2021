@@ -11,8 +11,8 @@
         <EntityTypeShape EntityType="DbCapstoneModel.cv" Width="1.5" PointX="6" PointY="11.125" />
         <EntityTypeShape EntityType="DbCapstoneModel.job" Width="1.5" PointX="3" PointY="5.625" />
         <EntityTypeShape EntityType="DbCapstoneModel.job_has_category" Width="1.5" PointX="5.25" PointY="7.25" />
-        <EntityTypeShape EntityType="DbCapstoneModel.manager" Width="1.5" PointX="0.75" PointY="3" />
-        <EntityTypeShape EntityType="DbCapstoneModel.recruiter" Width="1.5" PointX="0.75" PointY="6.375" />
+        <EntityTypeShape EntityType="DbCapstoneModel.manager" Width="1.5" PointX="0.75" PointY="2" />
+        <EntityTypeShape EntityType="DbCapstoneModel.recruiter" Width="1.5" PointX="0.75" PointY="6.25" />
         <EntityTypeShape EntityType="DbCapstoneModel.student" Width="1.5" PointX="3" PointY="0.75" />
         <EntityTypeShape EntityType="DbCapstoneModel.student_apply_job" Width="1.5" PointX="8.25" PointY="7" />
         <EntityTypeShape EntityType="DbCapstoneModel.student_save_job" Width="1.5" PointX="5.25" PointY="4.25" />

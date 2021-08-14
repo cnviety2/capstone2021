@@ -48,7 +48,10 @@ namespace Capstone2021.Controllers
                 if (StringUtils.isContainSpecialCharacter(recruiter.firstname) || StringUtils.isContainSpecialCharacter(recruiter.lastName))
                     return BadRequest("Tên không được chứa ký tự đặc biệt");
             }
-
+            if (!StringUtils.isValidEmailFormat(recruiter.gmail))
+            {
+                return BadRequest("Email không chính xác. VD: recruiter123@gmail.com");
+            }
             int saveState = _recruiterService.register(recruiter);
             switch (saveState)
             {
@@ -144,7 +147,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
         //test
-        [HttpGet]
+        /*[HttpGet]
         [Route("")]
         [Authorize(Roles = "ROLE_ADMIN")]
         public IHttpActionResult getAllRecruiter()
@@ -159,7 +162,7 @@ namespace Capstone2021.Controllers
             response.message = "OK";
             response.data = list;
             return Ok(response);
-        }
+        }*/
 
         //Trả về thông tin 1 recruiter dựa trên id,check
         [HttpGet]
@@ -225,6 +228,7 @@ namespace Capstone2021.Controllers
         //Trả về data của recruiter gửi request,check
         [HttpGet]
         [Route("self")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult getSelfInfo()
         {
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
@@ -245,6 +249,7 @@ namespace Capstone2021.Controllers
 
         [HttpGet]
         [Route("search-cvs")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult searchCvs([FromUri] string keyword)
         {
             IList<Cv> result = null;

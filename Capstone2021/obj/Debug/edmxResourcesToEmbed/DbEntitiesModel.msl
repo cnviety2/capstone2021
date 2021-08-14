@@ -105,6 +105,7 @@
     <EntitySetMapping Name="recruiters">
       <EntityTypeMapping TypeName="DbCapstoneModel.recruiter">
         <MappingFragment StoreEntitySet="recruiter">
+          <ScalarProperty Name="forgot_password_string" ColumnName="forgot_password_string" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="last_name" ColumnName="last_name" />
           <ScalarProperty Name="first_name" ColumnName="first_name" />

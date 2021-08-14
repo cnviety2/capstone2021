@@ -321,6 +321,80 @@ namespace Capstone2021.Services
             return result;
         }
 
+        public SendMailToRetrievePasswordDTO sendEmailToRetrievePassword(string username, string gmail)
+        {
+            SendMailToRetrievePasswordDTO result = new SendMailToRetrievePasswordDTO();
+            using (context)
+            {
+                var recruiter = context.recruiters.Where(s => s.username.Equals(username)).FirstOrDefault();
+                if (recruiter == null)
+                {
+                    result.code = 3;
+                    return result;
+                }
+                else
+                {
+                    if (!recruiter.gmail.Equals(gmail))
+                    {
+                        result.code = 2;
+                        return result;
+                    }
+                    else
+                    {
+                        string randomString = StringUtils.RandomString(6);
+                        try
+                        {
+                            recruiter.forgot_password_string = randomString;
+                            context.SaveChanges();
+                            result.code = 1;
+                            result.randomString = randomString;
+                            return result;
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
+                            result.code = 4;
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+
+        public int updateForgottenPassword(string code, string username, string newPassword)
+        {
+            using (context)
+            {
+                var recruiter = context.recruiters.Where(s => s.username.Equals(username)).FirstOrDefault();
+                if (recruiter == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    if (!code.Equals(recruiter.forgot_password_string))
+                    {
+                        return 3;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            recruiter.password = newPassword;
+                            recruiter.forgot_password_string = "";
+                            context.SaveChanges();
+                            return 1;
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Info("Exception " + e.Message + "in RecruiterServiceImpl");
+                            return 4;
+                        }
+                    }
+                }
+            }
+        }
+
         public int removeAJob(int recruiterId, int jobId)
         {
             using (context)
@@ -337,13 +411,17 @@ namespace Capstone2021.Services
                     {
                         return 3;
                     }
+                    var job = context.jobs.Find(jobId);
+                    if (job.student_apply_job.Count != 0)
+                    {
+                        return 5;
+                    }
                     else
                     {
                         try
                         {
                             using (var contextTransaction = context.Database.BeginTransaction())
                             {
-                                var job = context.jobs.Find(jobId);
                                 if (job.job_has_category != null && job.job_has_category.Count != 0)
                                 {
                                     foreach (job_has_category relationship in job.job_has_category.ToList())

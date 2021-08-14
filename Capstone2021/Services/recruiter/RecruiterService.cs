@@ -40,10 +40,31 @@ namespace Capstone2021.Services
 
         /// <summary>
         /// Xóa 1 job ở phía recruiter,return 1 : ok , 2 : ko tìm thấy recruiter, 3 : job ko tồn tại , 4 : lỗi
+        /// 5 : nếu có student đã apply thì ko cho xóa
         /// </summary>
         /// <param name="recruiterId"></param>
         /// <param name="jobId"></param>
         /// <returns></returns>
         int removeAJob(int recruiterId, int jobId);
+
+        /// <summary>
+        /// Kiểm tra xem username và email có trùng hay không,nếu đúng sẽ thực hiện send email tới và cập
+        /// nhật forgot_password_string trong recruiter và return 1,nếu không trùng sẽ return 2,user không tồn tại là 3
+        /// lỗi là 4
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        SendMailToRetrievePasswordDTO sendEmailToRetrievePassword(string username, string gmail);
+
+        /// <summary>
+        /// Tìm ra user,so sánh code bên trong recruiter để cập nhật password mới,retrun 1 nếu thành công,
+        /// 2 nếu user ko tồn tại,3 nếu ko khớp code, 4 nếu lỗi
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="username"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        int updateForgottenPassword(string code, string username, string newPassword);
     }
 }

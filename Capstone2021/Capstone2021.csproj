@@ -407,6 +407,7 @@
     </Compile>
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManagerInfoController.cs" />
@@ -445,6 +446,7 @@
     <Compile Include="DTO\CreateManagerDTO.cs" />
     <Compile Include="DTO\CreateRecruiterDTO.cs" />
     <Compile Include="DTO\Cv.cs" />
+    <Compile Include="DTO\ForgotPasswordDTO.cs" />
     <Compile Include="DTO\GoogleAuthenDTO.cs" />
     <Compile Include="DTO\Job.cs" />
     <Compile Include="DTO\Manager.cs" />
@@ -463,6 +465,7 @@
     <Compile Include="DTO\ReturnStudentDTO.cs" />
     <Compile Include="DTO\SaveAJobDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />
+    <Compile Include="DTO\SendMailToRetrievePasswordDTO.cs" />
     <Compile Include="DTO\Student.cs" />
     <Compile Include="DTO\StudentIdAndCvIdDTO.cs" />
     <Compile Include="DTO\UpdateBannerDTO.cs" />
@@ -472,6 +475,7 @@
     <Compile Include="DTO\UpdateInformationRecruiterDTO.cs" />
     <Compile Include="DTO\UpdateJobDTO.cs" />
     <Compile Include="DTO\UpdatePasswordManagerDTO.cs" />
+    <Compile Include="DTO\UsernameAndEmailDTO.cs" />
     <Compile Include="job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
@@ -523,6 +527,7 @@
     <Compile Include="Utils\CompanyMapper.cs" />
     <Compile Include="Utils\CvMapper.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
+    <Compile Include="Utils\EmailUtils.cs" />
     <Compile Include="Utils\HttpContextUtils.cs" />
     <Compile Include="Utils\JobUtils.cs" />
     <Compile Include="Utils\RecruiterMapper.cs" />

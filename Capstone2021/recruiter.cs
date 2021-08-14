@@ -34,6 +34,7 @@ namespace Capstone2021
         public string first_name { get; set; }
         public string last_name { get; set; }
         public Nullable<int> status { get; set; }
+        public string forgot_password_string { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<company> companies { get; set; }

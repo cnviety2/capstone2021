@@ -29,6 +29,8 @@ namespace Capstone2021.Service
         /// <returns></returns>
         bool banAStaff(int id);
 
+        bool unbanAStaff(int id);
+
         /// <summary>
         /// Method ban 1 recruiter,chỉ role admin mới được sử dụng
         /// </summary>
@@ -75,5 +77,7 @@ namespace Capstone2021.Service
         IList<Banner> getAllBanners();
 
         string updateBannerImgUrl(int id, string imgUrl, int staffId);
+
+
     }
 }

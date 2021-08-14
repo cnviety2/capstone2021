@@ -619,5 +619,31 @@ namespace Capstone2021.Service
             }
             return result;
         }
+
+        public bool unbanAStaff(int id)
+        {
+            using (context)
+            {
+                var checkManager = context.managers.Find(id);
+                if (checkManager == null)
+                    return false;
+                if (checkManager.role.Equals("ROLE_ADMIN"))
+                    return false;
+                if (checkManager.is_banned == false)
+                    return true;
+                try
+                {
+                    checkManager.is_banned = false;
+                    context.SaveChanges();
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                    return false;
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone2021.DTO;
+using System;
 using System.Net.Mail;
 
 namespace Capstone2021.Utils
@@ -16,8 +17,9 @@ namespace Capstone2021.Utils
             return true;
         }
 
-        public static bool sendEmail(string content, string to)
+        public static ResponseDTO sendEmail(string content, string to)
         {
+            ResponseDTO response = new ResponseDTO();
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(gmail, "Trung tâm hỗ trợ sinh viên TPHCM");
             mail.To.Add(new MailAddress(to));
@@ -41,10 +43,13 @@ namespace Capstone2021.Utils
                 }
                 catch (Exception e)
                 {
-                    return false;
+                    response.data = e;
+                    response.message = "ERROR";
+                    return response;
                 }
             }
-            return true;
+            response.message = "OK";
+            return response;
         }
     }
 }

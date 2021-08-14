@@ -257,7 +257,7 @@ namespace Capstone2021.Services
                 if (job == null) return false;//ko tìm thấy job
                 else
                 {
-                    if (job.status == 2 || job.manager_id.HasValue) return true;//đã duyệt rồi rồi,duyệt nữa chi ? 
+                    if (job.status == 2) return true;//đã duyệt rồi rồi,duyệt nữa chi ? 
                     else
                     {
                         using (context)

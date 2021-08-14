@@ -166,6 +166,24 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        [HttpPut]
+        [Route("unban/staff/{id:int:min(0)}")]
+        public IHttpActionResult unbanAStaff([FromUri] int id)
+        {
+            ResponseDTO response = new ResponseDTO();
+            bool state = managerService.unbanAStaff(id);
+            if (state)
+            {
+                response.message = "OK";
+            }
+            else
+            {
+                return InternalServerError();
+            }
+            return Ok(response);
+        }
+
+
         [HttpGet]
         [Route("report/by-quarter")]
         public IHttpActionResult reportByQuarter([FromUri] int quarter)

@@ -71,17 +71,16 @@ namespace Capstone2021.Controllers
             switch (result.code)
             {
                 case 1:
-                    bool sendMailState = EmailUtils.sendEmail(result.randomString, dto.gmail);
-                    if (sendMailState == true)
+                    ResponseDTO sendMailState = EmailUtils.sendEmail(result.randomString, dto.gmail);
+                    /*if (sendMailState.message.Equals("OK"))
                     {
-                        ResponseDTO response = new ResponseDTO();
-                        response.message = "OK";
-                        return Ok(response);
+                        return Ok(sendMailState);
                     }
                     else
                     {
-                        return BadRequest("Lỗi,không thể gửi mail thành công");
-                    }
+                        return Ok();
+                    }*/
+                    return Ok(sendMailState);
                 case 2:
                     return BadRequest("Email và username không trùng");
                 case 3:

@@ -64,6 +64,10 @@ namespace Capstone2021.Service
 
         string updateBannerImgUrl(int id, string imgUrl, int staffId);
 
-
+        /// <summary>
+        /// Lấy data của dashboard,admin xài
+        /// </summary>
+        /// <returns></returns>
+        DashboardDataDTO getDashboardData();
     }
 }

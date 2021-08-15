@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/14/2021 12:14:38
+-- Date Created: 08/15/2021 11:30:45
 -- Generated from EDMX file: C:\Users\DELL\source\repos\Capstone2021\Capstone2021\DbEntitiesModel.edmx
 -- --------------------------------------------------
 
@@ -165,7 +165,8 @@ CREATE TABLE [dbo].[jobs] (
     [create_date] datetime  NOT NULL,
     [manager_id] int  NULL,
     [status] int  NOT NULL,
-    [string_for_suggestion] varchar(50)  NULL
+    [string_for_suggestion] varchar(50)  NULL,
+    [active_days] int  NOT NULL
 );
 GO
 
@@ -200,7 +201,6 @@ CREATE TABLE [dbo].[recruiters] (
     [avatar] varchar(max)  NULL,
     [create_date] datetime  NULL,
     [role] varchar(20)  NOT NULL,
-    [is_banned] bit  NULL,
     [sex] bit  NOT NULL,
     [first_name] nvarchar(50)  NOT NULL,
     [last_name] nvarchar(50)  NOT NULL,
@@ -213,7 +213,6 @@ GO
 CREATE TABLE [dbo].[students] (
     [id] int IDENTITY(1,1) NOT NULL,
     [gmail] varchar(50)  NOT NULL,
-    [is_banned] bit  NULL,
     [create_date] datetime  NOT NULL,
     [profile_status] bit  NOT NULL,
     [avatar] varchar(max)  NULL,

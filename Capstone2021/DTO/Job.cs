@@ -99,6 +99,10 @@ namespace Capstone2021.DTO
         /// </summary>
         public int activeDays { get; set; }
 
+        public String recruiterUsername { get; set; }
+
+        public String companyName { get; set; }
+
         public String imgUrl { get; set; }
 
         /// <summary>

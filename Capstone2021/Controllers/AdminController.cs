@@ -215,6 +215,17 @@ namespace Capstone2021.Controllers
         }
 
         [HttpGet]
+        [Route("dashboard-data")]
+        public IHttpActionResult getDashboardData()
+        {
+            ResponseDTO response = new ResponseDTO();
+            DashboardDataDTO data = managerService.getDashboardData();
+            response.data = data;
+            response.message = "OK";
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("report/by-year")]
         public IHttpActionResult reportByYear()
         {

@@ -25,6 +25,19 @@ namespace Capstone2021.Service
         {
             context.Dispose();
         }
+
+        public DashboardDataDTO getDashboardData()
+        {
+            DashboardDataDTO result = new DashboardDataDTO();
+            using (context)
+            {
+                result.numberOfRecruiters = context.recruiters.Count();
+                result.numberOfPostedJobs = context.jobs.Count();
+                result.numberOfStudents = context.students.Count();
+            }
+            return result;
+        }
+
         public bool create(Manager obj)
         {
             String username = obj.username;

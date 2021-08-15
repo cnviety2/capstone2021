@@ -192,6 +192,14 @@ namespace Capstone2021.Services
                 //xử lý thêm category vào dto trả về cho frontend
                 foreach (Job element in result)
                 {
+                    var recruiter = context.recruiters.Find(element.recruiterId);
+                    element.recruiterUsername = recruiter.username;
+                    if (recruiter.companies.Count != 0)
+                    {
+                        element.companyName = recruiter.companies.FirstOrDefault().name;
+                    }
+                    else
+                        element.companyName = "Không có";
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {

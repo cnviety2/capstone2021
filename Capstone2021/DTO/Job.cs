@@ -77,7 +77,7 @@ namespace Capstone2021.DTO
         [JsonIgnore]
         public ICollection<student_apply_job> relationShipWithStudent { get; set; }
 
-        public Boolean isOver30Days { get; set; }
+        public Boolean isOver { get; set; }
 
         /// <summary>
         /// Dùng để kiểm tra,ko show ra
@@ -93,6 +93,11 @@ namespace Capstone2021.DTO
         /// 
         [JsonIgnore]
         public string stringForSuggestion { get; set; }
+
+        /// <summary>
+        /// Số ngày job này còn active
+        /// </summary>
+        public int activeDays { get; set; }
 
         public String imgUrl { get; set; }
 

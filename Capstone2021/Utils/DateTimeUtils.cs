@@ -17,6 +17,17 @@ namespace Capstone2021.Utils
         }
 
         /// <summary>
+        /// Kiểm tra createDate cho tới bây giờ đã hơn số ngày dựa trên biến days ngày chưa,true nếu đúng
+        /// </summary>
+        /// <param name="createDate"></param>
+        /// <returns></returns>
+        public static bool isOverAfterDays(DateTime createDate, int days)
+        {
+            if (createDate.AddDays(days).CompareTo(DateTime.Now) < 0) return true;
+            else return false;
+        }
+
+        /// <summary>
         /// Kiểm tra có trên 18 tuổi chưa,true nếu trên 18
         /// </summary>
         /// <param name="value"></param>

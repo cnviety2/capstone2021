@@ -72,6 +72,7 @@
     <Property Name="manager_id" Type="int" />
     <Property Name="status" Type="int" Nullable="false" />
     <Property Name="string_for_suggestion" Type="varchar" MaxLength="50" />
+    <Property Name="active_days" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="job_has_category">
     <Key>
@@ -106,7 +107,6 @@
     <Property Name="avatar" Type="text" />
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="is_banned" Type="bit" />
     <Property Name="sex" Type="bit" Nullable="false" />
     <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -119,7 +119,6 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="is_banned" Type="bit" />
     <Property Name="create_date" Type="date" Nullable="false" />
     <Property Name="profile_status" Type="bit" Nullable="false" />
     <Property Name="avatar" Type="text" />

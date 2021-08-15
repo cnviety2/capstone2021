@@ -40,11 +40,11 @@ namespace Capstone2021.Services
             using (context)
             {
                 result = context.jobs.AsEnumerable().Where(s => s.id == id).Select(s => JobUtils.mapFromDbContext(s)).FirstOrDefault<Job>();
-                if (DateTimeUtils.isOver30Days(result.createDate2))
+                if (DateTimeUtils.isOverAfterDays(result.createDate2, result.activeDays))
                 {
-                    result.isOver30Days = true;
+                    result.isOver = true;
                 }
-                else result.isOver30Days = false;
+                else result.isOver = false;
                 result.categories = new List<Category>();
                 foreach (job_has_category relationship in result.relationship)
                 {
@@ -68,7 +68,7 @@ namespace Capstone2021.Services
             IList<Job> listResult = new List<Job>();
             using (context)
             {
-                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date))
+                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days))
                    .Select(s => JobUtils.mapFromDbContext(s))
                    .OrderByDescending(s => s.createDate2)
                    .ToList<Job>();
@@ -120,6 +120,7 @@ namespace Capstone2021.Services
                         context.SaveChanges();
                         contextTransaction.Commit();
                         result = jobId;
+                        return result;
                     }
                     catch (Exception e)
                     {
@@ -130,7 +131,6 @@ namespace Capstone2021.Services
 
                 }
             }
-            return -1;
         }
 
         public int update(UpdateJobDTO dto, int id)
@@ -281,6 +281,7 @@ namespace Capstone2021.Services
             }
         }
 
+        //Dư,ko cần thiết
         public List<Job> getAllApprovedJobs()
         {
             List<Job> result = new List<Job>();
@@ -322,7 +323,7 @@ namespace Capstone2021.Services
                 else
                 {
                     if (job.status == 1) return 5;
-                    if (DateTimeUtils.isOver30Days(job.create_date)) return 4;
+                    if (DateTimeUtils.isOverAfterDays(job.create_date, job.active_days)) return 4;
                 }
                 var checkApplied = context.student_apply_job.
                     Where(s => s.cv_id == cvId && s.student_id == studentId && s.job_id == jobId).FirstOrDefault<student_apply_job>();
@@ -383,7 +384,7 @@ namespace Capstone2021.Services
             List<Job> result = new List<Job>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in result)
                 {
                     element.categories = new List<Category>();
@@ -411,7 +412,7 @@ namespace Capstone2021.Services
             using (context)
             {
                 listSearchFromDB = context.jobs.AsEnumerable().Where(s => s.status == 2 &&
-                !DateTimeUtils.isOver30Days(s.create_date) && !JobUtils.hasThisStudentApplied(studentId, s)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && !JobUtils.hasThisStudentApplied(studentId, s)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
             }
             foreach (Job element in listSearchFromDB)
             {
@@ -432,9 +433,15 @@ namespace Capstone2021.Services
             IList<Job> listResult = new List<Job>();
             using (context)
             {
-                listResult = context.jobs.AsEnumerable().Where(s => s.recruiter_id == recruiterId).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                listResult = context.jobs.AsEnumerable().Where(s => s.recruiter_id == recruiterId)
+                    .OrderByDescending(s => s.create_date)
+                    .Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in listResult)
                 {
+                    if (DateTimeUtils.isOverAfterDays(element.createDate2, element.activeDays))
+                    {
+                        element.isOver = true;
+                    }
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
@@ -489,7 +496,7 @@ namespace Capstone2021.Services
             int result = 0;
             using (context)
             {
-                int count = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date)).ToList<job>().Count;
+                int count = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days)).ToList<job>().Count;
                 result = (int)Math.Ceiling((double)count / 5);
             }
             return result;
@@ -502,7 +509,7 @@ namespace Capstone2021.Services
             IList<Job> listResult = new List<Job>();
             using (context)
             {
-                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOver30Days(s.create_date))
+                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days))
                    .Select(s => JobUtils.mapFromDbContext(s))
                    .OrderByDescending(s => s.createDate2)
                    .Skip(5 * (page - 1))

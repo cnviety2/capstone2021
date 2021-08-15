@@ -134,7 +134,8 @@ namespace Capstone2021.Service
                         fullName = s.full_name,
                         username = s.username,
                         role = s.role,
-                        password = "***"
+                        password = "***",
+                        isBanned = s.is_banned.Value
                     }
                 ).ToList<Manager>();
             }
@@ -260,49 +261,6 @@ namespace Capstone2021.Service
             return false;
         }
 
-        public bool banARecruiter(string username)
-        {
-            using (context)
-            {
-                var checkRecruiter = context.recruiters.SingleOrDefault(b => b.username.Equals(username));
-                if (checkRecruiter == null)
-                    return false;
-                if (checkRecruiter.is_banned == true)
-                    return true;
-                try
-                {
-                    checkRecruiter.is_banned = true;
-                    context.SaveChanges();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
-                }
-            }
-            return false;
-        }
-
-        public bool banAStudent(string gmail)
-        {
-            using (context)
-            {
-                var checkStudent = context.students.SingleOrDefault(b => b.gmail.Equals(gmail));
-                if (checkStudent == null)
-                    return false;
-                try
-                {
-                    checkStudent.is_banned = true;
-                    context.SaveChanges();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
-                }
-            }
-            return false;
-        }
 
         public bool softRemove(int id)
         {

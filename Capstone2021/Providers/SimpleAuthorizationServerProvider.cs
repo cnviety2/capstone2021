@@ -78,11 +78,6 @@ namespace Capstone2021.Test.Providers
                         context.SetError("invalid_grant", "The user name or password is incorrect");
                         return;
                     }
-                    if (isBanned(recruiter))
-                    {
-                        context.SetError("invalid_state", "This account is being banned");
-                        return;
-                    }
                     addClaimsToIdentity(identity, context.UserName, recruiter.role, recruiter.id);
                     break;
                 case "student":
@@ -101,11 +96,6 @@ namespace Capstone2021.Test.Providers
                     if (student == null)
                     {
                         context.SetError("invalid_state", "Server error");
-                        return;
-                    }
-                    if (isBanned(student))
-                    {
-                        context.SetError("invalid_state", "This account is being banned");
                         return;
                     }
                     addClaimsToIdentity(identity, context.UserName, "ROLE_STUDENT", student.id, student.googleId);
@@ -146,21 +136,6 @@ namespace Capstone2021.Test.Providers
                 return false;
         }
 
-        private bool isBanned(Recruiter recruiter)
-        {
-            if (recruiter.isBanned == true)
-                return true;
-            else
-                return false;
-        }
-
-        private bool isBanned(Student stdent)
-        {
-            if (stdent.isBanned == true)
-                return true;
-            else
-                return false;
-        }
 
         private Dictionary<string, string> GetBodyParameters(IOwinRequest request)
         {

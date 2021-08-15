@@ -32,20 +32,6 @@ namespace Capstone2021.Service
         bool unbanAStaff(int id);
 
         /// <summary>
-        /// Method ban 1 recruiter,chỉ role admin mới được sử dụng
-        /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
-        bool banARecruiter(string username);
-
-        /// <summary>
-        /// Method ban 1 student,chỉ role admin mới được sử dụng
-        /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
-        bool banAStudent(string gmail);
-
-        /// <summary>
         /// Tạo mới 1 staff,return 1 : ok , 2 : đã tồn tại username , 3 : lỗi 
         /// </summary>
         /// <param name="obj"></param>

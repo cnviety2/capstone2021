@@ -40,6 +40,7 @@ namespace Capstone2021
         public Nullable<int> manager_id { get; set; }
         public int status { get; set; }
         public string string_for_suggestion { get; set; }
+        public int active_days { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<job_has_category> job_has_category { get; set; }

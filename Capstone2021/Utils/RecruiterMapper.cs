@@ -19,7 +19,6 @@ namespace Capstone2021.Utils
             result.last_name = recruiter.lastName.Trim();
             result.sex = recruiter.sex;
             result.avatar = "";
-            result.is_banned = false;
             result.status = 0;
             return result;
         }
@@ -49,7 +48,6 @@ namespace Capstone2021.Utils
             model.avatar = "";
             model.first_name = dto.firstname.Trim();
             model.last_name = dto.lastName.Trim();
-            model.is_banned = false;
             model.password = dto.password;
             model.sex = dto.sex;
             model.phone = dto.phone.Trim();

@@ -134,6 +134,7 @@
     <Property Name="manager_id" Type="Int32" />
     <Property Name="status" Type="Int32" Nullable="false" />
     <Property Name="string_for_suggestion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="active_days" Type="Int32" Nullable="false" />
     <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
     <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
     <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
@@ -176,7 +177,6 @@
     <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="create_date" Type="DateTime" Precision="0" />
     <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="is_banned" Type="Boolean" />
     <Property Name="sex" Type="Boolean" Nullable="false" />
     <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="last_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -191,7 +191,6 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="gmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="is_banned" Type="Boolean" />
     <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="profile_status" Type="Boolean" Nullable="false" />
     <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />

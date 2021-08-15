@@ -58,5 +58,8 @@ namespace Capstone2021.DTO
 
         [Required]
         public int[] categories { get; set; }
+
+        [Required]
+        public int activeDays { get; set; }
     }
 }

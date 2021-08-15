@@ -184,7 +184,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
-        //Lấy listx những job đã đc duyệt,ko cần thiết,dư,check
+        /*//Lấy listx những job đã đc duyệt,ko cần thiết,dư,check
         [HttpGet]
         [Route("approved-jobs")]
         [AllowAnonymous]
@@ -200,7 +200,7 @@ namespace Capstone2021.Controllers
             response.message = "OK";
             response.data = list;
             return Ok(response);
-        }
+        }*/
 
         //Deny 1 job,check
         [HttpPut]
@@ -455,6 +455,11 @@ namespace Capstone2021.Controllers
             if (dto.salaryMin >= dto.salaryMax)
             {
                 ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
+                return BadRequest(ModelState);
+            }
+            if (dto.activeDays != 5 && dto.activeDays != 10 && dto.activeDays != 20 && dto.activeDays != 30)
+            {
+                ModelState.AddModelError("dto.activeDays", "Các giá trị của activeDays : 5,10,20,30");
                 return BadRequest(ModelState);
             }
             if (!ModelState.IsValid || dto == null)

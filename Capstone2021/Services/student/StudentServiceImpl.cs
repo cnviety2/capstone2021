@@ -63,7 +63,6 @@ namespace Capstone2021.Services.Student
                 {
                     id = s.id,
                     gmail = s.gmail,
-                    isBanned = s.is_banned.Value,
                     createDate = s.create_date,
                     profileStatus = s.profile_status,
                     avatar = s.avatar
@@ -216,7 +215,6 @@ namespace Capstone2021.Services.Student
                 {
                     id = s.id,
                     gmail = s.gmail,
-                    isBanned = s.is_banned.Value,
                     avatar = s.avatar,
                     googleId = s.google_id,
                     profileStatus = s.profile_status

@@ -24,7 +24,6 @@ namespace Capstone2021
     
         public int id { get; set; }
         public string gmail { get; set; }
-        public Nullable<bool> is_banned { get; set; }
         public System.DateTime create_date { get; set; }
         public bool profile_status { get; set; }
         public string avatar { get; set; }

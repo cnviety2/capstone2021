@@ -77,6 +77,7 @@
           <Property Name="manager_id" Type="int" />
           <Property Name="status" Type="int" Nullable="false" />
           <Property Name="string_for_suggestion" Type="varchar" MaxLength="50" />
+          <Property Name="active_days" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="job_has_category">
           <Key>
@@ -111,7 +112,6 @@
           <Property Name="avatar" Type="text" />
           <Property Name="create_date" Type="date" />
           <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="is_banned" Type="bit" />
           <Property Name="sex" Type="bit" Nullable="false" />
           <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -124,7 +124,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="gmail" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="is_banned" Type="bit" />
           <Property Name="create_date" Type="date" Nullable="false" />
           <Property Name="profile_status" Type="bit" Nullable="false" />
           <Property Name="avatar" Type="text" />
@@ -488,6 +487,7 @@
           <Property Name="manager_id" Type="Int32" />
           <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="string_for_suggestion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="active_days" Type="Int32" Nullable="false" />
           <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
           <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
           <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
@@ -530,7 +530,6 @@
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="create_date" Type="DateTime" Precision="0" />
           <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="is_banned" Type="Boolean" />
           <Property Name="sex" Type="Boolean" Nullable="false" />
           <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="last_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -545,7 +544,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="gmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="is_banned" Type="Boolean" />
           <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="profile_status" Type="Boolean" Nullable="false" />
           <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -784,6 +782,7 @@
           <EntitySetMapping Name="jobs">
             <EntityTypeMapping TypeName="DbCapstoneModel.job">
               <MappingFragment StoreEntitySet="job">
+                <ScalarProperty Name="active_days" ColumnName="active_days" />
                 <ScalarProperty Name="string_for_suggestion" ColumnName="string_for_suggestion" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="manager_id" ColumnName="manager_id" />
@@ -836,7 +835,6 @@
                 <ScalarProperty Name="last_name" ColumnName="last_name" />
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="sex" ColumnName="sex" />
-                <ScalarProperty Name="is_banned" ColumnName="is_banned" />
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="avatar" ColumnName="avatar" />
@@ -856,7 +854,6 @@
                 <ScalarProperty Name="avatar" ColumnName="avatar" />
                 <ScalarProperty Name="profile_status" ColumnName="profile_status" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
-                <ScalarProperty Name="is_banned" ColumnName="is_banned" />
                 <ScalarProperty Name="gmail" ColumnName="gmail" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

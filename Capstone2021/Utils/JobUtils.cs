@@ -103,6 +103,7 @@ namespace Capstone2021.Utils
             result.relationShipWithStudent = model.student_apply_job;
             result.stringForSuggestion = model.string_for_suggestion;
             result.createDate2 = model.create_date;
+            result.activeDays = model.active_days;
             return result;
         }
 
@@ -131,6 +132,7 @@ namespace Capstone2021.Utils
             //model.status = 1;
             model.status = 2;
             model.manager_id = 1006;
+            model.active_days = dto.activeDays;
             return model;
         }
 

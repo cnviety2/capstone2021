@@ -12,7 +12,6 @@ namespace Capstone2021.Utils
             result.create_date = DateTime.Now;
             result.gmail = dto.gmail.Trim();
             result.google_id = dto.googleId.Trim();
-            result.is_banned = false;
             result.profile_status = false;
             return result;
         }
@@ -23,7 +22,6 @@ namespace Capstone2021.Utils
             result.id = model.id;
             result.gmail = model.gmail.Trim();
             result.googleId = model.google_id.Trim();
-            result.isBanned = model.is_banned.Value;
             result.profileStatus = model.profile_status;
             result.avatar = model.avatar.Trim();
             return result;

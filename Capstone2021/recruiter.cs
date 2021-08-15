@@ -29,7 +29,6 @@ namespace Capstone2021
         public string avatar { get; set; }
         public Nullable<System.DateTime> create_date { get; set; }
         public string role { get; set; }
-        public Nullable<bool> is_banned { get; set; }
         public bool sex { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }

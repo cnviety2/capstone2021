@@ -48,7 +48,7 @@ namespace Capstone2021.Services
         ///   +1 : nếu apply thành công
         ///   +2 : nếu job không tồn tại
         ///   +3 : nếu student không tồn tại
-        ///   +4 : nếu job quá 30 ngày
+        ///   +4 : nếu job quá hạn
         ///   +5 : nếu job đang ở trạng thái pending
         ///   +6 : nếu lỗi
         ///   +7 : cv không tồn tại

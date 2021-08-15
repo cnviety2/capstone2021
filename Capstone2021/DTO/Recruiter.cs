@@ -22,9 +22,6 @@ namespace Capstone2021.DTO
         /// </summary>
         public bool sex { get; set; }
 
-        [JsonIgnore]
-        public Boolean isBanned { get; set; }
-
         /// <summary>
         /// chưa xài tới
         /// </summary>

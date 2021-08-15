@@ -132,8 +132,7 @@ namespace Capstone2021.Services
                         id = s.id,
                         username = s.username,
                         password = s.password,
-                        role = s.role,
-                        isBanned = s.is_banned.HasValue ? s.is_banned.Value : false
+                        role = s.role
                     }).FirstOrDefault<Recruiter>();
                 if (checkRecruiter == null)
                 {

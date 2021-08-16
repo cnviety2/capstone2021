@@ -88,7 +88,15 @@ namespace Capstone2021.Services
                 }
                 foreach (Job dto in listResult)
                 {
-                    dto.imgUrl = context.recruiters.Find(dto.recruiterId).avatar;
+                    var company = context.companies.Where(s => s.recruiter_id == dto.recruiterId).FirstOrDefault();
+                    if (company != null)
+                    {
+                        dto.imgUrl = company.avatar;
+                    }
+                    else
+                    {
+                        dto.imgUrl = "";
+                    }
                 }
             }
             return listResult;

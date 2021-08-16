@@ -6,11 +6,11 @@ namespace Capstone2021.DTO
 {
     public class UpdateBannerDTO
     {
-        [Required]
-        [Range(1, 4, ErrorMessage = "Từ 1 -> 4")]
         public int id { get; set; }
 
         public String url { get; set; }
+
+        public String imgUrl { get; set; }
 
         public bool isEmpty()
         {

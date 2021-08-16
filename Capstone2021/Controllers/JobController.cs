@@ -153,7 +153,7 @@ namespace Capstone2021.Controllers
                 case 3:
                     return BadRequest("Không tìm thấy user này");
                 case 4:
-                    return BadRequest("Công việc đã quá 30 ngày");
+                    return BadRequest("Công việc đã quá hạn");
                 case 5:
                     return BadRequest("Công việc đang ở trạng thái chờ");
                 case 6:

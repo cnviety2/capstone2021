@@ -3,6 +3,7 @@ using Capstone2021.Service;
 using Capstone2021.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
@@ -120,8 +121,24 @@ namespace Capstone2021.Controllers
         //check
         [HttpPut]
         [Route("update/banner")]
-        public IHttpActionResult updateBanner([FromBody] UpdateBannerDTO dto)
+        public IHttpActionResult updateBanner()
         {
+
+            NameValueCollection formValue = HttpContext.Current.Request.Form;
+            UpdateBannerDTO dto = new UpdateBannerDTO();
+            dto.url = formValue.Get("url");
+            try
+            {
+                dto.id = Int32.Parse(formValue.Get("id"));
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Id là số");
+            }
+            if (dto.id < 1 || dto.id > 4)
+            {
+                return BadRequest("Id chỉ từ 1 -> 4");
+            }
             if (dto == null || dto.isEmpty())
             {
                 return BadRequest("Không được empty");
@@ -134,12 +151,37 @@ namespace Capstone2021.Controllers
                         return BadRequest("Không đúng định dạng 1 url,VD:http//asd.com");
                 }
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int staffId = HttpContextUtils.getUserID(claims);
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+                {
+                    return BadRequest("Only jpeg or png");
+                }
+                using (Stream st = file.InputStream)
+                {
+                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                    string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
+                    string s3DirectoryName = "";
+                    string s3FileName = @name;
+                    bool a;
+                    AmazonUploader myUploader = new AmazonUploader();
+                    a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
+                    String imgUrl = null;
+                    if (a == true)
+                    {
+                        imgUrl = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + name;
+                    }
+                    else
+                    {
+                        imgUrl = "";
+                        return BadRequest("Lỗi,không thể upload ảnh lên server AWS");
+                    }
+                    dto.imgUrl = imgUrl;
+                }
+            }
             int updateState = managerService.updateBanner(dto, staffId);
             switch (updateState)
             {
@@ -157,55 +199,57 @@ namespace Capstone2021.Controllers
                     return InternalServerError();
             }
         }
-
-        //check
-        [HttpPost]
-        [Route("update/banner/image/{id}")]
-        public IHttpActionResult upload([FromUri] int id)
-        {
-            if (id < 1 || id > 4)
-            {
-                return BadRequest("Id từ 1 -> 4");
-            }
-            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
-            if (file != null && file.ContentLength > 0)
-            {
-                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+        /*
+                //check
+                [HttpPost]
+                [Route("update/banner/image/{id}")]
+                public IHttpActionResult upload([FromUri] int id)
                 {
-                    return BadRequest("Only jpeg or png");
-                }
-                using (Stream st = file.InputStream)
-                {
-                    ResponseDTO response = new ResponseDTO();
-                    ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-                    int staffId = HttpContextUtils.getUserID(claims);
-                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
-                    string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
-                    string s3DirectoryName = "";
-                    string s3FileName = @name;
-                    bool a;
-                    AmazonUploader myUploader = new AmazonUploader();
-                    a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
-                    if (a == true)
+                    if (id < 1 || id > 4)
                     {
-                        string imgUrl = managerService.updateBannerImgUrl(id, name, staffId);
-                        if (imgUrl.Equals("error"))
+                        return BadRequest("Id từ 1 -> 4");
+                    }
+                    var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
                         {
-                            return InternalServerError();
+                            return BadRequest("Only jpeg or png");
                         }
-                        response.message = "Upload avatar thành công";
-                        response.data = imgUrl;
-                        return Ok(response);
-                    }
-                    else
-                    {
-                        return BadRequest("Lỗi xảy ra khi upload ảnh lên aws");
+                        using (Stream st = file.InputStream)
+                        {
+                            ResponseDTO response = new ResponseDTO();
+                            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+                            int staffId = HttpContextUtils.getUserID(claims);
+                            string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                            string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
+                            string s3DirectoryName = "";
+                            string s3FileName = @name;
+                            bool a;
+                            AmazonUploader myUploader = new AmazonUploader();
+                            a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
+                            if (a == true)
+                            {
+                                string imgUrl = managerService.updateBannerImgUrl(id, name, staffId);
+                                if (imgUrl.Equals("error"))
+                                {
+                                    return InternalServerError();
+                                }
+                                response.message = "Upload avatar thành công";
+                                response.data = imgUrl;
+                                return Ok(response);
+                            }
+                            else
+                            {
+                                return BadRequest("Lỗi xảy ra khi upload ảnh lên aws");
 
+                            }
+                        }
                     }
+                    return BadRequest("Lỗi xảy ra");
                 }
-            }
-            return BadRequest("Lỗi xảy ra");
-        }
+        */
+
         //check
         [HttpGet]
         [Route("banners")]

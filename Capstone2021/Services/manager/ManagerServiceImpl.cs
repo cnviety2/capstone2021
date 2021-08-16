@@ -541,6 +541,10 @@ namespace Capstone2021.Service
                             {
                                 banner.url = dto.url;
                             }
+                            if (dto.imgUrl != null && !dto.imgUrl.IsEmpty())
+                            {
+                                banner.image_url = dto.imgUrl;
+                            }
                             context.SaveChanges();
                             return 1;
                         }

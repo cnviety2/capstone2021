@@ -19,6 +19,7 @@ namespace Capstone2021
         {
             this.companies = new HashSet<company>();
             this.jobs = new HashSet<job>();
+            this.manager_deny_job = new HashSet<manager_deny_job>();
         }
     
         public int id { get; set; }
@@ -39,5 +40,7 @@ namespace Capstone2021
         public virtual ICollection<company> companies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<job> jobs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<manager_deny_job> manager_deny_job { get; set; }
     }
 }

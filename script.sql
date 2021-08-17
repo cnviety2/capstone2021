@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/15/2021 11:30:45
+-- Date Created: 08/17/2021 21:43:54
 -- Generated from EDMX file: C:\Users\DELL\source\repos\Capstone2021\Capstone2021\DbEntitiesModel.edmx
 -- --------------------------------------------------
 
@@ -35,6 +35,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_job_recruiter]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[job] DROP CONSTRAINT [FK_job_recruiter];
 GO
+IF OBJECT_ID(N'[dbo].[FK_manager_deny_job_job]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[manager_deny_job] DROP CONSTRAINT [FK_manager_deny_job_job];
+GO
+IF OBJECT_ID(N'[dbo].[FK_manager_deny_job_manager]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[manager_deny_job] DROP CONSTRAINT [FK_manager_deny_job_manager];
+GO
+IF OBJECT_ID(N'[dbo].[FK_manager_deny_job_recruiter]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[manager_deny_job] DROP CONSTRAINT [FK_manager_deny_job_recruiter];
+GO
 IF OBJECT_ID(N'[dbo].[FK_student_apply_job_cv]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[student_apply_job] DROP CONSTRAINT [FK_student_apply_job_cv];
 GO
@@ -55,6 +64,9 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[active_days_price]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[active_days_price];
+GO
 IF OBJECT_ID(N'[dbo].[banner]', 'U') IS NOT NULL
     DROP TABLE [dbo].[banner];
 GO
@@ -76,6 +88,9 @@ GO
 IF OBJECT_ID(N'[dbo].[manager]', 'U') IS NOT NULL
     DROP TABLE [dbo].[manager];
 GO
+IF OBJECT_ID(N'[dbo].[manager_deny_job]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[manager_deny_job];
+GO
 IF OBJECT_ID(N'[dbo].[recruiter]', 'U') IS NOT NULL
     DROP TABLE [dbo].[recruiter];
 GO
@@ -96,6 +111,14 @@ GO
 -- Creating all tables
 -- --------------------------------------------------
 
+-- Creating table 'active_days_price'
+CREATE TABLE [dbo].[active_days_price] (
+    [id] int  NOT NULL,
+    [active_days] int  NOT NULL,
+    [price] decimal(19,4)  NOT NULL
+);
+GO
+
 -- Creating table 'banners'
 CREATE TABLE [dbo].[banners] (
     [id] int IDENTITY(1,1) NOT NULL,
@@ -107,7 +130,6 @@ GO
 -- Creating table 'categories'
 CREATE TABLE [dbo].[categories] (
     [id] int IDENTITY(1,1) NOT NULL,
-    [code] int  NOT NULL,
     [value] nvarchar(50)  NOT NULL
 );
 GO
@@ -191,6 +213,16 @@ CREATE TABLE [dbo].[managers] (
 );
 GO
 
+-- Creating table 'manager_deny_job'
+CREATE TABLE [dbo].[manager_deny_job] (
+    [id] int  NOT NULL,
+    [recruiter_id] int  NOT NULL,
+    [deny_message] nvarchar(max)  NOT NULL,
+    [job_id] int  NOT NULL,
+    [manager_id] int  NOT NULL
+);
+GO
+
 -- Creating table 'recruiters'
 CREATE TABLE [dbo].[recruiters] (
     [id] int IDENTITY(1,1) NOT NULL,
@@ -254,6 +286,12 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
+-- Creating primary key on [id] in table 'active_days_price'
+ALTER TABLE [dbo].[active_days_price]
+ADD CONSTRAINT [PK_active_days_price]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
 -- Creating primary key on [id] in table 'banners'
 ALTER TABLE [dbo].[banners]
 ADD CONSTRAINT [PK_banners]
@@ -293,6 +331,12 @@ GO
 -- Creating primary key on [id] in table 'managers'
 ALTER TABLE [dbo].[managers]
 ADD CONSTRAINT [PK_managers]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'manager_deny_job'
+ALTER TABLE [dbo].[manager_deny_job]
+ADD CONSTRAINT [PK_manager_deny_job]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -435,6 +479,21 @@ ON [dbo].[jobs]
     ([recruiter_id]);
 GO
 
+-- Creating foreign key on [job_id] in table 'manager_deny_job'
+ALTER TABLE [dbo].[manager_deny_job]
+ADD CONSTRAINT [FK_manager_deny_job_job]
+    FOREIGN KEY ([job_id])
+    REFERENCES [dbo].[jobs]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_manager_deny_job_job'
+CREATE INDEX [IX_FK_manager_deny_job_job]
+ON [dbo].[manager_deny_job]
+    ([job_id]);
+GO
+
 -- Creating foreign key on [job_id] in table 'student_apply_job'
 ALTER TABLE [dbo].[student_apply_job]
 ADD CONSTRAINT [FK_student_apply_job_job]
@@ -463,6 +522,36 @@ GO
 CREATE INDEX [IX_FK_student_save_job_job]
 ON [dbo].[student_save_job]
     ([job_id]);
+GO
+
+-- Creating foreign key on [manager_id] in table 'manager_deny_job'
+ALTER TABLE [dbo].[manager_deny_job]
+ADD CONSTRAINT [FK_manager_deny_job_manager]
+    FOREIGN KEY ([manager_id])
+    REFERENCES [dbo].[managers]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_manager_deny_job_manager'
+CREATE INDEX [IX_FK_manager_deny_job_manager]
+ON [dbo].[manager_deny_job]
+    ([manager_id]);
+GO
+
+-- Creating foreign key on [recruiter_id] in table 'manager_deny_job'
+ALTER TABLE [dbo].[manager_deny_job]
+ADD CONSTRAINT [FK_manager_deny_job_recruiter]
+    FOREIGN KEY ([recruiter_id])
+    REFERENCES [dbo].[recruiters]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_manager_deny_job_recruiter'
+CREATE INDEX [IX_FK_manager_deny_job_recruiter]
+ON [dbo].[manager_deny_job]
+    ([recruiter_id]);
 GO
 
 -- Creating foreign key on [student_id] in table 'student_apply_job'

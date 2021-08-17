@@ -119,7 +119,7 @@ namespace Capstone2021.DTO
             }
             foreach (Category element in this.categories)
             {
-                if (element.code == categoryId)
+                if (element.id == categoryId)
                     return true;
             }
             return false;

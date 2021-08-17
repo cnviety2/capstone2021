@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DbCapstoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="active_days_price" EntityType="DbCapstoneModel.active_days_price" />
     <EntitySet Name="banners" EntityType="DbCapstoneModel.banner" />
     <EntitySet Name="categories" EntityType="DbCapstoneModel.category" />
     <EntitySet Name="companies" EntityType="DbCapstoneModel.company" />
@@ -8,6 +9,7 @@
     <EntitySet Name="jobs" EntityType="DbCapstoneModel.job" />
     <EntitySet Name="job_has_category" EntityType="DbCapstoneModel.job_has_category" />
     <EntitySet Name="managers" EntityType="DbCapstoneModel.manager" />
+    <EntitySet Name="manager_deny_job" EntityType="DbCapstoneModel.manager_deny_job" />
     <EntitySet Name="recruiters" EntityType="DbCapstoneModel.recruiter" />
     <EntitySet Name="students" EntityType="DbCapstoneModel.student" />
     <EntitySet Name="student_apply_job" EntityType="DbCapstoneModel.student_apply_job" />
@@ -41,6 +43,10 @@
       <End Role="recruiter" EntitySet="recruiters" />
       <End Role="job" EntitySet="jobs" />
     </AssociationSet>
+    <AssociationSet Name="FK_manager_deny_job_job" Association="DbCapstoneModel.FK_manager_deny_job_job">
+      <End Role="job" EntitySet="jobs" />
+      <End Role="manager_deny_job" EntitySet="manager_deny_job" />
+    </AssociationSet>
     <AssociationSet Name="FK_student_apply_job_job" Association="DbCapstoneModel.FK_student_apply_job_job">
       <End Role="job" EntitySet="jobs" />
       <End Role="student_apply_job" EntitySet="student_apply_job" />
@@ -48,6 +54,14 @@
     <AssociationSet Name="FK_student_save_job_job" Association="DbCapstoneModel.FK_student_save_job_job">
       <End Role="job" EntitySet="jobs" />
       <End Role="student_save_job" EntitySet="student_save_job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manager_deny_job_manager" Association="DbCapstoneModel.FK_manager_deny_job_manager">
+      <End Role="manager" EntitySet="managers" />
+      <End Role="manager_deny_job" EntitySet="manager_deny_job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manager_deny_job_recruiter" Association="DbCapstoneModel.FK_manager_deny_job_recruiter">
+      <End Role="recruiter" EntitySet="recruiters" />
+      <End Role="manager_deny_job" EntitySet="manager_deny_job" />
     </AssociationSet>
     <AssociationSet Name="FK_student_apply_job_student" Association="DbCapstoneModel.FK_student_apply_job_student">
       <End Role="student" EntitySet="students" />
@@ -58,6 +72,14 @@
       <End Role="student_save_job" EntitySet="student_save_job" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="active_days_price">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="active_days" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+  </EntityType>
   <EntityType Name="banner">
     <Key>
       <PropertyRef Name="id" />
@@ -71,7 +93,6 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="code" Type="Int32" Nullable="false" />
     <Property Name="value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_category" FromRole="category" ToRole="job_has_category" />
   </EntityType>
@@ -138,6 +159,7 @@
     <NavigationProperty Name="job_has_category" Relationship="DbCapstoneModel.FK_job_has_category_job_has_category" FromRole="job" ToRole="job_has_category" />
     <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_job_manager" FromRole="job" ToRole="manager" />
     <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="job" ToRole="recruiter" />
+    <NavigationProperty Name="manager_deny_job" Relationship="DbCapstoneModel.FK_manager_deny_job_job" FromRole="job" ToRole="manager_deny_job" />
     <NavigationProperty Name="student_apply_job" Relationship="DbCapstoneModel.FK_student_apply_job_job" FromRole="job" ToRole="student_apply_job" />
     <NavigationProperty Name="student_save_job" Relationship="DbCapstoneModel.FK_student_save_job_job" FromRole="job" ToRole="student_save_job" />
   </EntityType>
@@ -164,6 +186,20 @@
     <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="is_banned" Type="Boolean" />
     <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_manager" FromRole="manager" ToRole="job" />
+    <NavigationProperty Name="manager_deny_job" Relationship="DbCapstoneModel.FK_manager_deny_job_manager" FromRole="manager" ToRole="manager_deny_job" />
+  </EntityType>
+  <EntityType Name="manager_deny_job">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="recruiter_id" Type="Int32" Nullable="false" />
+    <Property Name="deny_message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="job_id" Type="Int32" Nullable="false" />
+    <Property Name="manager_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="job" Relationship="DbCapstoneModel.FK_manager_deny_job_job" FromRole="manager_deny_job" ToRole="job" />
+    <NavigationProperty Name="manager" Relationship="DbCapstoneModel.FK_manager_deny_job_manager" FromRole="manager_deny_job" ToRole="manager" />
+    <NavigationProperty Name="recruiter" Relationship="DbCapstoneModel.FK_manager_deny_job_recruiter" FromRole="manager_deny_job" ToRole="recruiter" />
   </EntityType>
   <EntityType Name="recruiter">
     <Key>
@@ -184,6 +220,7 @@
     <Property Name="forgot_password_string" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="companies" Relationship="DbCapstoneModel.FK_company_recruiter" FromRole="recruiter" ToRole="company" />
     <NavigationProperty Name="jobs" Relationship="DbCapstoneModel.FK_job_recruiter" FromRole="recruiter" ToRole="job" />
+    <NavigationProperty Name="manager_deny_job" Relationship="DbCapstoneModel.FK_manager_deny_job_recruiter" FromRole="recruiter" ToRole="manager_deny_job" />
   </EntityType>
   <EntityType Name="student">
     <Key>
@@ -318,6 +355,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_manager_deny_job_job">
+    <End Type="DbCapstoneModel.job" Role="job" Multiplicity="1" />
+    <End Type="DbCapstoneModel.manager_deny_job" Role="manager_deny_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="job">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="manager_deny_job">
+        <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_student_apply_job_job">
     <End Type="DbCapstoneModel.job" Role="job" Multiplicity="1" />
     <End Type="DbCapstoneModel.student_apply_job" Role="student_apply_job" Multiplicity="*" />
@@ -339,6 +388,30 @@
       </Principal>
       <Dependent Role="student_save_job">
         <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manager_deny_job_manager">
+    <End Type="DbCapstoneModel.manager" Role="manager" Multiplicity="1" />
+    <End Type="DbCapstoneModel.manager_deny_job" Role="manager_deny_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manager">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="manager_deny_job">
+        <PropertyRef Name="manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manager_deny_job_recruiter">
+    <End Type="DbCapstoneModel.recruiter" Role="recruiter" Multiplicity="1" />
+    <End Type="DbCapstoneModel.manager_deny_job" Role="manager_deny_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="recruiter">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="manager_deny_job">
+        <PropertyRef Name="recruiter_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

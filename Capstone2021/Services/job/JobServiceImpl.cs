@@ -48,10 +48,9 @@ namespace Capstone2021.Services
                 result.categories = new List<Category>();
                 foreach (job_has_category relationship in result.relationship)
                 {
-                    Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                    Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                     {
                         id = s.id,
-                        code = s.code,
                         value = s.value
                     }).FirstOrDefault<Category>();
                     result.categories.Add(category);
@@ -77,10 +76,9 @@ namespace Capstone2021.Services
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
-                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                         {
                             id = s.id,
-                            code = s.code,
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
@@ -211,10 +209,9 @@ namespace Capstone2021.Services
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
-                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                         {
                             id = s.id,
-                            code = s.code,
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
@@ -309,10 +306,9 @@ namespace Capstone2021.Services
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
-                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                         {
                             id = s.id,
-                            code = s.code,
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
@@ -406,10 +402,9 @@ namespace Capstone2021.Services
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
-                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                         {
                             id = s.id,
-                            code = s.code,
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
@@ -461,10 +456,9 @@ namespace Capstone2021.Services
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
-                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                         {
                             id = s.id,
-                            code = s.code,
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
@@ -500,7 +494,6 @@ namespace Capstone2021.Services
                 listResult = context.categories.Select(s => new Category()
                 {
                     id = s.id,
-                    code = s.code,
                     value = s.value
                 }).ToList<Category>();
             }
@@ -536,10 +529,9 @@ namespace Capstone2021.Services
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
-                        Category category = context.categories.AsEnumerable().Where(s => s.code == relationship.category_id).Select(s => new Category()
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
                         {
                             id = s.id,
-                            code = s.code,
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);

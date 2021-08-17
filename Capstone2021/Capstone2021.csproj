@@ -364,6 +364,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="active_days_price.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -484,6 +487,9 @@
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="manager.cs">
+      <DependentUpon>DbEntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="manager_deny_job.cs">
       <DependentUpon>DbEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="recruiter.cs">

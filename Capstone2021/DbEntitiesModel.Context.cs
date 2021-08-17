@@ -25,6 +25,7 @@ namespace Capstone2021
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<active_days_price> active_days_price { get; set; }
         public virtual DbSet<banner> banners { get; set; }
         public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<company> companies { get; set; }
@@ -32,6 +33,7 @@ namespace Capstone2021
         public virtual DbSet<job> jobs { get; set; }
         public virtual DbSet<job_has_category> job_has_category { get; set; }
         public virtual DbSet<manager> managers { get; set; }
+        public virtual DbSet<manager_deny_job> manager_deny_job { get; set; }
         public virtual DbSet<recruiter> recruiters { get; set; }
         public virtual DbSet<student> students { get; set; }
         public virtual DbSet<student_apply_job> student_apply_job { get; set; }

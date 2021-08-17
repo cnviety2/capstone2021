@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DbCapstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="active_days_price">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="active_days" Type="int" Nullable="false" />
+    <Property Name="price" Type="money" Nullable="false" />
+  </EntityType>
   <EntityType Name="banner">
     <Key>
       <PropertyRef Name="id" />
@@ -13,7 +21,6 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="code" Type="int" Nullable="false" />
     <Property Name="value" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="company">
@@ -94,6 +101,16 @@
     <Property Name="create_date" Type="date" />
     <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="is_banned" Type="bit" />
+  </EntityType>
+  <EntityType Name="manager_deny_job">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="recruiter_id" Type="int" Nullable="false" />
+    <Property Name="deny_message" Type="ntext" Nullable="false" />
+    <Property Name="job_id" Type="int" Nullable="false" />
+    <Property Name="manager_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="recruiter">
     <Key>
@@ -226,6 +243,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_manager_deny_job_job">
+    <End Role="job" Type="Self.job" Multiplicity="1" />
+    <End Role="manager_deny_job" Type="Self.manager_deny_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="job">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="manager_deny_job">
+        <PropertyRef Name="job_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manager_deny_job_manager">
+    <End Role="manager" Type="Self.manager" Multiplicity="1" />
+    <End Role="manager_deny_job" Type="Self.manager_deny_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manager">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="manager_deny_job">
+        <PropertyRef Name="manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manager_deny_job_recruiter">
+    <End Role="recruiter" Type="Self.recruiter" Multiplicity="1" />
+    <End Role="manager_deny_job" Type="Self.manager_deny_job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="recruiter">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="manager_deny_job">
+        <PropertyRef Name="recruiter_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_student_apply_job_cv">
     <End Role="cv" Type="Self.cv" Multiplicity="1" />
     <End Role="student_apply_job" Type="Self.student_apply_job" Multiplicity="*" />
@@ -287,6 +340,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="DbCapstoneModelStoreContainer">
+    <EntitySet Name="active_days_price" EntityType="Self.active_days_price" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="banner" EntityType="Self.banner" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="company" EntityType="Self.company" Schema="dbo" store:Type="Tables" />
@@ -294,6 +348,7 @@
     <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="job_has_category" EntityType="Self.job_has_category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="manager" EntityType="Self.manager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="manager_deny_job" EntityType="Self.manager_deny_job" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="recruiter" EntityType="Self.recruiter" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="student_apply_job" EntityType="Self.student_apply_job" Schema="dbo" store:Type="Tables" />
@@ -322,6 +377,18 @@
     <AssociationSet Name="FK_job_recruiter" Association="Self.FK_job_recruiter">
       <End Role="recruiter" EntitySet="recruiter" />
       <End Role="job" EntitySet="job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manager_deny_job_job" Association="Self.FK_manager_deny_job_job">
+      <End Role="job" EntitySet="job" />
+      <End Role="manager_deny_job" EntitySet="manager_deny_job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manager_deny_job_manager" Association="Self.FK_manager_deny_job_manager">
+      <End Role="manager" EntitySet="manager" />
+      <End Role="manager_deny_job" EntitySet="manager_deny_job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manager_deny_job_recruiter" Association="Self.FK_manager_deny_job_recruiter">
+      <End Role="recruiter" EntitySet="recruiter" />
+      <End Role="manager_deny_job" EntitySet="manager_deny_job" />
     </AssociationSet>
     <AssociationSet Name="FK_student_apply_job_cv" Association="Self.FK_student_apply_job_cv">
       <End Role="cv" EntitySet="cv" />

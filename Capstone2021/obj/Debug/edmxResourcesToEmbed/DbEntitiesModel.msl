@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="DbCapstoneModelStoreContainer" CdmEntityContainer="DbEntities">
+    <EntitySetMapping Name="active_days_price">
+      <EntityTypeMapping TypeName="DbCapstoneModel.active_days_price">
+        <MappingFragment StoreEntitySet="active_days_price">
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="active_days" ColumnName="active_days" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="banners">
       <EntityTypeMapping TypeName="DbCapstoneModel.banner">
         <MappingFragment StoreEntitySet="banner">
@@ -14,7 +23,6 @@
       <EntityTypeMapping TypeName="DbCapstoneModel.category">
         <MappingFragment StoreEntitySet="category">
           <ScalarProperty Name="value" ColumnName="value" />
-          <ScalarProperty Name="code" ColumnName="code" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -99,6 +107,17 @@
           <ScalarProperty Name="full_name" ColumnName="full_name" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manager_deny_job">
+      <EntityTypeMapping TypeName="DbCapstoneModel.manager_deny_job">
+        <MappingFragment StoreEntitySet="manager_deny_job">
+          <ScalarProperty Name="manager_id" ColumnName="manager_id" />
+          <ScalarProperty Name="job_id" ColumnName="job_id" />
+          <ScalarProperty Name="deny_message" ColumnName="deny_message" />
+          <ScalarProperty Name="recruiter_id" ColumnName="recruiter_id" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

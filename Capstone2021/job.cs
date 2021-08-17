@@ -18,6 +18,7 @@ namespace Capstone2021
         public job()
         {
             this.job_has_category = new HashSet<job_has_category>();
+            this.manager_deny_job = new HashSet<manager_deny_job>();
             this.student_apply_job = new HashSet<student_apply_job>();
             this.student_save_job = new HashSet<student_save_job>();
         }
@@ -46,6 +47,8 @@ namespace Capstone2021
         public virtual ICollection<job_has_category> job_has_category { get; set; }
         public virtual manager manager { get; set; }
         public virtual recruiter recruiter { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<manager_deny_job> manager_deny_job { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_apply_job> student_apply_job { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

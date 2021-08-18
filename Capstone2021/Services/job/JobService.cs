@@ -26,7 +26,7 @@ namespace Capstone2021.Services
         /// Trả về những job đang ở trạng thái pending,ko quan trọng thời hạn
         /// </summary>
         /// <returns></returns>
-        List<Job> getAllPendingJobs();
+        List<ReturnPendingJobDTO> getAllPendingJobs();
 
         /// <summary>
         /// Trả về những job ở trạng thái OK,đã duyệt và vẫn còn thời hạn trước 30 ngày tính từ lúc job đc approve
@@ -85,6 +85,8 @@ namespace Capstone2021.Services
 
         IList<Category> getAllCategories();
 
+        IList<ActiveDaysAndPrice> getAllActiveDaysAndPrice();
+
         /// <summary>
         /// Lấy job có paging,chỉ trả về 5 job 1 page
         /// </summary>
@@ -104,7 +106,7 @@ namespace Capstone2021.Services
         /// <param name="jobId"></param>
         /// <param name="staffId"></param>
         /// <returns></returns>
-        bool denyAJob(int jobId, int staffId);
+        bool denyAJob(int jobId,string message, int staffId);
 
         /// <summary>
         /// Lấy tất cả những job bị deny của recruiter

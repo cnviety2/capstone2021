@@ -199,56 +199,6 @@ namespace Capstone2021.Controllers
                     return InternalServerError();
             }
         }
-        /*
-                //check
-                [HttpPost]
-                [Route("update/banner/image/{id}")]
-                public IHttpActionResult upload([FromUri] int id)
-                {
-                    if (id < 1 || id > 4)
-                    {
-                        return BadRequest("Id từ 1 -> 4");
-                    }
-                    var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
-                    if (file != null && file.ContentLength > 0)
-                    {
-                        if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
-                        {
-                            return BadRequest("Only jpeg or png");
-                        }
-                        using (Stream st = file.InputStream)
-                        {
-                            ResponseDTO response = new ResponseDTO();
-                            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
-                            int staffId = HttpContextUtils.getUserID(claims);
-                            string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
-                            string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
-                            string s3DirectoryName = "";
-                            string s3FileName = @name;
-                            bool a;
-                            AmazonUploader myUploader = new AmazonUploader();
-                            a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
-                            if (a == true)
-                            {
-                                string imgUrl = managerService.updateBannerImgUrl(id, name, staffId);
-                                if (imgUrl.Equals("error"))
-                                {
-                                    return InternalServerError();
-                                }
-                                response.message = "Upload avatar thành công";
-                                response.data = imgUrl;
-                                return Ok(response);
-                            }
-                            else
-                            {
-                                return BadRequest("Lỗi xảy ra khi upload ảnh lên aws");
-
-                            }
-                        }
-                    }
-                    return BadRequest("Lỗi xảy ra");
-                }
-        */
 
         //check
         [HttpGet]

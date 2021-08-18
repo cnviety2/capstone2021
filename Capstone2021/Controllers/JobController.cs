@@ -173,7 +173,7 @@ namespace Capstone2021.Controllers
         public IHttpActionResult getAllPendingJobs()
         {
             ResponseDTO response = new ResponseDTO();
-            IList<Job> list = jobService.getAllPendingJobs();
+            IList<ReturnPendingJobDTO> list = jobService.getAllPendingJobs();
             if (list.Count == 0)
             {
                 response.message = "Không có dữ liệu";
@@ -213,13 +213,19 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("invalid_id", "Id là số nguyên");
                 return BadRequest(ModelState);
             }
+            if (dto.message == null || dto.message.IsEmpty())
+            {
+                ModelState.AddModelError("dto.message", "Không được thiếu lời nhắn");
+                return BadRequest(ModelState);
+            }
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int jobId = dto.id;
+            string message = dto.message;
             int staffId = HttpContextUtils.getUserID(claims);
-            bool denyState = jobService.denyAJob(jobId, staffId);
+            bool denyState = jobService.denyAJob(jobId,message, staffId);
             if (!denyState)
             {
-                return BadRequest("Lỗi xảy ra ");
+                return BadRequest("Job đã đăng không thể deny(hoặc job đã deny trước đó)");
             }
             ResponseDTO response = new ResponseDTO();
             response.message = "OK";
@@ -304,6 +310,26 @@ namespace Capstone2021.Controllers
             response.message = "OK";
             response.data = list;
             return Ok(response);
+        }
+
+        [Route("active-days-price")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult getAllActiveDaysAndPrice()
+        {
+            IList<ActiveDaysAndPrice> list = jobService.getAllActiveDaysAndPrice();
+            ResponseDTO response = new ResponseDTO();
+            if (list.Count == 0)
+            {
+                response.message = "Không có kết quả";
+                return Ok(response);
+            }
+            else
+            {
+                response.message = "OK";
+                response.data = list;
+                return Ok(response);
+            }
         }
 
         //Trả về tổng số page có trong db,support frontend,check
@@ -452,6 +478,11 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.categories", "Ít nhất 1 category");
                 return BadRequest(ModelState);
             }
+            else if(dto.categories.Length > 5)
+            {
+                ModelState.AddModelError("dto.categories", "Không quá 5 category");
+                return BadRequest(ModelState);
+            }
             if (dto.salaryMin >= dto.salaryMax)
             {
                 ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
@@ -535,9 +566,9 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
                 flag = true;
             }
-            if (dto.categories != null && dto.categories.Length == 0)
+            if (dto.categories != null && (dto.categories.Length == 0 || dto.categories.Length > 5))
             {
-                ModelState.AddModelError("dto.categories", "Ít nhất chọn 1");
+                ModelState.AddModelError("dto.categories", "Ít nhất chọn 1 và không quá 5");
                 flag = true;
             }
             if (flag)

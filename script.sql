@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/17/2021 21:43:54
+-- Date Created: 08/18/2021 19:20:07
 -- Generated from EDMX file: C:\Users\DELL\source\repos\Capstone2021\Capstone2021\DbEntitiesModel.edmx
 -- --------------------------------------------------
 
@@ -113,7 +113,7 @@ GO
 
 -- Creating table 'active_days_price'
 CREATE TABLE [dbo].[active_days_price] (
-    [id] int  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [active_days] int  NOT NULL,
     [price] decimal(19,4)  NOT NULL
 );
@@ -215,7 +215,7 @@ GO
 
 -- Creating table 'manager_deny_job'
 CREATE TABLE [dbo].[manager_deny_job] (
-    [id] int  NOT NULL,
+    [id] int IDENTITY(1,1) NOT NULL,
     [recruiter_id] int  NOT NULL,
     [deny_message] nvarchar(max)  NOT NULL,
     [job_id] int  NOT NULL,

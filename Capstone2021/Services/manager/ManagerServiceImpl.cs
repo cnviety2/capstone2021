@@ -1,7 +1,9 @@
 ﻿using Capstone2021.DTO;
+using Capstone2021.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Helpers;
 using System.Web.WebPages;
@@ -620,5 +622,226 @@ namespace Capstone2021.Service
                 }
             }
         }
+
+        public IList<Student> getListStudentsWithPaging(int page)
+        {
+            IList<Student> list = new List<Student>();
+            using (context)
+            {
+                list = context.students.AsEnumerable().Select(s => StudentMapper.mapToDto(s))
+                    .OrderByDescending(s => s.gmail)
+                    .Skip(5 * (page - 1))
+                    .Take(5)
+                    .ToList<Student>();
+            }
+            return list;
+        }
+
+        public IList<ReturnRecruiterForAdminDTO> getListRecruiterWithPaging(int page)
+        {
+            IList<ReturnRecruiterForAdminDTO> list = new List<ReturnRecruiterForAdminDTO>();
+            using (context)
+            {
+                list = context.recruiters.AsEnumerable().Select(s => RecruiterMapper.mapFromModel(s))
+                    .OrderByDescending(s => s.gmail)
+                    .Skip(5 * (page - 1))
+                    .Take(5)
+                    .ToList<ReturnRecruiterForAdminDTO>();
+            }
+            return list;
+        }
+
+        public int getTotalPages(string choice)
+        {
+            int result = 0;
+            using (context)
+            {
+                switch (choice)
+                {
+                    case "student":
+                        int count = context.students.Count();
+                        result = (int)Math.Ceiling((double)count / 5);
+                        break;
+                    case "recruiter":
+                        count = context.recruiters.Count();
+                        result = (int)Math.Ceiling((double)count / 5);
+                        break;
+                }
+
+            }
+            return result;
+        }
+
+        public IList<Category> getAllCategory()
+        {
+            IList<Category> result = new List<Category>();
+            using (context)
+            {
+                result = context.categories.AsEnumerable().Select(s => new Category() { id = s.id, value = s.value }).ToList<Category>();
+            }
+            return result;
+        }
+
+        public IList<ActiveDaysAndPrice> getAllActiveDaysAndPrice()
+        {
+            IList<ActiveDaysAndPrice> result = new List<ActiveDaysAndPrice>();
+            using (context)
+            {
+                result = context.active_days_price.AsEnumerable().Select(s => new ActiveDaysAndPrice() { id = s.id, activeDays = s.active_days, price = s.price }).ToList<ActiveDaysAndPrice>();
+            }
+            return result;
+        }
+
+        public bool createACategory(string value) 
+        {
+            using (context)
+            {
+                try
+                {
+                    category model = new category();
+                    model.value = value;
+                    context.categories.Add(model);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                    return false;
+                }
+            }
+        }
+
+        public int updateACategory(int id, string value) 
+        {
+            using (context)
+            {
+                var category = context.categories.Find(id);
+                if (category == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    try
+                    {
+                        category.value = value;
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                        return 3;
+                    }
+                }
+
+            }
+        }
+
+
+        public int createAnActiveDaysAndPrice(int days, decimal price) 
+        {
+            using(context)
+            {
+                var checkDuplicate = context.active_days_price.Where(s => s.active_days == days || s.price == price).FirstOrDefault();
+                if (checkDuplicate != null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    try
+                    {
+                        active_days_price model = new active_days_price();
+                        model.active_days = days;
+                        model.price = price;
+                        context.active_days_price.Add(model);
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                        return 3;
+                    }
+                }
+            }
+        }
+
+
+        public int updateAnActiveDaysAndPrice(UpdateActiveDaysAndPriceDTO dto) 
+        {
+            using (context)
+            {
+                var activeDaysAndPrice = context.active_days_price.Find(dto.id);
+                if (activeDaysAndPrice == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    try 
+                    {
+                        if (dto.activeDays.HasValue)
+                        {
+                            activeDaysAndPrice.active_days = dto.activeDays.Value;
+                        }
+                        if (dto.price.HasValue)
+                        {
+
+                            activeDaysAndPrice.price = dto.price.Value;
+                        }
+                        context.SaveChanges();
+                        return 1;
+                    } 
+                    catch (Exception e) 
+                    {
+                        if (e.InnerException.InnerException.Message.Contains("Cannot insert duplicate key")) 
+                        {
+                            logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                            return 4;
+                        }
+                        else 
+                        {
+                            logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                            return 3;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public int deleteAnActiceDaysAndPrice(int id) 
+        {
+            using (context)
+            {
+                if (context.active_days_price.Count() < 3)
+                {
+                    return 3;
+                }
+                var activeDaysAndPrice = context.active_days_price.Find(id);
+                if (activeDaysAndPrice == null)
+                {
+                    return 2;
+                }
+                else
+                {
+                    try
+                    {
+                        context.active_days_price.Remove(activeDaysAndPrice);
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
+                        return 4;
+                    }
+                }
+            }
+        }
+
     }
 }

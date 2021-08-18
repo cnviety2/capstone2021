@@ -186,19 +186,21 @@ namespace Capstone2021.Services
             throw new NotImplementedException();
         }
 
-        public List<Job> getAllPendingJobs()
+        public List<ReturnPendingJobDTO> getAllPendingJobs()
         {
-            List<Job> result = new List<Job>();
+            List<ReturnPendingJobDTO> result = new List<ReturnPendingJobDTO>();
             using (context)
             {
                 result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s =>
-                    JobUtils.mapFromDbContext(s)
-                ).ToList<Job>();
+                    JobUtils.mapFromDbContextToPendingDTO(s)
+                ).ToList<ReturnPendingJobDTO>();
 
                 //xử lý thêm category vào dto trả về cho frontend
-                foreach (Job element in result)
+                foreach (ReturnPendingJobDTO element in result)
                 {
                     var recruiter = context.recruiters.Find(element.recruiterId);
+                    var price = context.active_days_price.Where(s => s.active_days == element.activeDays).Select(s => s.price).FirstOrDefault();
+                    element.price = price;
                     element.recruiterUsername = recruiter.username;
                     if (recruiter.companies.Count != 0)
                     {
@@ -222,7 +224,7 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public bool denyAJob(int jobId, int staffId)
+        public bool denyAJob(int jobId, string message, int staffId)
         {
             using (context)
             {
@@ -234,7 +236,7 @@ namespace Capstone2021.Services
                 else
                 {
                     var job = context.jobs.Find(jobId);
-                    if (job == null || job.status == 2)
+                    if (job == null || job.status == 2 || job.status == 3)
                     {
                         return false;
                     }
@@ -242,9 +244,20 @@ namespace Capstone2021.Services
                     {
                         try
                         {
-                            job.status = 3;
-                            job.manager_id = staffId;
-                            context.SaveChanges();
+                            using (var dbTransaction = context.Database.BeginTransaction())
+                            {
+                                manager_deny_job relationship = new manager_deny_job();
+                                relationship.deny_message = message;
+                                relationship.job_id = jobId;
+                                relationship.manager_id = staffId;
+                                relationship.recruiter_id = job.recruiter_id;
+                                context.manager_deny_job.Add(relationship);
+                                context.SaveChanges();
+                                job.status = 3;
+                                job.manager_id = staffId;
+                                context.SaveChanges();
+                                dbTransaction.Commit();
+                            }
                             return true;
                         }
                         catch (Exception e)
@@ -484,6 +497,16 @@ namespace Capstone2021.Services
                 }
             }
             return listResult;
+        }
+
+        public IList<ActiveDaysAndPrice> getAllActiveDaysAndPrice()
+        {
+            List<ActiveDaysAndPrice> result = new List<ActiveDaysAndPrice>();
+            using (context)
+            {
+                result = context.active_days_price.AsEnumerable().Select(s => new ActiveDaysAndPrice() { id = s.id, activeDays = s.active_days, price = s.price }).ToList<ActiveDaysAndPrice>();
+            }
+            return result;
         }
 
         public IList<Category> getAllCategories()

@@ -118,6 +118,233 @@ namespace Capstone2021.Controllers
             }
             return Ok(response);
         }
+        
+        //trả về tất cả students ,có paging,check
+        [Route("students")]
+        [HttpGet]
+        public IHttpActionResult getStudentWithPaging([FromUri] int page)
+        {
+            IList<Student> list = managerService.getListStudentsWithPaging(page);
+            ResponseDTO response = new ResponseDTO();
+            if (list.Count == 0)
+            {
+                response.message = "Không có kết quả";
+                return Ok(response);
+            }
+            else
+            {
+                response.message = "OK";
+                response.data = list;
+                return Ok(response);
+            }
+        }
+
+        //trả về recruiter,có paging,check
+        [Route("recruiters")]
+        [HttpGet]
+        public IHttpActionResult getRecruiterWithPaging([FromUri] int page)
+        {
+            IList<ReturnRecruiterForAdminDTO> list = managerService.getListRecruiterWithPaging(page);
+            ResponseDTO response = new ResponseDTO();
+            if (list.Count == 0)
+            {
+                response.message = "Không có kết quả";
+                return Ok(response);
+            }
+            else
+            {
+                response.message = "OK";
+                response.data = list;
+                return Ok(response);
+            }
+        }
+
+        //trả về tất cả cate,check
+        [Route("categories")]
+        [HttpGet]
+        public IHttpActionResult getAllCate()
+        {
+            IList<Category> list = managerService.getAllCategory();
+            ResponseDTO response = new ResponseDTO();
+            if (list.Count == 0)
+            {
+                response.message = "Không có kết quả";
+                return Ok(response);
+            }
+            else
+            {
+                response.message = "OK";
+                response.data = list;
+                return Ok(response);
+            }
+        }
+
+        [Route("categories/create")]
+        [HttpPost]
+        public IHttpActionResult createACate([FromBody] Category dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest("Dữ liệu bị null");
+            }
+            if (dto.value == null || dto.value.IsEmpty())
+            {
+                return BadRequest("Không được trống");
+            }
+            bool createState = managerService.createACategory(dto.value);
+            if (createState == true)
+            {
+                ResponseDTO response = new ResponseDTO();
+                response.message = "OK";
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest("Lỗi xảy ra,hãy thử lại");
+            }
+        }
+
+        [Route("categories/update")]
+        [HttpPut]
+        public IHttpActionResult updateACate([FromBody] Category dto)
+        {
+            if (dto.value == null || dto.value.IsEmpty())
+            {
+                return BadRequest("Không được trống");
+            }
+            int updateState = managerService.updateACategory(dto.id,dto.value);
+            switch (updateState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Không tìm thấy");
+                case 3:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
+        }
+
+        //trả về tất cả option lựa chọn ngày hiệu lực và giá tiền
+        [Route("active-days-price")]
+        [HttpGet]
+        public IHttpActionResult getAllActiveDaysAndPrice()
+        {
+            IList<ActiveDaysAndPrice> list = managerService.getAllActiveDaysAndPrice();
+            ResponseDTO response = new ResponseDTO();
+            if (list.Count == 0)
+            {
+                response.message = "Không có kết quả";
+                return Ok(response);
+            }
+            else
+            {
+                response.message = "OK";
+                response.data = list;
+                return Ok(response);
+            }
+        }
+
+        //tạo mới 1 option ngày hiệu lực - giá tiền,check
+        [Route("active-days-price/create")]
+        [HttpPost]
+        public IHttpActionResult createAnActiveDaysAndPrice([FromBody] ActiveDaysAndPrice dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest("Dữ liệu bị null");
+            }
+            if (dto.activeDays < 1 || dto.price < 1)
+            {
+                return BadRequest("Số ngày phải nhiều hơn 0 và giá trị của tiền phải lớn hơn 0");
+            }
+            int createState = managerService.createAnActiveDaysAndPrice(dto.activeDays, dto.price);
+            switch (createState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Giá trị này đã tồn tại (số ngày hiệu lực hoặc giá tiền)");
+                case 3:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
+        }
+
+        //update lại 1 giá trị ngày hiệu lực - giá tiền,check
+        [Route("active-days-price/update")]
+        [HttpPut]
+        public IHttpActionResult updateAnActiveDaysAndPrice([FromBody] UpdateActiveDaysAndPriceDTO dto)
+        {
+            if (dto == null)
+            {
+                return BadRequest("Dữ liệu bị null");
+            }
+            if (dto.activeDays < 1 || dto.price < 1)
+            {
+                return BadRequest("Số ngày phải nhiều hơn 0 và giá trị của tiền phải lớn hơn 0");
+            }
+            int updateState = managerService.updateAnActiveDaysAndPrice(dto);
+            switch (updateState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 4:
+                    return BadRequest("Giá trị này đã tồn tại (số ngày hiệu lực hoặc giá tiền)");
+                case 3:
+                    return InternalServerError();
+                case 2:
+                    return BadRequest("Không tìm thấy");
+                default:
+                    return InternalServerError();
+            }
+        }
+
+        //xóa 1 giá trị ngày hiệu lực - giá tiền,ít hơn 2 ko cho xóa,check
+        [Route("active-days-price/{id}/delete")]
+        [HttpDelete]
+        public IHttpActionResult deleteAnActiveDaysAndPrice([FromUri] int id)
+        {
+            int deleteState = managerService.deleteAnActiceDaysAndPrice(id);
+            switch (deleteState)
+            {
+                case 1:
+                    ResponseDTO response = new ResponseDTO();
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Không tìm thấy");
+                case 3:
+                    return BadRequest("Không thể xóa vì chỉ còn lại 2 cặp giá trị lựa chọn");
+                case 4:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
+        }
+
+        [Route("total-pages")]
+        [HttpGet]
+        public IHttpActionResult getTotalPage([FromUri] string choice)
+        {
+            if (!choice.Equals("recruiter") && !choice.Equals("student"))
+            {
+                return BadRequest("Choice: student hoặc recruiter");
+            }
+            int pages = managerService.getTotalPages(choice);
+            ResponseDTO response = new ResponseDTO();
+            response.message = "OK";
+            response.data = pages;
+            return Ok(response);
+        }
 
         [Route("update/password")]
         [HttpPut]

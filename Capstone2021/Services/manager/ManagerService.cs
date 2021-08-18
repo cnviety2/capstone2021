@@ -69,5 +69,69 @@ namespace Capstone2021.Service
         /// </summary>
         /// <returns></returns>
         DashboardDataDTO getDashboardData();
+
+        /// <summary>
+        /// Lấy ra list những student dựa theo trang,mỗi lần 5 record,chỉ admin xài
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        IList<Student> getListStudentsWithPaging(int page);
+
+        /// <summary>
+        /// Lấy ra list những recruiter dựa theo trang,mỗi lần 5 record,chỉ admin xài
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        IList<ReturnRecruiterForAdminDTO> getListRecruiterWithPaging(int page);
+
+        /// <summary>
+        /// Bỏ vào 1 string là student hay recruiter để lấy tổng số trang của table đó
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns></returns>
+        int getTotalPages(string choice);
+
+        IList<Category> getAllCategory();
+
+        IList<ActiveDaysAndPrice> getAllActiveDaysAndPrice();
+
+        /// <summary>
+        /// Tạo mới 1 category,admin xài
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool createACategory(string value);
+
+        /// <summary>
+        /// Update 1 category dựa trên id,1 là ok , 2 là không tìm thấy , 3 là lỗi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        int updateACategory(int id, string value);
+
+        /// <summary>
+        /// Tạo mới 1 lựa chọn ngày hiệu lực và giá tiền,1 là ok , 2 là giá trị đã lặp lại, 3 là lỗi
+        /// </summary>
+        /// <param name="days"></param>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        int createAnActiveDaysAndPrice(int days,decimal price);
+
+        /// <summary>
+        /// Update 1 lựa chọn ngày hiệu lực và giá tiền dựa trên id,1 là ok, 2 là không tìm thấy , 3 là lỗi ,4 là giá trị đã lặp lại
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="days"></param>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        int updateAnActiveDaysAndPrice(UpdateActiveDaysAndPriceDTO dto);
+
+        /// <summary>
+        /// Xóa 1 lựa chọn ngày hiệu lực và giá tiền dựa trên id,1 là ok ,2 là ko tìm thấy, 3 là không thể xóa vì chỉ còn lại 2 record dưới db,4 là lỗi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        int deleteAnActiceDaysAndPrice(int id);
     }
 }

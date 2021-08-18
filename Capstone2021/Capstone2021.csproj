@@ -436,6 +436,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DTO\ActiveDaysAndPrice.cs" />
     <Compile Include="DTO\AppliedJobDTO.cs" />
     <Compile Include="DTO\ApplyAJobDTO.cs" />
     <Compile Include="DTO\ApproveOrDenyAJobDTO.cs" />
@@ -464,7 +465,9 @@
     <Compile Include="DTO\ReturnCompanyDTO.cs" />
     <Compile Include="DTO\ReturnCvDTO.cs" />
     <Compile Include="DTO\ReturnListCvDTO.cs" />
+    <Compile Include="DTO\ReturnPendingJobDTO.cs" />
     <Compile Include="DTO\ReturnRecruiterDTO.cs" />
+    <Compile Include="DTO\ReturnRecruiterForAdminDTO.cs" />
     <Compile Include="DTO\ReturnSavedJobDTO.cs" />
     <Compile Include="DTO\ReturnStudentDTO.cs" />
     <Compile Include="DTO\SaveAJobDTO.cs" />
@@ -472,6 +475,7 @@
     <Compile Include="DTO\SendMailToRetrievePasswordDTO.cs" />
     <Compile Include="DTO\Student.cs" />
     <Compile Include="DTO\StudentIdAndCvIdDTO.cs" />
+    <Compile Include="DTO\UpdateActiveDaysAndPriceDTO.cs" />
     <Compile Include="DTO\UpdateBannerDTO.cs" />
     <Compile Include="DTO\UpdateCompanyDTO.cs" />
     <Compile Include="DTO\UpdateCvDTO.cs" />

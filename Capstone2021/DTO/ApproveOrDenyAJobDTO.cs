@@ -8,5 +8,7 @@ namespace Capstone2021.DTO
         [Required]
         [Range(1, Int32.MaxValue, ErrorMessage = "Id là bắt buộc")]
         public Int32 id { get; set; }
+
+        public String message { get; set; }
     }
 }

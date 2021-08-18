@@ -76,7 +76,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="active_days" Type="Int32" Nullable="false" />
     <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
   </EntityType>
@@ -192,7 +192,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="recruiter_id" Type="Int32" Nullable="false" />
     <Property Name="deny_message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="job_id" Type="Int32" Nullable="false" />

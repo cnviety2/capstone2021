@@ -23,6 +23,19 @@ namespace Capstone2021.Utils
             return result;
         }
 
+        public static ReturnRecruiterForAdminDTO mapFromModel(recruiter model)
+        {
+            ReturnRecruiterForAdminDTO result = new ReturnRecruiterForAdminDTO();
+            result.avatar = model.avatar;
+            result.id = model.id;
+            result.lastName = model.last_name;
+            result.firstName = model.first_name;
+            result.gmail = model.gmail;
+            result.phone = model.phone;
+            result.sex = model.sex;
+            result.username = model.username;
+            return result;
+        }
         public static Recruiter mapFromDto(CreateRecruiterDTO dto)
         {
             Recruiter result = new Recruiter();

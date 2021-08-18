@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="active_days" Type="int" Nullable="false" />
     <Property Name="price" Type="money" Nullable="false" />
   </EntityType>
@@ -106,7 +106,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="recruiter_id" Type="int" Nullable="false" />
     <Property Name="deny_message" Type="ntext" Nullable="false" />
     <Property Name="job_id" Type="int" Nullable="false" />

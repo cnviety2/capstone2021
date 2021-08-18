@@ -162,7 +162,13 @@ namespace Capstone2021.Services.Student
                     foreach (int jobId in listSaveJobId)
                     {
                         var job = context.jobs.Find(jobId);
-                        ReturnSavedJobDTO saveJobDTO = new ReturnSavedJobDTO() { id = job.id, name = job.name };
+                        var company = context.companies.Where(s => s.recruiter_id == job.recruiter_id).FirstOrDefault();
+                        string companyNameTemp = "";
+                        if (company != null)
+                        {
+                            companyNameTemp = company.name;
+                        }
+                        ReturnSavedJobDTO saveJobDTO = new ReturnSavedJobDTO() { id = job.id, name = job.name, companyName = companyNameTemp ,endDate = job.create_date.AddDays(job.active_days).ToString("dd/MM/yyyy")};
                         result.Add(saveJobDTO);
                     }
                 }

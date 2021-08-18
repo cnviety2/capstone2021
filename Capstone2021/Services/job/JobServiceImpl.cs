@@ -45,6 +45,7 @@ namespace Capstone2021.Services
                     result.isOver = true;
                 }
                 else result.isOver = false;
+                result.endDate = result.createDate2.AddDays(result.activeDays).ToString("dd/MM/yyyy");
                 result.categories = new List<Category>();
                 foreach (job_has_category relationship in result.relationship)
                 {
@@ -73,6 +74,7 @@ namespace Capstone2021.Services
                    .ToList<Job>();
                 foreach (Job element in listResult)
                 {
+                    element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
@@ -445,9 +447,9 @@ namespace Capstone2021.Services
                     result.Add(element);
                 }
             }
-            if (result.Count > 5)
+            if (result.Count > 4)
             {
-                result.RemoveRange(5, result.Count - 5);
+                result.RemoveRange(4, result.Count - 4);
             }
             return result;
         }
@@ -466,6 +468,7 @@ namespace Capstone2021.Services
                     {
                         element.isOver = true;
                     }
+                    element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
@@ -491,9 +494,14 @@ namespace Capstone2021.Services
                 {
                     AppliedJobDTO dto = new AppliedJobDTO();
                     dto.id = element.job_id;
-                    dto.name = context.jobs.Where(s => s.id == dto.id).Select(s => s.name).FirstOrDefault<string>();
-                    dto.appliedDate = element.create_date.ToString("dd/MM/yyyy");
-                    listResult.Add(dto);
+                    var job = context.jobs.Find(dto.id);
+                    if (job != null)
+                    {
+                        dto.name = job.name;
+                        dto.jobEndDate = job.create_date.AddDays(job.active_days).ToString("dd/MM/yyyy");
+                        dto.appliedDate = element.create_date.ToString("dd/MM/yyyy");
+                        listResult.Add(dto);
+                    }
                 }
             }
             return listResult;
@@ -550,6 +558,7 @@ namespace Capstone2021.Services
                 foreach (Job element in listResult)
                 {
                     element.categories = new List<Category>();
+                    element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
                     foreach (job_has_category relationship in element.relationship)
                     {
                         Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()

@@ -2,8 +2,12 @@
 {
     public class ReturnSavedJobDTO
     {
-        public int id;
-        public string name;
-        ///thêm mới sau,tạm thời 2 field id và name
+        public int id { get; set; }
+        public string name { get; set; }
+
+        public string endDate { get; set; }
+
+        public string companyName { get; set; }
+
     }
 }

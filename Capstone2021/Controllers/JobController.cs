@@ -184,24 +184,6 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
-        /*//Lấy listx những job đã đc duyệt,ko cần thiết,dư,check
-        [HttpGet]
-        [Route("approved-jobs")]
-        [AllowAnonymous]
-        public IHttpActionResult getAllApprovedJobs()
-        {
-            ResponseDTO response = new ResponseDTO();
-            IList<Job> list = jobService.getAllApprovedJobs();
-            if (list.Count == 0)
-            {
-                response.message = "Không có dữ liệu";
-                return Ok(response);
-            }
-            response.message = "OK";
-            response.data = list;
-            return Ok(response);
-        }*/
-
         //Deny 1 job,check
         [HttpPut]
         [Route("deny")]
@@ -276,7 +258,7 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
-        //Trả về những job vừa đc approve mới nhất và không quá 30 ngày sort theo thời gian create,check
+        //Trả về những job vừa đc approve mới nhất và không quá hạn,sort theo thời gian create,check
         [HttpGet]
         [Route("")]
         [AllowAnonymous]

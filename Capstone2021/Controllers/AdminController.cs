@@ -191,7 +191,7 @@ namespace Capstone2021.Controllers
             {
                 return BadRequest("Không được trống");
             }
-            bool createState = managerService.createACategory(dto.value);
+            bool createState = managerService.createACategory(dto.value.Trim());
             if (createState == true)
             {
                 ResponseDTO response = new ResponseDTO();
@@ -212,7 +212,7 @@ namespace Capstone2021.Controllers
             {
                 return BadRequest("Không được trống");
             }
-            int updateState = managerService.updateACategory(dto.id, dto.value);
+            int updateState = managerService.updateACategory(dto.id, dto.value.Trim());
             switch (updateState)
             {
                 case 1:

@@ -51,5 +51,41 @@ namespace Capstone2021.Utils
             response.message = "OK";
             return response;
         }
+
+        //Gửi email liên hệ tới cho SAC,tạm thời chưa có tài khoản mail của sac
+        public static ResponseDTO sendEmailToSAC(SendEmailToSACDTO dto)
+        {
+            ResponseDTO response = new ResponseDTO();
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(gmail, "Liên hệ từ :" + dto.name);
+            mail.To.Add(new MailAddress(gmail));//chỗ này sẽ là mail của SAC
+            mail.SubjectEncoding = System.Text.Encoding.UTF8;
+            mail.Subject = dto.subject;
+            mail.IsBodyHtml = true;
+            mail.BodyEncoding = System.Text.Encoding.UTF8;
+            mail.Body = "<p>Nội dung : " + dto.content + "</p><p>Email của người liên hệ : " + dto.email + "</p>";
+
+            using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587))
+            {
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new System.Net.NetworkCredential(gmail, password);
+                smtpClient.Host = "smtp.gmail.com";
+                smtpClient.Port = 587;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                try
+                {
+                    smtpClient.Send(mail);
+                }
+                catch (Exception e)
+                {
+                    response.data = e;
+                    response.message = "ERROR";
+                    return response;
+                }
+            }
+            response.message = "OK";
+            return response;
+        }
     }
 }

@@ -269,8 +269,7 @@ namespace Capstone2021.Services
                             var relationship = context.student_apply_job.Where(s => s.cv_id == cvId).FirstOrDefault();
                             if (relationship != null)
                             {
-                                context.student_apply_job.Remove(relationship);
-                                context.SaveChanges();
+                                return 5;
                             }
                             var cv = context.cvs.Find(cvId);
                             context.cvs.Remove(cv);
@@ -335,15 +334,73 @@ namespace Capstone2021.Services
             }
         }
 
-        public IList<Cv> searchCvs(string keyword)
+        public IList<Cv> searchCvs(SearchCvDTO dto, int page)
         {
             IList<Cv> result = new List<Cv>();
-            string newKeyword = StringUtils.convertToUnSign3(keyword).ToLower().Trim();
             using (context)
             {
-                result = context.cvs.AsEnumerable().Where(s => s.is_public == true &&
-                (StringUtils.convertToUnSign3(s.cv_name).ToLower().Trim().Contains(newKeyword) || StringUtils.convertToUnSign3(s.skill).ToLower().Trim().Contains(newKeyword)))
-                    .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+                if (dto.salary.HasValue && !dto.workingForm.HasValue)
+                {
+                    result = context.cvs.AsEnumerable()
+                        .Where(s => s.desired_salary_minimum <= dto.salary.Value && s.is_public == true)
+                        .OrderByDescending(s => s.cv_name)
+                        .Skip(5 * (page - 1))
+                        .Take(5)
+                        .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+                }
+                else
+                {
+                    if (!dto.salary.HasValue && dto.workingForm.HasValue)
+                    {
+                        result = context.cvs.AsEnumerable()
+                                    .Where(s => s.working_form == dto.workingForm.Value && s.is_public == true)
+                                    .OrderByDescending(s => s.cv_name)
+                                    .Skip(5 * (page - 1))
+                                    .Take(5)
+                                    .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+                    }
+                    else
+                    {
+                        if (dto.salary.HasValue && dto.workingForm.HasValue)
+                        {
+                            result = context.cvs.AsEnumerable()
+                                    .Where(s => s.desired_salary_minimum <= dto.salary.Value && s.working_form == dto.workingForm.Value && s.is_public == true)
+                                    .OrderByDescending(s => s.cv_name)
+                                    .Skip(5 * (page - 1))
+                                    .Take(5)
+                                    .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public int getTotalPagesInSearchCv(SearchCvDTO dto)
+        {
+            int result = 0;
+            using (context)
+            {
+                int count = 0;
+                if (dto.salary.HasValue && !dto.workingForm.HasValue)
+                {
+                    count = context.cvs.Where(s => s.desired_salary_minimum <= dto.salary.Value && s.is_public == true).Count();
+                }
+                else
+                {
+                    if (!dto.salary.HasValue && dto.workingForm.HasValue)
+                    {
+                        count = context.cvs.Where(s => s.working_form == dto.workingForm.Value && s.is_public == true).Count();
+                    }
+                    else
+                    {
+                        if (dto.salary.HasValue && dto.workingForm.HasValue)
+                        {
+                            count = context.cvs.Where(s => s.desired_salary_minimum <= dto.salary.Value && s.working_form == dto.workingForm.Value && s.is_public == true).Count();
+                        }
+                    }
+                }
+                result = (int)Math.Ceiling((double)count / 5);
             }
             return result;
         }

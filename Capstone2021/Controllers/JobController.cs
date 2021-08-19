@@ -126,6 +126,26 @@ namespace Capstone2021.Controllers
             }
         }
 
+        //Lấy về việc làm tương tự dựa trên category của 1 job dựa trên id của job đó(việc làm vẫn còn hiệu lực),check
+        [Route("similar-jobs/{id}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult getSimilarJobs([FromUri] int id)
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<SimilarJobDTO> result = jobService.getSimilarJobs(id);
+            if (result.Count == 0)
+            {
+                response.message = "Không có dữ liệu";
+            }
+            else
+            {
+                response.message = "OK";
+                response.data = result;
+            }
+            return Ok(response);
+        }
+
         //api apply job của student,student gửi id của cv đi,check
         [HttpPost]
         [Route("apply")]
@@ -204,7 +224,7 @@ namespace Capstone2021.Controllers
             int jobId = dto.id;
             string message = dto.message;
             int staffId = HttpContextUtils.getUserID(claims);
-            bool denyState = jobService.denyAJob(jobId,message, staffId);
+            bool denyState = jobService.denyAJob(jobId, message, staffId);
             if (!denyState)
             {
                 return BadRequest("Job đã đăng không thể deny(hoặc job đã deny trước đó)");
@@ -460,7 +480,7 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.categories", "Ít nhất 1 category");
                 return BadRequest(ModelState);
             }
-            else if(dto.categories.Length > 5)
+            else if (dto.categories.Length > 5)
             {
                 ModelState.AddModelError("dto.categories", "Không quá 5 category");
                 return BadRequest(ModelState);

@@ -3,7 +3,6 @@ using Capstone2021.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Helpers;
 using System.Web.WebPages;
@@ -692,7 +691,7 @@ namespace Capstone2021.Service
             return result;
         }
 
-        public bool createACategory(string value) 
+        public bool createACategory(string value)
         {
             using (context)
             {
@@ -712,7 +711,7 @@ namespace Capstone2021.Service
             }
         }
 
-        public int updateACategory(int id, string value) 
+        public int updateACategory(int id, string value)
         {
             using (context)
             {
@@ -740,9 +739,9 @@ namespace Capstone2021.Service
         }
 
 
-        public int createAnActiveDaysAndPrice(int days, decimal price) 
+        public int createAnActiveDaysAndPrice(int days, decimal price)
         {
-            using(context)
+            using (context)
             {
                 var checkDuplicate = context.active_days_price.Where(s => s.active_days == days || s.price == price).FirstOrDefault();
                 if (checkDuplicate != null)
@@ -770,7 +769,7 @@ namespace Capstone2021.Service
         }
 
 
-        public int updateAnActiveDaysAndPrice(UpdateActiveDaysAndPriceDTO dto) 
+        public int updateAnActiveDaysAndPrice(UpdateActiveDaysAndPriceDTO dto)
         {
             using (context)
             {
@@ -781,7 +780,7 @@ namespace Capstone2021.Service
                 }
                 else
                 {
-                    try 
+                    try
                     {
                         if (dto.activeDays.HasValue)
                         {
@@ -794,15 +793,15 @@ namespace Capstone2021.Service
                         }
                         context.SaveChanges();
                         return 1;
-                    } 
-                    catch (Exception e) 
+                    }
+                    catch (Exception e)
                     {
-                        if (e.InnerException.InnerException.Message.Contains("Cannot insert duplicate key")) 
+                        if (e.InnerException.InnerException.Message.Contains("Cannot insert duplicate key"))
                         {
                             logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
                             return 4;
                         }
-                        else 
+                        else
                         {
                             logger.Info("Exception " + e.Message + "in ManagerServiceImpl");
                             return 3;
@@ -813,7 +812,7 @@ namespace Capstone2021.Service
         }
 
 
-        public int deleteAnActiceDaysAndPrice(int id) 
+        public int deleteAnActiceDaysAndPrice(int id)
         {
             using (context)
             {

@@ -168,7 +168,7 @@ namespace Capstone2021.Services.Student
                         {
                             companyNameTemp = company.name;
                         }
-                        ReturnSavedJobDTO saveJobDTO = new ReturnSavedJobDTO() { id = job.id, name = job.name, companyName = companyNameTemp ,endDate = job.create_date.AddDays(job.active_days).ToString("dd/MM/yyyy")};
+                        ReturnSavedJobDTO saveJobDTO = new ReturnSavedJobDTO() { id = job.id, name = job.name, companyName = companyNameTemp, endDate = job.create_date.AddDays(job.active_days).ToString("dd/MM/yyyy") };
                         result.Add(saveJobDTO);
                     }
                 }

@@ -42,7 +42,7 @@ namespace Capstone2021.Services
         Cv get(int studentId, int cvId);
 
         /// <summary>
-        /// Xóa 1 cv của student,return 1 : ok, 2 : cv ko tồn tại, 3 : ko tìm thấy cv, 4 : lỗi
+        /// Xóa 1 cv của student,return 1 : ok, 2 : cv ko tồn tại, 3 : ko tìm thấy cv, 4 : lỗi,5 : CV này đang được nhà tuyển dụng xem xét
         /// </summary>
         /// <param name="studentId"></param>
         /// <param name="cvId"></param>
@@ -70,7 +70,14 @@ namespace Capstone2021.Services
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        IList<Cv> searchCvs(string keyword);
+        IList<Cv> searchCvs(SearchCvDTO dto, int page);
+
+        /// <summary>
+        /// Trả về tổng số trang dựa trên những options trong dto
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        int getTotalPagesInSearchCv(SearchCvDTO dto);
 
         /// <summary>
         /// Lấy tất cả những cv đc public

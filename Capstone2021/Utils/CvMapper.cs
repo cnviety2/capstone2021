@@ -12,6 +12,7 @@ namespace Capstone2021.Utils
         public static Cv getFromDbContext(cv model)
         {
             Cv result = new Cv();
+            result.id = model.id;
             result.studentId = model.student_id;
             result.name = model.name;
             result.sex = (bool)model.sex;

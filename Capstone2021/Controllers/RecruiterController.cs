@@ -247,19 +247,20 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        //search cv ĐÃ ĐƯỢC PUBLIC của student theo mức lương mong muốn và hình thức làm việc,có phân trang,check
+        [HttpPost]
         [Route("search-cvs")]
         [Authorize(Roles = "ROLE_RECRUITER")]
-        public IHttpActionResult searchCvs([FromUri] string keyword)
+        public IHttpActionResult searchCvs([FromBody] SearchCvDTO dto, [FromUri] int page)
         {
             IList<Cv> result = null;
-            if (keyword == null || keyword.IsEmpty())
+            if (dto == null || dto.isEmpty())
             {
                 result = cvService.getAllPublicCvs();
             }
             else
             {
-                result = cvService.searchCvs(keyword);
+                result = cvService.searchCvs(dto, page);
             }
             ResponseDTO response = new ResponseDTO();
             if (result.Count == 0)
@@ -271,6 +272,18 @@ namespace Capstone2021.Controllers
                 response.data = result;
                 response.message = "OK";
             }
+            return Ok(response);
+        }
+
+        //trả về số trang dựa trên mỗi lần search khác nhau của recruiter,check,mỗi trang 5 record
+        [HttpPost]
+        [Route("search-cvs/total-pages")]
+        public IHttpActionResult getTotalPagesInSearchCv([FromBody] SearchCvDTO dto)
+        {
+            int pages = cvService.getTotalPagesInSearchCv(dto);
+            ResponseDTO response = new ResponseDTO();
+            response.data = pages;
+            response.message = "OK";
             return Ok(response);
         }
     }

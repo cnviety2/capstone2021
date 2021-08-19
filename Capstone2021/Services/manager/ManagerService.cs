@@ -116,7 +116,7 @@ namespace Capstone2021.Service
         /// <param name="days"></param>
         /// <param name="price"></param>
         /// <returns></returns>
-        int createAnActiveDaysAndPrice(int days,decimal price);
+        int createAnActiveDaysAndPrice(int days, decimal price);
 
         /// <summary>
         /// Update 1 lựa chọn ngày hiệu lực và giá tiền dựa trên id,1 là ok, 2 là không tìm thấy , 3 là lỗi ,4 là giá trị đã lặp lại

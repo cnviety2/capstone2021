@@ -416,6 +416,7 @@
     <Compile Include="Controllers\ManagerInfoController.cs" />
     <Compile Include="Controllers\RecruiterController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\SendEmailToSACController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="cv.cs">
@@ -471,8 +472,11 @@
     <Compile Include="DTO\ReturnSavedJobDTO.cs" />
     <Compile Include="DTO\ReturnStudentDTO.cs" />
     <Compile Include="DTO\SaveAJobDTO.cs" />
+    <Compile Include="DTO\SearchCvDTO.cs" />
     <Compile Include="DTO\SearchJobDTO.cs" />
+    <Compile Include="DTO\SendEmailToSACDTO.cs" />
     <Compile Include="DTO\SendMailToRetrievePasswordDTO.cs" />
+    <Compile Include="DTO\SimilarJobDTO.cs" />
     <Compile Include="DTO\Student.cs" />
     <Compile Include="DTO\StudentIdAndCvIdDTO.cs" />
     <Compile Include="DTO\UpdateActiveDaysAndPriceDTO.cs" />

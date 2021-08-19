@@ -106,7 +106,7 @@ namespace Capstone2021.Services
         /// <param name="jobId"></param>
         /// <param name="staffId"></param>
         /// <returns></returns>
-        bool denyAJob(int jobId,string message, int staffId);
+        bool denyAJob(int jobId, string message, int staffId);
 
         /// <summary>
         /// Lấy tất cả những job bị deny của recruiter
@@ -116,5 +116,12 @@ namespace Capstone2021.Services
         IList<Job> getAllDeniedJobs(int recruiterId);
 
         IList<Banner> getAllBanners();
+
+        /// <summary>
+        /// Lấy những job tương tự dự trên category của jobId
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        IList<SimilarJobDTO> getSimilarJobs(int jobId);
     }
 }

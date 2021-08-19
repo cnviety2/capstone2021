@@ -118,7 +118,7 @@ namespace Capstone2021.Controllers
             }
             return Ok(response);
         }
-        
+
         //trả về tất cả students ,có paging,check
         [Route("students")]
         [HttpGet]
@@ -212,7 +212,7 @@ namespace Capstone2021.Controllers
             {
                 return BadRequest("Không được trống");
             }
-            int updateState = managerService.updateACategory(dto.id,dto.value);
+            int updateState = managerService.updateACategory(dto.id, dto.value);
             switch (updateState)
             {
                 case 1:

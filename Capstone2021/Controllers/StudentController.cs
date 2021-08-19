@@ -280,6 +280,8 @@ namespace Capstone2021.Controllers
                     return BadRequest("Không tìm thấy CV");
                 case 4:
                     return InternalServerError();
+                case 5:
+                    return BadRequest("CV này đang được nhà tuyển dụng xem xét");
                 default:
                     return InternalServerError();
             }

@@ -592,5 +592,25 @@ namespace Capstone2021.Services
             }
             return result;
         }
+
+        public IList<SimilarJobDTO> getSimilarJobs(int jobId)
+        {
+            IList<SimilarJobDTO> result = new List<SimilarJobDTO>();
+            using (context)
+            {
+                var job = context.jobs.Find(jobId);
+                if (job != null)
+                {
+                    IList<job_has_category> categories = job.job_has_category.ToList<job_has_category>();
+                    int categoryId = categories.Select(s => s.category_id).FirstOrDefault();
+                    result = context.jobs.AsEnumerable()
+                        .Where(s => s.job_has_category.Select(t => t.category_id).FirstOrDefault() == categoryId && s.id != jobId && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days))
+                        .Select(s => new SimilarJobDTO() { id = s.id, name = s.name, salaryMax = s.salary_max, salaryMin = s.salary_min })
+                        .Take(2)
+                        .ToList<SimilarJobDTO>();
+                }
+            }
+            return result;
+        }
     }
 }

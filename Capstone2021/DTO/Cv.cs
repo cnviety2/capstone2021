@@ -5,6 +5,7 @@ namespace Capstone2021.DTO
 {
     public class Cv
     {
+        public int id { get; set; }
         public int studentId { get; set; }
         public string name { get; set; }
         /// <summary>

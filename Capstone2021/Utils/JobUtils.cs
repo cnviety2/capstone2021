@@ -107,6 +107,31 @@ namespace Capstone2021.Utils
             return result;
         }
 
+        public static DeniedJobDTO mapToDeniedJob(job model)
+        {
+            DeniedJobDTO result = new DeniedJobDTO();
+            result.id = model.id;
+            result.location = model.location;
+            result.name = model.name.Trim();
+            result.offer = model.offer.Trim();
+            result.quantity = model.quantity;
+            result.recruiterId = model.recruiter_id;
+            result.requirement = model.requirement.Trim();
+            result.salaryMax = model.salary_max;
+            result.salaryMin = model.salary_min;
+            result.sex = model.sex != null ? model.sex.Value : 3;//cả 2 giới tính đều được
+            result.status = model.status;
+            result.type = model.type;
+            result.workingForm = model.working_form;
+            result.workingPlace = model.working_place.Trim();
+            result.createDate = model.create_date.ToString("dd/MM/yyyy");
+            result.description = model.description.Trim();
+            result.relationship = model.job_has_category;
+            result.createDate2 = model.create_date;
+            result.activeDays = model.active_days;
+            return result;
+        }
+
         public static ReturnPendingJobDTO mapFromDbContextToPendingDTO(job model)
         {
             ReturnPendingJobDTO result = new ReturnPendingJobDTO();

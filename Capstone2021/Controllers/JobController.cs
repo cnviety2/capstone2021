@@ -243,7 +243,7 @@ namespace Capstone2021.Controllers
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int recruiterId = HttpContextUtils.getUserID(claims);
             ResponseDTO response = new ResponseDTO();
-            IList<Job> list = jobService.getAllDeniedJobs(recruiterId);
+            IList<DeniedJobDTO> list = jobService.getAllDeniedJobs(recruiterId);
             if (list.Count == 0)
             {
                 response.message = "Không có dữ liệu";

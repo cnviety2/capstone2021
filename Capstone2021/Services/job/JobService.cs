@@ -115,7 +115,7 @@ namespace Capstone2021.Services
         /// </summary>
         /// <param name="recruiterId"></param>
         /// <returns></returns>
-        IList<Job> getAllDeniedJobs(int recruiterId);
+        IList<DeniedJobDTO> getAllDeniedJobs(int recruiterId);
 
         IList<Banner> getAllBanners();
 

@@ -586,12 +586,17 @@ namespace Capstone2021.Services
             return listResult;
         }
 
-        public IList<Job> getAllDeniedJobs(int recruiterId)
+        public IList<DeniedJobDTO> getAllDeniedJobs(int recruiterId)
         {
-            IList<Job> result = new List<Job>();
+            IList<DeniedJobDTO> result = new List<DeniedJobDTO>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 3 && s.recruiter_id == recruiterId).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 3 && s.recruiter_id == recruiterId).Select(s => JobUtils.mapToDeniedJob(s)).ToList<DeniedJobDTO>();
+                foreach (DeniedJobDTO element in result)
+                {
+                    string message = context.manager_deny_job.Where(s => s.job_id == element.id).Select(s => s.deny_message).FirstOrDefault();
+                    element.denyMessage = message;
+                }
             }
             return result;
         }

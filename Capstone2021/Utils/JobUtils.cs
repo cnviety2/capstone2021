@@ -226,6 +226,10 @@ namespace Capstone2021.Utils
             {
                 model.salary_max = dto.salaryMax.Value;
             }
+            if (dto.activeDays.HasValue && dto.activeDays != 0)
+            {
+                model.active_days = dto.activeDays.Value;
+            }
             if (dto.categories != null)
             {
                 int[] categoryArray = dto.categories;

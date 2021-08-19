@@ -490,11 +490,6 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
                 return BadRequest(ModelState);
             }
-            if (dto.activeDays != 5 && dto.activeDays != 10 && dto.activeDays != 20 && dto.activeDays != 30)
-            {
-                ModelState.AddModelError("dto.activeDays", "Các giá trị của activeDays : 5,10,20,30");
-                return BadRequest(ModelState);
-            }
             if (!ModelState.IsValid || dto == null)
             {
                 return BadRequest(ModelState);
@@ -506,6 +501,10 @@ namespace Capstone2021.Controllers
             int createState = jobService.create(dto, id);
             if (createState != -1)
             {
+                if (createState == -2)
+                {
+                    return BadRequest("Lựa chọn ngày hiệu lực chưa chính xác,xin hãy chọn lại");
+                }
                 response.message = "OK";
                 response.data = createState;
             }
@@ -593,6 +592,8 @@ namespace Capstone2021.Controllers
                 case 3:
                     ModelState.AddModelError("dto.salary", "salaryMin không thể >= salaryMax hoặc salaryMax <= salaryMin");
                     return BadRequest(ModelState);
+                case 4:
+                    return BadRequest("Lựa chọn ngày hiệu lực chưa chính xác,xin hãy chọn lại");
             }
             return BadRequest();
         }

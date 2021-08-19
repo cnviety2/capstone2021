@@ -112,6 +112,11 @@ namespace Capstone2021.Services
                     try
                     {
                         job model = JobUtils.mapToDatabaseModel(dto);
+                        var checkActiveDays = context.active_days_price.Where(s => s.active_days == model.active_days).FirstOrDefault();
+                        if (checkActiveDays == null)
+                        {
+                            return -2;
+                        }
                         model.recruiter_id = recruiterID;
                         model.string_for_suggestion = JobUtils.getJobSuggestStringFromDTO(dto);
                         context.jobs.Add(model);
@@ -156,6 +161,14 @@ namespace Capstone2021.Services
                 }
                 try
                 {
+                    if (dto.activeDays.HasValue)
+                    {
+                        var checkActiveDays = context.active_days_price.Where(s => s.active_days == dto.activeDays.Value).FirstOrDefault();
+                        if (checkActiveDays == null)
+                        {
+                            return 4;
+                        }
+                    }
                     checkJob = JobUtils.mapFromDtoToDbModelForUpdating(dto, checkJob);
                     if (checkJob.salary_min > checkJob.salary_max || checkJob.salary_max < checkJob.salary_min)//kiểm tra lại ràng buộc giữa salary max và salary min
                     {

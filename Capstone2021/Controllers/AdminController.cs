@@ -494,6 +494,8 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(1, 1).Style.Font.SetFontSize(28);
                     worksheet.Cell(1, 1).Style.Font.SetBold(true);
                     worksheet.Cell(1, 1).Value = "                    Trung tâm Hỗ trợ học sinh, sinh viên Tp. Hồ Chí Minh";
+                    worksheet.Cell(1,1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(1, 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
                     worksheet.Cell(6, 4).Style.Font.SetItalic(true);
                     worksheet.Cell(6, 4).Style.Font.SetFontColor(XLColor.Red);
                     worksheet.Cell(6, 4).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
@@ -511,6 +513,13 @@ namespace Capstone2021.Controllers
                     table.ShowAutoFilter = false;
                     table.ShowHeaderRow = false;
                     worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(11, 9)).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    range.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    worksheet.Range(worksheet.Cell("G12"), worksheet.Cell("H15")).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                     worksheet.Cell(11, 1).Style.Font.FontSize = 16;
                     worksheet.Cell(11, 9).Style.Font.FontSize = 16;
                     worksheet.Cell(11, 8).Style.Font.FontSize = 16;
@@ -528,25 +537,34 @@ namespace Capstone2021.Controllers
                     }
                     worksheet.Column(9).Width = 15;
                     worksheet.Cell(11, 8).Value = reportByThisMonth.month;
-                    worksheet.Cell(12, 1).Value = "Số nhà tuyển dụng tham gia vào hệ thống";
+                    worksheet.Cell(12, 1).Value = "Nhà tuyển dụng tham gia vào hệ thống";
                     worksheet.Cell(12, 7).Value = reportByPreviousMonth.numberOfRecruiters;
                     worksheet.Cell(12, 8).Value = reportByThisMonth.numberOfRecruiters;
                     worksheet.Cell(12, 9).Value = "người dùng";
 
-                    worksheet.Cell(13, 1).Value = "Số lượng việc làm được đăng lên";
+                    worksheet.Cell(13, 1).Value = "Việc làm được đăng lên";
                     worksheet.Cell(13, 7).Value = reportByPreviousMonth.numberOfJobs;
                     worksheet.Cell(13, 8).Value = reportByThisMonth.numberOfJobs;
                     worksheet.Cell(13, 9).Value = "việc làm";
 
-                    worksheet.Cell(14, 1).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
+                    worksheet.Cell(14, 1).Value = "Sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
                     worksheet.Cell(14, 7).Value = reportByPreviousMonth.numberOfDesiredStudents;
                     worksheet.Cell(14, 8).Value = reportByThisMonth.numberOfDesiredStudents;
                     worksheet.Cell(14, 9).Value = "sinh viên";
 
-                    worksheet.Cell(15, 1).Value = "Só lượng sinh viên tham gia tìm việc";
+                    worksheet.Cell(15, 1).Value = "Sinh viên tham gia tìm việc";
                     worksheet.Cell(15, 7).Value = reportByPreviousMonth.numberOfStudents;
                     worksheet.Cell(15, 8).Value = reportByThisMonth.numberOfStudents;
                     worksheet.Cell(15, 9).Value = "sinh viên";
+
+                    worksheet.Cell(11, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 7).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 9).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 1).Style.Font.Bold = true;
+                    worksheet.Cell(11, 7).Style.Font.Bold = true;
+                    worksheet.Cell(11, 8).Style.Font.Bold = true;
+                    worksheet.Cell(11, 9).Style.Font.Bold = true;
                     //hết tháng
 
                     worksheet = workbook.Worksheets.Add("Report quý");
@@ -558,6 +576,8 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(1, 1).Style.Font.SetFontSize(28);
                     worksheet.Cell(1, 1).Style.Font.SetBold(true);
                     worksheet.Cell(1, 1).Value = "                    Trung tâm Hỗ trợ học sinh, sinh viên Tp. Hồ Chí Minh";
+                    worksheet.Cell(1, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(1, 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
                     worksheet.Cell(6, 4).Style.Font.SetItalic(true);
                     worksheet.Cell(6, 4).Style.Font.SetFontColor(XLColor.Red);
                     worksheet.Cell(6, 4).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
@@ -568,11 +588,18 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(9, 2).Style.Font.SetFontSize(26);
                     worksheet.Cell(9, 2).Style.Font.SetBold(true);
                     worksheet.Cell(9, 2).Value = "Báo cáo theo quý " + dto.quarter;
-                    range = worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(15, 9));
+                    range = worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(14, 9));
                     range.Style.Font.FontSize = 16;
                     table = range.CreateTable();
                     table.ShowAutoFilter = false;
                     table.ShowHeaderRow = false;
+                    range.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    worksheet.Range(worksheet.Cell("G12"), worksheet.Cell("H15")).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                     worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(11, 9)).Style.Fill.BackgroundColor = XLColor.LightBlue;
                     worksheet.Cell(11, 1).Style.Font.FontSize = 16;
                     worksheet.Cell(11, 9).Style.Font.FontSize = 16;
@@ -583,20 +610,29 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(11, 7).Value = reportByQuarterPreviousYear.year;
                     worksheet.Cell(11, 8).Value = reportByQuarterThisYear.year;
 
-                    worksheet.Cell(12, 1).Value = "Số nhà tuyển dụng tham gia vào hệ thống";
+                    worksheet.Cell(12, 1).Value = "Nhà tuyển dụng tham gia vào hệ thống";
                     worksheet.Cell(12, 7).Value = reportByQuarterPreviousYear.numberOfRecruiters;
                     worksheet.Cell(12, 8).Value = reportByQuarterThisYear.numberOfRecruiters;
                     worksheet.Cell(12, 9).Value = "người dùng";
 
-                    worksheet.Cell(13, 1).Value = "Số lượng việc làm được đăng lên";
+                    worksheet.Cell(13, 1).Value = "Lượng việc làm được đăng lên";
                     worksheet.Cell(13, 7).Value = reportByQuarterPreviousYear.numberOfJobs;
                     worksheet.Cell(13, 8).Value = reportByQuarterThisYear.numberOfJobs;
                     worksheet.Cell(13, 9).Value = "việc làm";
 
-                    worksheet.Cell(14, 1).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
+                    worksheet.Cell(14, 1).Value = "Lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
                     worksheet.Cell(14, 7).Value = reportByQuarterPreviousYear.numberOfDesiredStudents;
                     worksheet.Cell(14, 8).Value = reportByQuarterThisYear.numberOfDesiredStudents;
                     worksheet.Cell(14, 9).Value = "sinh viên";
+
+                    worksheet.Cell(11, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 7).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 9).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 1).Style.Font.Bold = true;
+                    worksheet.Cell(11, 7).Style.Font.Bold = true;
+                    worksheet.Cell(11, 8).Style.Font.Bold = true;
+                    worksheet.Cell(11, 9).Style.Font.Bold = true;
                     //hết quý
 
                     worksheet = workbook.Worksheets.Add("Report năm");
@@ -608,6 +644,8 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(1, 1).Style.Font.SetFontSize(28);
                     worksheet.Cell(1, 1).Style.Font.SetBold(true);
                     worksheet.Cell(1, 1).Value = "                    Trung tâm Hỗ trợ học sinh, sinh viên Tp. Hồ Chí Minh";
+                    worksheet.Cell(1, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(1, 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
                     worksheet.Cell(6, 4).Style.Font.SetItalic(true);
                     worksheet.Cell(6, 4).Style.Font.SetFontColor(XLColor.Red);
                     worksheet.Cell(6, 4).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
@@ -618,11 +656,18 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(9, 2).Style.Font.SetFontSize(26);
                     worksheet.Cell(9, 2).Style.Font.SetBold(true);
                     worksheet.Cell(9, 2).Value = "Báo cáo theo năm";
-                    range = worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(15, 9));
+                    range = worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(14, 9));
                     range.Style.Font.FontSize = 16;
                     table = range.CreateTable();
                     table.ShowAutoFilter = false;
                     table.ShowHeaderRow = false;
+                    range.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    worksheet.Range(worksheet.Cell("G12"), worksheet.Cell("H15")).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                     worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(11, 9)).Style.Fill.BackgroundColor = XLColor.LightBlue;
                     worksheet.Cell(11, 1).Style.Font.FontSize = 16;
                     worksheet.Cell(11, 9).Style.Font.FontSize = 16;
@@ -633,20 +678,29 @@ namespace Capstone2021.Controllers
                     worksheet.Cell(11, 7).Value = reportByPreviousYear.year;
                     worksheet.Cell(11, 8).Value = reportByThisYear.year;
 
-                    worksheet.Cell(12, 1).Value = "Số nhà tuyển dụng tham gia vào hệ thống";
+                    worksheet.Cell(12, 1).Value = "Nhà tuyển dụng tham gia vào hệ thống";
                     worksheet.Cell(12, 7).Value = reportByPreviousYear.numberOfRecruiters;
                     worksheet.Cell(12, 8).Value = reportByThisYear.numberOfRecruiters;
                     worksheet.Cell(12, 9).Value = "người dùng";
 
-                    worksheet.Cell(13, 1).Value = "Số lượng việc làm được đăng lên";
+                    worksheet.Cell(13, 1).Value = "Lượng việc làm được đăng lên";
                     worksheet.Cell(13, 7).Value = reportByPreviousYear.numberOfJobs;
                     worksheet.Cell(13, 8).Value = reportByThisYear.numberOfJobs;
                     worksheet.Cell(13, 9).Value = "việc làm";
 
-                    worksheet.Cell(14, 1).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
+                    worksheet.Cell(14, 1).Value = "Lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
                     worksheet.Cell(14, 7).Value = reportByPreviousYear.numberOfDesiredStudents;
                     worksheet.Cell(14, 8).Value = reportByThisYear.numberOfDesiredStudents;
                     worksheet.Cell(14, 9).Value = "sinh viên";
+
+                    worksheet.Cell(11, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 7).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 9).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    worksheet.Cell(11, 1).Style.Font.Bold = true;
+                    worksheet.Cell(11, 7).Style.Font.Bold = true;
+                    worksheet.Cell(11, 8).Style.Font.Bold = true;
+                    worksheet.Cell(11, 9).Style.Font.Bold = true;
                     //hết năm
 
                     using (var stream = new MemoryStream())

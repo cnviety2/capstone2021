@@ -215,14 +215,13 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("invalid_id", "Id là số nguyên");
                 return BadRequest(ModelState);
             }
-            if (dto.message == null || dto.message.IsEmpty())
-            {
-                ModelState.AddModelError("dto.message", "Không được thiếu lời nhắn");
-                return BadRequest(ModelState);
-            }
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int jobId = dto.id;
-            string message = dto.message;
+            string message = "";
+            if (dto.message != null && dto.message.IsEmpty())
+            {
+                message = dto.message;
+            }
             int staffId = HttpContextUtils.getUserID(claims);
             bool denyState = jobService.denyAJob(jobId, message, staffId);
             if (!denyState)

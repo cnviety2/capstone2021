@@ -27,6 +27,7 @@ namespace Capstone2021.Utils
             result.skill = model.skill;
             result.cvName = model.cv_name;
             result.phone = model.phone;
+            result.isPublic = model.is_public.Value;
             return result;
         }
         ///<summary>

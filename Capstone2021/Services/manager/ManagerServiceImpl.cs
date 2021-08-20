@@ -406,16 +406,24 @@ namespace Capstone2021.Service
 
         public ComboReportDTO generateReport(RequestForReportDTO dto)
         {
-            ReportByMonthDTO byMonth = new ReportByMonthDTO();
-            ReportyByQuarterDTO byQuarter = new ReportyByQuarterDTO();
-            ReportByYearDTO byYear = new ReportByYearDTO();
+            ReportByMonthDTO byMonth1 = new ReportByMonthDTO();
+            ReportByMonthDTO byMonth2 = new ReportByMonthDTO();
+            ReportyByQuarterDTO byQuarterThisYear = new ReportyByQuarterDTO();
+            ReportyByQuarterDTO byQuarterPreviousYear = new ReportyByQuarterDTO();
+            ReportByYearDTO byThisYear = new ReportByYearDTO();
+            ReportByYearDTO byPreviousYear = new ReportByYearDTO();
             ComboReportDTO result = new ComboReportDTO();
             using (context)
             {
                 int numberOfRecruiters = 0;
                 int numberOfJobs = 0;
                 int numberOfDesiredStudents = 0;
+
+                int numberOfRecruiters2 = 0;
+                int numberOfJobs2 = 0;
+                int numberOfDesiredStudents2 = 0;
                 IList<int> listQuantity = null;
+                IList<int> listQuantity2 = null;
                 //quarter
                 switch (dto.quarter)
                 {
@@ -431,6 +439,18 @@ namespace Capstone2021.Service
                         {
                             numberOfDesiredStudents = numberOfDesiredStudents + quantity;
                         }
+
+                        numberOfRecruiters2 = context.recruiters
+                            .AsEnumerable()
+                            .Where(s => s.create_date.Value.Month >= 1 && s.create_date.Value.Month <= 3 && s.create_date.Value.Year == DateTime.Now.Year - 1)
+                            .Count();
+                        var jobs5 = context.jobs.Where(s => s.create_date.Month >= 1 && s.create_date.Month <= 3 && s.create_date.Year == DateTime.Now.Year - 1);
+                        numberOfJobs2 = jobs5.Count();
+                        listQuantity2 = jobs5.Select(s => s.quantity).ToList<int>();
+                        foreach (int quantity in listQuantity2)
+                        {
+                            numberOfDesiredStudents2 = numberOfDesiredStudents2 + quantity;
+                        }
                         break;
                     case 2:
                         numberOfRecruiters = context.recruiters
@@ -443,6 +463,18 @@ namespace Capstone2021.Service
                         foreach (int quantity in listQuantity)
                         {
                             numberOfDesiredStudents = numberOfDesiredStudents + quantity;
+                        }
+
+                        numberOfRecruiters2 = context.recruiters
+                            .AsEnumerable()
+                            .Where(s => s.create_date.Value.Month >= 4 && s.create_date.Value.Month <= 6 && s.create_date.Value.Year == DateTime.Now.Year - 1)
+                            .Count();
+                        var jobs6 = context.jobs.Where(s => s.create_date.Month >= 4 && s.create_date.Month <= 6 && s.create_date.Year == DateTime.Now.Year - 1);
+                        numberOfJobs2 = jobs6.Count();
+                        listQuantity2 = jobs6.Select(s => s.quantity).ToList<int>();
+                        foreach (int quantity in listQuantity2)
+                        {
+                            numberOfDesiredStudents2 = numberOfDesiredStudents2 + quantity;
                         }
                         break;
                     case 3:
@@ -457,6 +489,18 @@ namespace Capstone2021.Service
                         {
                             numberOfDesiredStudents = numberOfDesiredStudents + quantity;
                         }
+
+                        numberOfRecruiters2 = context.recruiters
+                            .AsEnumerable()
+                            .Where(s => s.create_date.Value.Month >= 7 && s.create_date.Value.Month <= 9 && s.create_date.Value.Year == DateTime.Now.Year - 1)
+                            .Count();
+                        var jobs7 = context.jobs.Where(s => s.create_date.Month >= 7 && s.create_date.Month <= 9 && s.create_date.Year == DateTime.Now.Year - 1);
+                        numberOfJobs2 = jobs7.Count();
+                        listQuantity2 = jobs7.Select(s => s.quantity).ToList<int>();
+                        foreach (int quantity in listQuantity2)
+                        {
+                            numberOfDesiredStudents2 = numberOfDesiredStudents2 + quantity;
+                        }
                         break;
                     case 4:
                         numberOfRecruiters = context.recruiters
@@ -470,13 +514,31 @@ namespace Capstone2021.Service
                         {
                             numberOfDesiredStudents = numberOfDesiredStudents + quantity;
                         }
+
+                        numberOfRecruiters2 = context.recruiters
+                            .AsEnumerable()
+                            .Where(s => s.create_date.Value.Month >= 10 && s.create_date.Value.Month <= 12 && s.create_date.Value.Year == DateTime.Now.Year - 1)
+                            .Count();
+                        var jobs8 = context.jobs.Where(s => s.create_date.Month >= 10 && s.create_date.Month <= 12 && s.create_date.Year == DateTime.Now.Year - 1);
+                        numberOfJobs2 = jobs8.Count();
+                        listQuantity2 = jobs8.Select(s => s.quantity).ToList<int>();
+                        foreach (int quantity in listQuantity2)
+                        {
+                            numberOfDesiredStudents2 = numberOfDesiredStudents2 + quantity;
+                        }
                         break;
                 }
-                byQuarter.numberOfDesiredStudents = numberOfDesiredStudents;
-                byQuarter.numberOfJobs = numberOfJobs;
-                byQuarter.numberOfRecruiters = numberOfRecruiters;
-                byQuarter.year = DateTime.Now.Year;
-                byQuarter.quarter = dto.quarter;
+                byQuarterThisYear.numberOfDesiredStudents = numberOfDesiredStudents;
+                byQuarterThisYear.numberOfJobs = numberOfJobs;
+                byQuarterThisYear.numberOfRecruiters = numberOfRecruiters;
+                byQuarterThisYear.year = DateTime.Now.Year;
+                byQuarterThisYear.quarter = dto.quarter;
+
+                byQuarterPreviousYear.numberOfDesiredStudents = numberOfDesiredStudents2;
+                byQuarterPreviousYear.numberOfJobs = numberOfJobs2;
+                byQuarterPreviousYear.numberOfRecruiters = numberOfRecruiters2;
+                byQuarterPreviousYear.year = DateTime.Now.Year - 1;
+                byQuarterPreviousYear.quarter = dto.quarter;
 
                 //year
                 numberOfRecruiters = context.recruiters.Where(s => s.create_date.Value.Year == DateTime.Now.Year).ToList().Count;
@@ -489,10 +551,25 @@ namespace Capstone2021.Service
                     numberOfDesiredStudents = numberOfDesiredStudents + quantity;
                 }
                 int numberOfStudents = context.students.Where(s => s.create_date.Year == DateTime.Now.Year).ToList().Count;
-                byYear.numberOfDesiredStudents = numberOfDesiredStudents;
-                byYear.numberOfJobs = numberOfJobs;
-                byYear.numberOfRecruiters = numberOfRecruiters;
-                byYear.year = DateTime.Now.Year;
+                byThisYear.numberOfDesiredStudents = numberOfDesiredStudents;
+                byThisYear.numberOfJobs = numberOfJobs;
+                byThisYear.numberOfRecruiters = numberOfRecruiters;
+                byThisYear.year = DateTime.Now.Year;
+
+                numberOfRecruiters = context.recruiters.Where(s => s.create_date.Value.Year == DateTime.Now.Year - 1).ToList().Count;
+                jobs2 = context.jobs.Where(s => s.create_date.Year == DateTime.Now.Year - 1);
+                numberOfJobs = jobs2.Count();
+                listQuantity = jobs2.Select(s => s.quantity).ToList<int>();
+                numberOfDesiredStudents = 0;
+                foreach (int quantity in listQuantity)
+                {
+                    numberOfDesiredStudents = numberOfDesiredStudents + quantity;
+                }
+                numberOfStudents = context.students.Where(s => s.create_date.Year == DateTime.Now.Year - 1).ToList().Count;
+                byPreviousYear.numberOfDesiredStudents = numberOfDesiredStudents;
+                byPreviousYear.numberOfJobs = numberOfJobs;
+                byPreviousYear.numberOfRecruiters = numberOfRecruiters;
+                byPreviousYear.year = DateTime.Now.Year - 1;
 
                 //month
                 numberOfRecruiters = context.recruiters.Where(s => s.create_date.Value.Month == dto.month && s.create_date.Value.Year == DateTime.Now.Year).ToList().Count;
@@ -505,16 +582,61 @@ namespace Capstone2021.Service
                     numberOfDesiredStudents = numberOfDesiredStudents + quantity;
                 }
                 numberOfStudents = context.students.Where(s => s.create_date.Month == dto.month && s.create_date.Year == DateTime.Now.Year).ToList().Count;
-                byMonth.numberOfDesiredStudents = numberOfDesiredStudents;
-                byMonth.numberOfJobs = numberOfJobs;
-                byMonth.numberOfRecruiters = numberOfRecruiters;
-                byMonth.numberOfStudents = numberOfStudents;
-                byMonth.month = dto.month + "/" + DateTime.Now.Year.ToString();
+                byMonth1.numberOfDesiredStudents = numberOfDesiredStudents;
+                byMonth1.numberOfJobs = numberOfJobs;
+                byMonth1.numberOfRecruiters = numberOfRecruiters;
+                byMonth1.numberOfStudents = numberOfStudents;
+                byMonth1.month = dto.month.ToString();
+
+                if (dto.month == 1)
+                {
+                    numberOfRecruiters = context.recruiters.Where(s => s.create_date.Value.Month == 12 && s.create_date.Value.Year == DateTime.Now.Year - 1).ToList().Count;
+                    var jobs4 = context.jobs.Where(s => s.create_date.Month == 12 && s.create_date.Year == DateTime.Now.Year - 1);
+                    numberOfJobs = jobs4.Count();
+                    listQuantity = jobs4.Select(s => s.quantity).ToList<int>();
+                    numberOfDesiredStudents = 0;
+                    foreach (int quantity in listQuantity)
+                    {
+                        numberOfDesiredStudents = numberOfDesiredStudents + quantity;
+                    }
+                    numberOfStudents = context.students.Where(s => s.create_date.Month == 12 && s.create_date.Year == DateTime.Now.Year - 1).ToList().Count;
+                    byMonth2.numberOfDesiredStudents = numberOfDesiredStudents;
+                    byMonth2.numberOfJobs = numberOfJobs;
+                    byMonth2.numberOfRecruiters = numberOfRecruiters;
+                    byMonth2.numberOfStudents = numberOfStudents;
+                    byMonth2.month = 12.ToString() + "/" + (DateTime.Now.Year - 1).ToString();
+                }
+                else
+                {
+                    numberOfRecruiters = context.recruiters.Where(s => s.create_date.Value.Month == dto.month - 1 && s.create_date.Value.Year == DateTime.Now.Year).ToList().Count;
+                    var jobs4 = context.jobs.Where(s => s.create_date.Month == dto.month - 1 && s.create_date.Year == DateTime.Now.Year);
+                    numberOfJobs = jobs4.Count();
+                    listQuantity = jobs4.Select(s => s.quantity).ToList<int>();
+                    numberOfDesiredStudents = 0;
+                    foreach (int quantity in listQuantity)
+                    {
+                        numberOfDesiredStudents = numberOfDesiredStudents + quantity;
+                    }
+                    numberOfStudents = context.students.Where(s => s.create_date.Month == dto.month - 1 && s.create_date.Year == DateTime.Now.Year).ToList().Count;
+                    byMonth2.numberOfDesiredStudents = numberOfDesiredStudents;
+                    byMonth2.numberOfJobs = numberOfJobs;
+                    byMonth2.numberOfRecruiters = numberOfRecruiters;
+                    byMonth2.numberOfStudents = numberOfStudents;
+                    byMonth2.month = (dto.month - 1).ToString();
+                }
                 //done
             }
-            result.reportByMonth = byMonth;
-            result.reportbyQuarter = byQuarter;
-            result.reportByYear = byYear;
+            result.listReportByMonth = new List<ReportByMonthDTO>();
+            result.listReportByMonth.Add(byMonth1);
+            result.listReportByMonth.Add(byMonth2);
+
+            result.listReportByQuarter = new List<ReportyByQuarterDTO>();
+            result.listReportByQuarter.Add(byQuarterThisYear);
+            result.listReportByQuarter.Add(byQuarterPreviousYear);
+
+            result.listreportByYear = new List<ReportByYearDTO>();
+            result.listreportByYear.Add(byThisYear);
+            result.listreportByYear.Add(byPreviousYear);
             return result;
         }
 

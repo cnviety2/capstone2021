@@ -36,7 +36,6 @@ namespace Capstone2021.DTO
         /// True nếu muốn cv public và mọi recruiter có thể tìm thấy cv 
         /// </summary>
         /// 
-        [JsonIgnore]
         public bool isPublic { get; set; }
 
         public string cvName { get; set; }

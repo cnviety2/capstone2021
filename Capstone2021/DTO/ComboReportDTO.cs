@@ -1,12 +1,14 @@
-﻿namespace Capstone2021.DTO
+﻿using System.Collections.Generic;
+
+namespace Capstone2021.DTO
 {
     public class ComboReportDTO
     {
-        public ReportByMonthDTO reportByMonth { get; set; }
+        public List<ReportByMonthDTO> listReportByMonth { get; set; }
 
-        public ReportyByQuarterDTO reportbyQuarter { get; set; }
+        public List<ReportyByQuarterDTO> listReportByQuarter { get; set; }
 
-        public ReportByYearDTO reportByYear { get; set; }
+        public List<ReportByYearDTO> listreportByYear { get; set; }
 
     }
 }

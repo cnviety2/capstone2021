@@ -474,7 +474,6 @@ namespace Capstone2021.Controllers
             }
             if (dto == null)
             {
-                //return BadRequest("Không được null");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
             ComboReportDTO report = managerService.generateReport(dto);
@@ -486,70 +485,169 @@ namespace Capstone2021.Controllers
             {
                 using (workbook)
                 {
-                    IXLWorksheet worksheet = workbook.Worksheets.Add("Report");
-                    worksheet.Cell(1, 1).Style.Font.SetFontSize(20);
+                    IXLWorksheet worksheet = workbook.Worksheets.Add("Report tháng");
+                    worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(5, 14)).Merge();
+                    worksheet.Column(1).Width = 50;
+                    worksheet.Row(5).Height = 15;
+                    var imagePath =  AppDomain.CurrentDomain.BaseDirectory + "Controllers\\sac.png";
+                    worksheet.AddPicture(imagePath).MoveTo(worksheet.Cell(1, 1)).Scale(0.4);
+                    worksheet.Cell(1, 1).Style.Font.SetFontSize(28);
                     worksheet.Cell(1, 1).Style.Font.SetBold(true);
-                    worksheet.Cell(1, 1).Value = "Report theo tháng " + dto.month + ",quý " + dto.quarter + ",năm " + DateTime.Now.Year;
-                    worksheet.Cell(2, 7).Style.Font.SetItalic(true);
-                    worksheet.Cell(2, 7).Style.Font.SetFontColor(XLColor.Red);
-                    worksheet.Cell(2, 7).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
-                    worksheet.Cell(3, 7).Value = DateTime.Now.ToString("dd/MM/yyyy");
+                    worksheet.Cell(1, 1).Value = "                    Trung tâm Hỗ trợ học sinh, sinh viên Tp. Hồ Chí Minh";
+                    worksheet.Cell(6, 4).Style.Font.SetItalic(true);
+                    worksheet.Cell(6, 4).Style.Font.SetFontColor(XLColor.Red);
+                    worksheet.Cell(6, 4).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
+                    worksheet.Cell(7, 4).Value = "Ngày " + DateTime.Now.ToString("dd/MM/yyyy");
 
                     //write các cell dữ liệu của report theo tháng
-                    worksheet.Cell(5, 1).Style.Font.SetFontSize(15);
-                    worksheet.Cell(5, 1).Value = "Báo cáo của tháng " + dto.month + "/" + DateTime.Now.Year;
-                    worksheet.Cell(5, 11).Value = "Đơn vị";
-                    ReportByMonthDTO reportByMonth = report.reportByMonth;
-                    worksheet.Cell(6, 2).Value = "Số nhà tuyển dụng tham gia vào hệ thống:";
-                    worksheet.Cell(6, 10).Value = reportByMonth.numberOfRecruiters;
-                    worksheet.Cell(6, 11).Value = "người dùng";
+                    ReportByMonthDTO reportByThisMonth = report.listReportByMonth.ToArray()[0];
+                    ReportByMonthDTO reportByPreviousMonth = report.listReportByMonth.ToArray()[1];
+                    worksheet.Cell(9, 2).Style.Font.SetFontSize(26);
+                    worksheet.Cell(9, 2).Style.Font.SetBold(true);
+                    worksheet.Cell(9, 2).Value = "Báo cáo của tháng " + dto.month + "/" + DateTime.Now.Year;
+                    var range = worksheet.Range(worksheet.Cell(11,1),worksheet.Cell(15,9));
+                    range.Style.Font.FontSize = 16;
+                    IXLTable table = range.CreateTable();
+                    table.ShowAutoFilter = false;
+                    table.ShowHeaderRow = false;
+                    worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(11, 9)).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    worksheet.Cell(11, 1).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 9).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 8).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 7).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 9).Value = "đơn vị";
+                    worksheet.Cell(11, 1).Value = "Tháng";
+                    if (dto.month == 1)
+                    {
+                        worksheet.Column(7).Width = 15;
+                        worksheet.Cell(11, 7).SetValue<string>(Convert.ToString(reportByPreviousMonth.month));
+                    }
+                    else
+                    {
+                        worksheet.Cell(11, 7).Value = reportByPreviousMonth.month;
+                    }
+                    worksheet.Column(9).Width = 15;
+                    worksheet.Cell(11, 8).Value = reportByThisMonth.month;
+                    worksheet.Cell(12, 1).Value = "Số nhà tuyển dụng tham gia vào hệ thống";
+                    worksheet.Cell(12, 7).Value = reportByPreviousMonth.numberOfRecruiters;
+                    worksheet.Cell(12, 8).Value = reportByThisMonth.numberOfRecruiters;
+                    worksheet.Cell(12, 9).Value = "người dùng";
 
-                    worksheet.Cell(7, 2).Value = "Số lượng việc làm được đăng lên:";
-                    worksheet.Cell(7, 10).Value = reportByMonth.numberOfJobs;
-                    worksheet.Cell(7, 11).Value = "việc làm";
+                    worksheet.Cell(13, 1).Value = "Số lượng việc làm được đăng lên";
+                    worksheet.Cell(13, 7).Value = reportByPreviousMonth.numberOfJobs;
+                    worksheet.Cell(13, 8).Value = reportByThisMonth.numberOfJobs;
+                    worksheet.Cell(13, 9).Value = "việc làm";
 
-                    worksheet.Cell(8, 2).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng:";
-                    worksheet.Cell(8, 10).Value = reportByMonth.numberOfDesiredStudents;
-                    worksheet.Cell(8, 11).Value = "sinh viên";
+                    worksheet.Cell(14, 1).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
+                    worksheet.Cell(14, 7).Value = reportByPreviousMonth.numberOfDesiredStudents;
+                    worksheet.Cell(14, 8).Value = reportByThisMonth.numberOfDesiredStudents;
+                    worksheet.Cell(14, 9).Value = "sinh viên";
 
-                    worksheet.Cell(9, 2).Value = "Só lượng sinh viên tham gia tìm việc:";
-                    worksheet.Cell(9, 10).Value = reportByMonth.numberOfStudents;
-                    worksheet.Cell(9, 11).Value = "sinh viên";
+                    worksheet.Cell(15, 1).Value = "Só lượng sinh viên tham gia tìm việc";
+                    worksheet.Cell(15, 7).Value = reportByPreviousMonth.numberOfStudents;
+                    worksheet.Cell(15, 8).Value = reportByThisMonth.numberOfStudents;
+                    worksheet.Cell(15, 9).Value = "sinh viên";
+                    //hết tháng
 
-                    //theo quý
-                    ReportyByQuarterDTO reportByQuarter = report.reportbyQuarter;
-                    worksheet.Cell(11, 1).Style.Font.SetFontSize(15);
-                    worksheet.Cell(11, 1).Value = "Báo cáo của quý " + dto.quarter + "/" + DateTime.Now.Year;
+                    worksheet = workbook.Worksheets.Add("Report quý");
+                    worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(5, 14)).Merge();
+                    worksheet.Column(1).Width = 50;
+                    worksheet.Column(9).Width = 15;
+                    worksheet.Row(5).Height = 15;
+                    worksheet.AddPicture(imagePath).MoveTo(worksheet.Cell(1, 1)).Scale(0.4);
+                    worksheet.Cell(1, 1).Style.Font.SetFontSize(28);
+                    worksheet.Cell(1, 1).Style.Font.SetBold(true);
+                    worksheet.Cell(1, 1).Value = "                    Trung tâm Hỗ trợ học sinh, sinh viên Tp. Hồ Chí Minh";
+                    worksheet.Cell(6, 4).Style.Font.SetItalic(true);
+                    worksheet.Cell(6, 4).Style.Font.SetFontColor(XLColor.Red);
+                    worksheet.Cell(6, 4).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
+                    worksheet.Cell(7, 4).Value = "Ngày " + DateTime.Now.ToString("dd/MM/yyyy");
 
-                    worksheet.Cell(12, 2).Value = "Số nhà tuyển dụng tham gia vào hệ thống:";
-                    worksheet.Cell(12, 10).Value = reportByQuarter.numberOfRecruiters;
-                    worksheet.Cell(12, 11).Value = "người dùng";
+                    ReportyByQuarterDTO reportByQuarterThisYear = report.listReportByQuarter.ToArray()[0];
+                    ReportyByQuarterDTO reportByQuarterPreviousYear = report.listReportByQuarter.ToArray()[1];
+                    worksheet.Cell(9, 2).Style.Font.SetFontSize(26);
+                    worksheet.Cell(9, 2).Style.Font.SetBold(true);
+                    worksheet.Cell(9, 2).Value = "Báo cáo theo quý " + dto.quarter;
+                    range = worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(15, 9));
+                    range.Style.Font.FontSize = 16;
+                    table = range.CreateTable();
+                    table.ShowAutoFilter = false;
+                    table.ShowHeaderRow = false;
+                    worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(11, 9)).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    worksheet.Cell(11, 1).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 9).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 8).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 7).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 9).Value = "đơn vị";
+                    worksheet.Cell(11, 1).Value = "Năm";
+                    worksheet.Cell(11, 7).Value = reportByQuarterPreviousYear.year;
+                    worksheet.Cell(11, 8).Value = reportByQuarterThisYear.year;
 
-                    worksheet.Cell(13, 2).Value = "Số lượng việc làm được đăng lên:";
-                    worksheet.Cell(13, 10).Value = reportByQuarter.numberOfJobs;
-                    worksheet.Cell(13, 11).Value = "việc làm";
+                    worksheet.Cell(12, 1).Value = "Số nhà tuyển dụng tham gia vào hệ thống";
+                    worksheet.Cell(12, 7).Value = reportByQuarterPreviousYear.numberOfRecruiters;
+                    worksheet.Cell(12, 8).Value = reportByQuarterThisYear.numberOfRecruiters;
+                    worksheet.Cell(12, 9).Value = "người dùng";
 
-                    worksheet.Cell(14, 2).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng:";
-                    worksheet.Cell(14, 10).Value = reportByQuarter.numberOfDesiredStudents;
-                    worksheet.Cell(14, 11).Value = "sinh viên";
+                    worksheet.Cell(13, 1).Value = "Số lượng việc làm được đăng lên";
+                    worksheet.Cell(13, 7).Value = reportByQuarterPreviousYear.numberOfJobs;
+                    worksheet.Cell(13, 8).Value = reportByQuarterThisYear.numberOfJobs;
+                    worksheet.Cell(13, 9).Value = "việc làm";
 
-                    //theo năm
-                    ReportByYearDTO reportByYear = report.reportByYear;
-                    worksheet.Cell(16, 1).Style.Font.SetFontSize(15);
-                    worksheet.Cell(16, 1).Value = "Báo cáo của năm " + DateTime.Now.Year;
+                    worksheet.Cell(14, 1).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
+                    worksheet.Cell(14, 7).Value = reportByQuarterPreviousYear.numberOfDesiredStudents;
+                    worksheet.Cell(14, 8).Value = reportByQuarterThisYear.numberOfDesiredStudents;
+                    worksheet.Cell(14, 9).Value = "sinh viên";
+                    //hết quý
 
-                    worksheet.Cell(17, 2).Value = "Số nhà tuyển dụng tham gia vào hệ thống:";
-                    worksheet.Cell(17, 10).Value = reportByYear.numberOfRecruiters;
-                    worksheet.Cell(17, 11).Value = "người dùng";
+                    worksheet = workbook.Worksheets.Add("Report năm");
+                    worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(5, 14)).Merge();
+                    worksheet.Column(1).Width = 50;
+                    worksheet.Column(9).Width = 15;
+                    worksheet.Row(5).Height = 15;
+                    worksheet.AddPicture(imagePath).MoveTo(worksheet.Cell(1, 1)).Scale(0.4);
+                    worksheet.Cell(1, 1).Style.Font.SetFontSize(28);
+                    worksheet.Cell(1, 1).Style.Font.SetBold(true);
+                    worksheet.Cell(1, 1).Value = "                    Trung tâm Hỗ trợ học sinh, sinh viên Tp. Hồ Chí Minh";
+                    worksheet.Cell(6, 4).Style.Font.SetItalic(true);
+                    worksheet.Cell(6, 4).Style.Font.SetFontColor(XLColor.Red);
+                    worksheet.Cell(6, 4).Value = "*Chú ý:tháng và quý có thể không đồng nhất(report được tạo ra dựa trên lựa chọn tháng và quý của người dùng)";
+                    worksheet.Cell(7, 4).Value = "Ngày " + DateTime.Now.ToString("dd/MM/yyyy");
 
-                    worksheet.Cell(18, 2).Value = "Số lượng việc làm được đăng lên:";
-                    worksheet.Cell(18, 10).Value = reportByYear.numberOfJobs;
-                    worksheet.Cell(18, 11).Value = "việc làm";
+                    ReportByYearDTO reportByThisYear = report.listreportByYear.ToArray()[0];
+                    ReportByYearDTO reportByPreviousYear = report.listreportByYear.ToArray()[1];
+                    worksheet.Cell(9, 2).Style.Font.SetFontSize(26);
+                    worksheet.Cell(9, 2).Style.Font.SetBold(true);
+                    worksheet.Cell(9, 2).Value = "Báo cáo theo năm";
+                    range = worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(15, 9));
+                    range.Style.Font.FontSize = 16;
+                    table = range.CreateTable();
+                    table.ShowAutoFilter = false;
+                    table.ShowHeaderRow = false;
+                    worksheet.Range(worksheet.Cell(11, 1), worksheet.Cell(11, 9)).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    worksheet.Cell(11, 1).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 9).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 8).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 7).Style.Font.FontSize = 16;
+                    worksheet.Cell(11, 9).Value = "đơn vị";
+                    worksheet.Cell(11, 1).Value = "Năm";
+                    worksheet.Cell(11, 7).Value = reportByPreviousYear.year;
+                    worksheet.Cell(11, 8).Value = reportByThisYear.year;
 
-                    worksheet.Cell(19, 2).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng:";
-                    worksheet.Cell(19, 10).Value = reportByYear.numberOfDesiredStudents;
-                    worksheet.Cell(19, 11).Value = "sinh viên";
+                    worksheet.Cell(12, 1).Value = "Số nhà tuyển dụng tham gia vào hệ thống";
+                    worksheet.Cell(12, 7).Value = reportByPreviousYear.numberOfRecruiters;
+                    worksheet.Cell(12, 8).Value = reportByThisYear.numberOfRecruiters;
+                    worksheet.Cell(12, 9).Value = "người dùng";
 
+                    worksheet.Cell(13, 1).Value = "Số lượng việc làm được đăng lên";
+                    worksheet.Cell(13, 7).Value = reportByPreviousYear.numberOfJobs;
+                    worksheet.Cell(13, 8).Value = reportByThisYear.numberOfJobs;
+                    worksheet.Cell(13, 9).Value = "việc làm";
+
+                    worksheet.Cell(14, 1).Value = "Số lượng sinh viên nhà tuyển dụng có nhu cầu tuyển dụng";
+                    worksheet.Cell(14, 7).Value = reportByPreviousYear.numberOfDesiredStudents;
+                    worksheet.Cell(14, 8).Value = reportByThisYear.numberOfDesiredStudents;
+                    worksheet.Cell(14, 9).Value = "sinh viên";
+                    //hết năm
 
                     using (var stream = new MemoryStream())
                     {

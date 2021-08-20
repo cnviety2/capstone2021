@@ -452,6 +452,7 @@
     <Compile Include="DTO\CreateRecruiterDTO.cs" />
     <Compile Include="DTO\Cv.cs" />
     <Compile Include="DTO\DashboardDataDTO.cs" />
+    <Compile Include="DTO\DeniedJobDTO.cs" />
     <Compile Include="DTO\ForgotPasswordDTO.cs" />
     <Compile Include="DTO\GoogleAuthenDTO.cs" />
     <Compile Include="DTO\Job.cs" />
@@ -555,6 +556,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Controllers\sac.png" />
     <Content Include="DbEntitiesModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbEntitiesModel.edmx</DependentUpon>

@@ -133,7 +133,7 @@ namespace Capstone2021.Controllers
         public IHttpActionResult getSimilarJobs([FromUri] int id)
         {
             ResponseDTO response = new ResponseDTO();
-            IList<SimilarJobDTO> result = jobService.getSimilarJobs(id);
+            IList<Job> result = jobService.getSimilarJobs(id);
             if (result.Count == 0)
             {
                 response.message = "Không có dữ liệu";
@@ -298,10 +298,10 @@ namespace Capstone2021.Controllers
         [HttpGet]
         [Route("part-time")]
         [AllowAnonymous]
-        public IHttpActionResult getAllPartTimeWithPaging([FromUri] int page)
+        public IHttpActionResult getAllPartTimeWithPaging()
         {
             ResponseDTO response = new ResponseDTO();
-            IList<Job> list = jobService.getListPartTimeJob(page);
+            IList<Job> list = jobService.getListPartTimeJob();
             if (list.Count == 0)
             {
                 response.message = "Không có dữ liệu";
@@ -341,10 +341,10 @@ namespace Capstone2021.Controllers
         [HttpGet]
         [Route("full-time")]
         [AllowAnonymous]
-        public IHttpActionResult getAllFullTimeWithPaging([FromUri] int page)
+        public IHttpActionResult getAllFullTimeWithPaging()
         {
             ResponseDTO response = new ResponseDTO();
-            IList<Job> list = jobService.getListFullTimeJob(page);
+            IList<Job> list = jobService.getListFullTimeJob();
             if (list.Count == 0)
             {
                 response.message = "Không có dữ liệu";

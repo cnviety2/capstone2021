@@ -366,7 +366,7 @@ namespace Capstone2021.Services
                     if (DateTimeUtils.isOverAfterDays(job.create_date, job.active_days)) return 4;
                 }
                 var checkApplied = context.student_apply_job.
-                    Where(s => s.cv_id == cvId && s.student_id == studentId && s.job_id == jobId).FirstOrDefault<student_apply_job>();
+                    Where(s => s.cv_id == cvId && s.job_id == jobId).FirstOrDefault<student_apply_job>();
                 if (checkApplied != null)
                 {
                     return 8;
@@ -611,9 +611,9 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public IList<SimilarJobDTO> getSimilarJobs(int jobId)
+        public IList<Job> getSimilarJobs(int jobId)
         {
-            IList<SimilarJobDTO> result = new List<SimilarJobDTO>();
+            IList<Job> result = new List<Job>();
             using (context)
             {
                 var job = context.jobs.Find(jobId);
@@ -623,26 +623,37 @@ namespace Capstone2021.Services
                     int categoryId = categories.Select(s => s.category_id).FirstOrDefault();
                     result = context.jobs.AsEnumerable()
                         .Where(s => s.job_has_category.Select(t => t.category_id).FirstOrDefault() == categoryId && s.id != jobId && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days))
-                        .Select(s => new SimilarJobDTO() { id = s.id, name = s.name, salaryMax = s.salary_max, salaryMin = s.salary_min })
-                        .Take(2)
-                        .ToList<SimilarJobDTO>();
+                        .Select(s => JobUtils.mapFromDbContext(s))
+                        .Take(4)
+                        .ToList<Job>();
+                    foreach (Job element in result)
+                    {
+                        element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
+                        element.categories = new List<Category>();
+                        foreach (job_has_category relationship in element.relationship)
+                        {
+                            Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
+                            {
+                                id = s.id,
+                                value = s.value
+                            }).FirstOrDefault<Category>();
+                            element.categories.Add(category);
+                        }
+                    }
+
                 }
             }
             return result;
         }
 
-        public IList<Job> getListPartTimeJob(int page)
+        public IList<Job> getListPartTimeJob()
         {
-            if (page == 0)
-                page = 1;
             IList<Job> listResult = new List<Job>();
             using (context)
             {
                 listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && s.working_form == 1)
                    .Select(s => JobUtils.mapFromDbContext(s))
                    .OrderByDescending(s => s.createDate2)
-                   .Skip(5 * (page - 1))
-                   .Take(5)
                    .ToList<Job>();
                 foreach (Job element in listResult)
                 {
@@ -673,18 +684,14 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public IList<Job> getListFullTimeJob(int page)
+        public IList<Job> getListFullTimeJob()
         {
-            if (page == 0)
-                page = 1;
             IList<Job> listResult = new List<Job>();
             using (context)
             {
                 listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && s.working_form == 2)
                    .Select(s => JobUtils.mapFromDbContext(s))
                    .OrderByDescending(s => s.createDate2)
-                   .Skip(5 * (page - 1))
-                   .Take(5)
                    .ToList<Job>();
                 foreach (Job element in listResult)
                 {

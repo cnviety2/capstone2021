@@ -251,7 +251,7 @@ namespace Capstone2021.Controllers
         [HttpPost]
         [Route("search-cvs")]
         [Authorize(Roles = "ROLE_RECRUITER")]
-        public IHttpActionResult searchCvs([FromBody] SearchCvDTO dto, [FromUri] int page)
+        public IHttpActionResult searchCvs([FromBody] SearchCvDTO dto)
         {
             IList<Cv> result = null;
             if (dto == null || dto.isEmpty())
@@ -260,7 +260,7 @@ namespace Capstone2021.Controllers
             }
             else
             {
-                result = cvService.searchCvs(dto, page);
+                result = cvService.searchCvs(dto);
             }
             ResponseDTO response = new ResponseDTO();
             if (result.Count == 0)
@@ -280,7 +280,15 @@ namespace Capstone2021.Controllers
         [Route("search-cvs/total-pages")]
         public IHttpActionResult getTotalPagesInSearchCv([FromBody] SearchCvDTO dto)
         {
-            int pages = cvService.getTotalPagesInSearchCv(dto);
+            int pages = 0;
+            if (dto == null || dto.isEmpty())
+            {
+                pages = cvService.getTotalPagesPublicCvs();
+            }
+            else
+            {
+                pages = cvService.getTotalPagesInSearchCv(dto);
+            }
             ResponseDTO response = new ResponseDTO();
             response.data = pages;
             response.message = "OK";

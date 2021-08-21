@@ -70,7 +70,7 @@ namespace Capstone2021.Services
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        IList<Cv> searchCvs(SearchCvDTO dto, int page);
+        IList<Cv> searchCvs(SearchCvDTO dto);
 
         /// <summary>
         /// Trả về tổng số trang dựa trên những options trong dto
@@ -84,5 +84,7 @@ namespace Capstone2021.Services
         /// </summary>
         /// <returns></returns>
         IList<Cv> getAllPublicCvs();
+
+        int getTotalPagesPublicCvs();
     }
 }

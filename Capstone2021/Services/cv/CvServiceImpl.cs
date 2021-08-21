@@ -334,10 +334,8 @@ namespace Capstone2021.Services
             }
         }
 
-        public IList<Cv> searchCvs(SearchCvDTO dto, int page)
+        public IList<Cv> searchCvs(SearchCvDTO dto)
         {
-            if (page == 0)
-                page = 1;
             IList<Cv> result = new List<Cv>();
             using (context)
             {
@@ -346,8 +344,6 @@ namespace Capstone2021.Services
                     result = context.cvs.AsEnumerable()
                         .Where(s => s.desired_salary_minimum <= dto.salary.Value && s.is_public == true)
                         .OrderByDescending(s => s.cv_name)
-                        .Skip(5 * (page - 1))
-                        .Take(5)
                         .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
                 }
                 else
@@ -357,8 +353,6 @@ namespace Capstone2021.Services
                         result = context.cvs.AsEnumerable()
                                     .Where(s => s.working_form == dto.workingForm.Value && s.is_public == true)
                                     .OrderByDescending(s => s.cv_name)
-                                    .Skip(5 * (page - 1))
-                                    .Take(5)
                                     .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
                     }
                     else
@@ -368,8 +362,6 @@ namespace Capstone2021.Services
                             result = context.cvs.AsEnumerable()
                                     .Where(s => s.desired_salary_minimum <= dto.salary.Value && s.working_form == dto.workingForm.Value && s.is_public == true)
                                     .OrderByDescending(s => s.cv_name)
-                                    .Skip(5 * (page - 1))
-                                    .Take(5)
                                     .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
                         }
                     }
@@ -412,7 +404,20 @@ namespace Capstone2021.Services
             IList<Cv> result = new List<Cv>();
             using (context)
             {
-                result = context.cvs.AsEnumerable().Where(s => s.is_public == true).Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+                result = context.cvs.AsEnumerable().Where(s => s.is_public == true)
+                    .OrderByDescending(s => s.cv_name)
+                    .Select(s => CvMapper.getFromDbContext(s)).ToList<Cv>();
+            }
+            return result;
+        }
+
+        public int getTotalPagesPublicCvs()
+        {
+            int result = 0;
+            using (context)
+            {
+                int count = context.cvs.AsEnumerable().Where(s => s.is_public == true).ToList<cv>().Count;
+                result = (int)Math.Ceiling((double)count / 5);
             }
             return result;
         }

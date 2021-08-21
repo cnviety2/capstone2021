@@ -125,5 +125,13 @@ namespace Capstone2021.Services
         /// <param name="jobId"></param>
         /// <returns></returns>
         IList<SimilarJobDTO> getSimilarJobs(int jobId);
+
+        IList<Job> getListPartTimeJob(int page);
+
+        int getTotalPagePartTimeJob();
+
+        IList<Job> getListFullTimeJob(int page);
+
+        int getTotalPageFullTimeJob();
     }
 }

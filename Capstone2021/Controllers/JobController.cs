@@ -295,6 +295,66 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("part-time")]
+        [AllowAnonymous]
+        public IHttpActionResult getAllPartTimeWithPaging([FromUri] int page)
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getListPartTimeJob(page);
+            if (list.Count == 0)
+            {
+                response.message = "Không có dữ liệu";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
+        //Trả về tổng số page có trong db,support frontend,check
+        [HttpGet]
+        [Route("part-time/total-pages")]
+        [AllowAnonymous]
+        public IHttpActionResult getTotalPagesPartTime()
+        {
+            ResponseDTO response = new ResponseDTO();
+            int result = jobService.getTotalPagePartTimeJob();
+            response.message = "OK";
+            response.data = result;
+            return Ok(response);
+        }
+
+        //Trả về tổng số page có trong db,support frontend,check
+        [HttpGet]
+        [Route("full-time/total-pages")]
+        [AllowAnonymous]
+        public IHttpActionResult getTotalPagesFullTime()
+        {
+            ResponseDTO response = new ResponseDTO();
+            int result = jobService.getTotalPageFullTimeJob();
+            response.message = "OK";
+            response.data = result;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("full-time")]
+        [AllowAnonymous]
+        public IHttpActionResult getAllFullTimeWithPaging([FromUri] int page)
+        {
+            ResponseDTO response = new ResponseDTO();
+            IList<Job> list = jobService.getListFullTimeJob(page);
+            if (list.Count == 0)
+            {
+                response.message = "Không có dữ liệu";
+                return Ok(response);
+            }
+            response.message = "OK";
+            response.data = list;
+            return Ok(response);
+        }
+
         //Giống ở trên nhưng có paging,trả về chỉ 5 record,check
         [HttpGet]
         [Route("")]

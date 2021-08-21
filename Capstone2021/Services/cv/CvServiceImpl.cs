@@ -336,6 +336,8 @@ namespace Capstone2021.Services
 
         public IList<Cv> searchCvs(SearchCvDTO dto, int page)
         {
+            if (page == 0)
+                page = 1;
             IList<Cv> result = new List<Cv>();
             using (context)
             {

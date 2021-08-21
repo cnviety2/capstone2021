@@ -362,7 +362,7 @@ namespace Capstone2021.Services
                 if (job == null) return 2;
                 else
                 {
-                    if (job.status == 1) return 5;
+                    if (job.status == 1 || job.status == 3) return 5;
                     if (DateTimeUtils.isOverAfterDays(job.create_date, job.active_days)) return 4;
                 }
                 var checkApplied = context.student_apply_job.
@@ -627,6 +627,90 @@ namespace Capstone2021.Services
                         .Take(2)
                         .ToList<SimilarJobDTO>();
                 }
+            }
+            return result;
+        }
+
+        public IList<Job> getListPartTimeJob(int page)
+        {
+            if (page == 0)
+                page = 1;
+            IList<Job> listResult = new List<Job>();
+            using (context)
+            {
+                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && s.working_form == 1)
+                   .Select(s => JobUtils.mapFromDbContext(s))
+                   .OrderByDescending(s => s.createDate2)
+                   .Skip(5 * (page - 1))
+                   .Take(5)
+                   .ToList<Job>();
+                foreach (Job element in listResult)
+                {
+                    element.categories = new List<Category>();
+                    element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
+            }
+            return listResult;
+        }
+
+        public int getTotalPagePartTimeJob()
+        {
+            int result = 0;
+            using (context)
+            {
+                int count = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && s.working_form == 1).ToList<job>().Count;
+                result = (int)Math.Ceiling((double)count / 5);
+            }
+            return result;
+        }
+
+        public IList<Job> getListFullTimeJob(int page)
+        {
+            if (page == 0)
+                page = 1;
+            IList<Job> listResult = new List<Job>();
+            using (context)
+            {
+                listResult = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && s.working_form == 2)
+                   .Select(s => JobUtils.mapFromDbContext(s))
+                   .OrderByDescending(s => s.createDate2)
+                   .Skip(5 * (page - 1))
+                   .Take(5)
+                   .ToList<Job>();
+                foreach (Job element in listResult)
+                {
+                    element.categories = new List<Category>();
+                    element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
+                    foreach (job_has_category relationship in element.relationship)
+                    {
+                        Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
+                        {
+                            id = s.id,
+                            value = s.value
+                        }).FirstOrDefault<Category>();
+                        element.categories.Add(category);
+                    }
+                }
+            }
+            return listResult;
+        }
+
+        public int getTotalPageFullTimeJob()
+        {
+            int result = 0;
+            using (context)
+            {
+                int count = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && s.working_form == 2).ToList<job>().Count;
+                result = (int)Math.Ceiling((double)count / 5);
             }
             return result;
         }

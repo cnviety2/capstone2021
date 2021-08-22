@@ -668,6 +668,15 @@ namespace Capstone2021.Services
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
                     }
+                        var company = context.companies.Where(s => s.recruiter_id == element.recruiterId).FirstOrDefault();
+                        if (company != null)
+                        {
+                            element.imgUrl = company.avatar;
+                        }
+                        else
+                        {
+                            element.imgUrl = "";
+                        }
                 }
             }
             return listResult;
@@ -705,6 +714,15 @@ namespace Capstone2021.Services
                             value = s.value
                         }).FirstOrDefault<Category>();
                         element.categories.Add(category);
+                    }
+                    var company = context.companies.Where(s => s.recruiter_id == element.recruiterId).FirstOrDefault();
+                    if (company != null)
+                    {
+                        element.imgUrl = company.avatar;
+                    }
+                    else
+                    {
+                        element.imgUrl = "";
                     }
                 }
             }

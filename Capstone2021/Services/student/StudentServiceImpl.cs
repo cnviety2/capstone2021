@@ -205,6 +205,7 @@ namespace Capstone2021.Services.Student
                             cv.cvName = element.cv_name;
                             cv.desiredSalary = element.desired_salary_minimum.Value;
                             cv.workingForm = element.working_form.Value;
+                            cv.isPublic = element.is_public.Value;
                             result.listCv.Add(cv);
                         }
                     }

@@ -119,7 +119,12 @@ namespace Capstone2021.Services
 
         public Cv get(int id)
         {
-            throw new NotImplementedException();
+            Cv result = null;
+            using (context)
+            {
+                result = context.cvs.AsEnumerable().Where(s => s.id == id && s.is_public == true).Select(s => CvMapper.getFromDbContext(s)).FirstOrDefault<Cv>();
+            }
+            return result;
         }
 
         public IList<Cv> getAll()
@@ -139,7 +144,10 @@ namespace Capstone2021.Services
                     {
                         createDate = s.create_date.Value.ToString("dd/MM/yyyy"),
                         cvName = s.cv_name,
-                        id = s.id
+                        id = s.id,
+                        workingForm = s.working_form.Value,
+                        desiredSalary = s.desired_salary_minimum.Value,
+                        isPublic = s.is_public.Value
                     }).ToList<ReturnListCvDTO>();
                 }
                 else

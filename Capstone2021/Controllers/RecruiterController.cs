@@ -275,6 +275,26 @@ namespace Capstone2021.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("cv/{cvId}")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult getAPublicCv([FromUri] int cvId)
+        {
+            Cv result = cvService.get(cvId);
+            ResponseDTO response = new ResponseDTO();
+            if (result == null)
+            {
+                response.message = "Không có dữ liệu";
+            }
+            else 
+            {
+                response.message = "OK";
+                response.data = result;
+            }
+            return Ok(response);
+
+        }
+
         //trả về số trang dựa trên mỗi lần search khác nhau của recruiter,check,mỗi trang 5 record
         [HttpPost]
         [Route("search-cvs/total-pages")]

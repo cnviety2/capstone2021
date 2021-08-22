@@ -10,5 +10,7 @@
 
         public int workingForm { get; set; }
         public int desiredSalary { get; set; }
+
+        public bool isPublic { get; set; }
     }
 }

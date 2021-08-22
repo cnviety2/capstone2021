@@ -280,7 +280,7 @@ namespace Capstone2021.Controllers
         [Authorize(Roles = "ROLE_RECRUITER")]
         public IHttpActionResult getAPublicCv([FromUri] int cvId)
         {
-            Cv result = cvService.get(cvId);
+            Cv result = cvService.getFromRecruiter(cvId);
             ResponseDTO response = new ResponseDTO();
             if (result == null)
             {

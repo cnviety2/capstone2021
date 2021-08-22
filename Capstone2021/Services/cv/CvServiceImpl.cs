@@ -117,7 +117,7 @@ namespace Capstone2021.Services
             return result;
         }
 
-        public Cv get(int id)
+        public Cv getFromRecruiter(int id)
         {
             Cv result = null;
             using (context)
@@ -469,6 +469,16 @@ namespace Capstone2021.Services
                 }
 
             }
+        }
+
+        public Cv get(int id)
+        {
+            Cv result = null;
+            using (context)
+            {
+                result = context.cvs.AsEnumerable().Where(s => s.id == id).Select(s => CvMapper.getFromDbContext(s)).FirstOrDefault<Cv>();
+            }
+            return result;
         }
     }
 }

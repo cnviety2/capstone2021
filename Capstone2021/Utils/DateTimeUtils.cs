@@ -32,7 +32,7 @@ namespace Capstone2021.Utils
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool is18Plus(string value)
+        public static bool is16Plus(string value)
         {
             DateTime bday = DateTime.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime today = DateTime.Today;
@@ -41,7 +41,7 @@ namespace Capstone2021.Utils
             {
                 age--;
             }
-            if (age < 18)
+            if (age < 16)
             {
                 return false;
             }

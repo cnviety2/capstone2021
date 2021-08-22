@@ -99,7 +99,7 @@ namespace Capstone2021.Controllers
                 return BadRequest(ModelState);
             }
             //dob format yyyy-MM-dd
-            if (!DateTimeUtils.is18Plus(dto.dob))
+            if (!DateTimeUtils.is16Plus(dto.dob))
             {
                 ModelState.AddModelError("dto.dob", "Phải trên 18 tuổi");
                 return BadRequest(ModelState);
@@ -178,7 +178,7 @@ namespace Capstone2021.Controllers
             }
             if (cv.dob != null && !cv.dob.IsEmpty())
             {
-                if (!DateTimeUtils.is18Plus(cv.dob))
+                if (!DateTimeUtils.is16Plus(cv.dob))
                 {
                     ModelState.AddModelError("dto.dob", "Phải trên 18 tuổi");
                     return BadRequest(ModelState);

@@ -7,6 +7,7 @@ namespace Capstone2021.Services
 {
     interface CvService : ICvRepository
     {
+        Cv getFromRecruiter(int id);
         /// <summary>
         /// Method tạo mới 1 cv,chỉ student mới sử dụng 
         /// </summary>

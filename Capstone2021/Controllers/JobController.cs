@@ -218,7 +218,7 @@ namespace Capstone2021.Controllers
             ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
             int jobId = dto.id;
             string message = "";
-            if (dto.message != null && dto.message.IsEmpty())
+            if (dto.message != null && !dto.message.IsEmpty())
             {
                 message = dto.message;
             }
@@ -626,7 +626,7 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.salaryMin", "salaryMin không thể >= salaryMax");
                 flag = true;
             }
-            if (dto.categories != null && (dto.categories.Length == 0 || dto.categories.Length > 5))
+            if (dto.categories != null && dto.categories.Length > 5)
             {
                 ModelState.AddModelError("dto.categories", "Ít nhất chọn 1 và không quá 5");
                 flag = true;

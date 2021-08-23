@@ -8,6 +8,8 @@ namespace Capstone2021.DTO
     public class Job
     {
         public int id { get; set; }
+
+        public int price { get; set; }
         public string name { get; set; }
         /// <summary>
         /// Part time hay full time hay cả 2,1 cho pt,2 cho ft,3 cho cả 2

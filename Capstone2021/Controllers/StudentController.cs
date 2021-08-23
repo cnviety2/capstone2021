@@ -4,6 +4,7 @@ using Capstone2021.Services.Student;
 using Capstone2021.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
@@ -89,6 +90,86 @@ namespace Capstone2021.Controllers
             return BadRequest("Lỗi xảy ra");
         }
 
+        [HttpPost]
+        [Route("cv/create/v2")]
+        public IHttpActionResult createACvV2()
+        {
+            NameValueCollection formValue = HttpContext.Current.Request.Form;
+            CreateCvDTO dto = new CreateCvDTO();
+            dto.cvName = formValue.Get("cvName");
+            try
+            {
+                dto.workingForm = Int32.Parse(formValue.Get("workingForm"));
+                dto.sex = Boolean.Parse(formValue.Get("sex"));
+                dto.desiredSalaryMinimum = Int32.Parse(formValue.Get("desiredSalaryMinimum"));
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Dữ liệu sai định dạng");
+            }
+            dto.dob = formValue.Get("dob");
+            dto.experience = formValue.Get("experience");
+            dto.foreignLanguage = formValue.Get("foreignLanguage");
+            dto.name = formValue.Get("name");
+            dto.phone = formValue.Get("phone");
+            dto.school = formValue.Get("school");
+            dto.skill = formValue.Get("skill");
+            ModelState.Clear();
+            this.Validate(dto);
+            if (!ModelState.IsValid || dto == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!DateTimeUtils.is16Plus(dto.dob))
+            {
+                ModelState.AddModelError("dto.dob", "Phải trên 16 tuổi");
+                return BadRequest(ModelState);
+            }
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+                {
+                    return BadRequest("Only jpeg or png");
+                }
+                using (Stream st = file.InputStream)
+                {
+                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                    string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
+                    string s3DirectoryName = "";
+                    string s3FileName = @name;
+                    bool a;
+                    AmazonUploader myUploader = new AmazonUploader();
+                    a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
+                    String imgUrl = null;
+                    if (a == true)
+                    {
+                        imgUrl = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + name;
+                    }
+                    else
+                    {
+                        imgUrl = "";
+                        return BadRequest("Lỗi,không thể upload ảnh lên server AWS");
+                    }
+                    dto.avatar = imgUrl;
+                }
+            }
+            ResponseDTO response = new ResponseDTO();
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+
+            int id = HttpContextUtils.getUserID(claims);
+            bool createState = cvService.create(dto, id);
+            if (createState)
+            {
+                response.message = "OK";
+            }
+            else
+            {
+                return BadRequest("Lỗi xảy ra");
+            }
+            return Ok(response);
+        }
+
         //api tạo mới 1 cv,check
         [HttpPost]
         [Route("cv/create")]
@@ -101,7 +182,7 @@ namespace Capstone2021.Controllers
             //dob format yyyy-MM-dd
             if (!DateTimeUtils.is16Plus(dto.dob))
             {
-                ModelState.AddModelError("dto.dob", "Phải trên 18 tuổi");
+                ModelState.AddModelError("dto.dob", "Phải trên 16 tuổi");
                 return BadRequest(ModelState);
             }
 

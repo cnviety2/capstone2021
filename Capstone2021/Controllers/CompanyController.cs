@@ -2,6 +2,7 @@
 using Capstone2021.Services;
 using Capstone2021.Utils;
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
@@ -61,6 +62,75 @@ namespace Capstone2021.Controllers
             }
             response.data = company;
             return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("recruiter/company/create/v2")]
+        [Authorize(Roles = "ROLE_RECRUITER")]
+        public IHttpActionResult createSelfCompanyInfoV2()
+        {
+            NameValueCollection formValue = HttpContext.Current.Request.Form;
+            CreateCompanyDTO dto = new CreateCompanyDTO();
+            dto.name = formValue.Get("name");
+            dto.headquaters = formValue.Get("headquarters");
+            dto.website = formValue.Get("website");
+            dto.description = formValue.Get("description");
+            if (dto.isEmpty())
+            {
+                return BadRequest("Dữ liệu không được trống");
+            }
+            if (dto.website != null && !dto.website.IsEmpty())
+            {
+                if (!StringUtils.isValidHttpUrl(dto.website))
+                {
+                    return BadRequest("Url website chưa đúng,VD:http://abc.com");
+                }
+            }
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (!file.ContentType.Equals("image/jpeg") && !file.ContentType.Equals("image/png"))
+                {
+                    return BadRequest("Only jpeg or png");
+                }
+                using (Stream st = file.InputStream)
+                {
+                    string name = Guid.NewGuid().ToString() + "." + file.ContentType.Split('/')[1];
+                    string myBucketName = "capstone2021-fpt";//your s3 bucket name goes here  
+                    string s3DirectoryName = "";
+                    string s3FileName = @name;
+                    bool a;
+                    AmazonUploader myUploader = new AmazonUploader();
+                    a = myUploader.sendMyFileToS3(st, myBucketName, s3DirectoryName, s3FileName);
+                    String imgUrl = null;
+                    if (a == true)
+                    {
+                        imgUrl = "https://capstone2021-fpt.s3.ap-southeast-1.amazonaws.com/" + name;
+                    }
+                    else
+                    {
+                        imgUrl = "";
+                        return BadRequest("Lỗi,không thể upload ảnh lên server AWS");
+                    }
+                    dto.avatar = imgUrl;
+                }
+            }
+            ResponseDTO response = new ResponseDTO();
+            ClaimsPrincipal claims = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            int recruiterId = HttpContextUtils.getUserID(claims);
+            int createState = companyService.createNewCompanyInfo(dto, recruiterId);
+            switch (createState)
+            {
+                case 1:
+                    response.message = "OK";
+                    return Ok(response);
+                case 2:
+                    return BadRequest("Đã tạo rồi");
+                case 3:
+                    return InternalServerError();
+                default:
+                    return InternalServerError();
+            }
         }
 
         //Tạo mới info company của recruiter này,check

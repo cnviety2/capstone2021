@@ -7,5 +7,7 @@
         public string appliedDate { get; set; }
 
         public string jobEndDate { get; set; }
+
+        public string cvName { get; set; }
     }
 }

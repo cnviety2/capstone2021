@@ -42,5 +42,7 @@ namespace Capstone2021.DTO
         [RegularExpression("^[0-9]{8,12}$", ErrorMessage = "SĐT chỉ chứa số và không quá 12 số")]
         [StringLength(12, ErrorMessage = "Phone number length minimum is 8 and maximum is 12", MinimumLength = 8)]
         public string phone { get; set; }
+
+        public String avatar { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Capstone2021.Utils
             model.website = dto.website != null ? dto.website.Trim() : "";
             model.description = dto.description != null ? dto.description.Trim() : "";
             model.create_date = DateTime.Now;
-            model.avatar = "";
+            model.avatar = dto.avatar != null ? dto.avatar : "";
             return model;
         }
 

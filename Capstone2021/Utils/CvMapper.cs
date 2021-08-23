@@ -37,7 +37,7 @@ namespace Capstone2021.Utils
         {
             cv model = new cv();
             model.cv_name = dto.cvName.Trim();
-            model.avatar = "";
+            model.avatar = dto.avatar != null ? dto.avatar : "";
             model.name = dto.name.Trim();
             model.sex = dto.sex;
             model.working_form = dto.workingForm;

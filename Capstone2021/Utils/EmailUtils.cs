@@ -27,7 +27,7 @@ namespace Capstone2021.Utils
             mail.Subject = "Lấy lại MK";
             mail.IsBodyHtml = true;
             mail.BodyEncoding = System.Text.Encoding.UTF8;
-            mail.Body = "<p>Sử dụng mã này để lấy lại mật khẩu: " + content + "</p>";
+            mail.Body = "<p>Sử dụng mã này để lấy lại mật khẩu: " + content + "</p><p>Trang cập nhật mật khẩu:http://localhost:8081/reset-password</p>";
 
             using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587))
             {

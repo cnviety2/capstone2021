@@ -47,6 +47,7 @@ namespace Capstone2021.Services
                 else result.isOver = false;
                 result.endDate = result.createDate2.AddDays(result.activeDays).ToString("dd/MM/yyyy");
                 result.categories = new List<Category>();
+                result.price = (int) context.active_days_price.Where(s => s.active_days == result.activeDays).Select(s => s.price).FirstOrDefault();
                 foreach (job_has_category relationship in result.relationship)
                 {
                     Category category = context.categories.AsEnumerable().Where(s => s.id == relationship.category_id).Select(s => new Category()
@@ -208,7 +209,8 @@ namespace Capstone2021.Services
             {
                 result = context.jobs.AsEnumerable().Where(s => s.status == 1).Select(s =>
                     JobUtils.mapFromDbContextToPendingDTO(s)
-                ).ToList<ReturnPendingJobDTO>();
+                ).OrderByDescending(s => s.createDate2)
+                    .ToList<ReturnPendingJobDTO>();
 
                 //xử lý thêm category vào dto trả về cho frontend
                 foreach (ReturnPendingJobDTO element in result)
@@ -424,9 +426,12 @@ namespace Capstone2021.Services
             List<Job> result = new List<Job>();
             using (context)
             {
-                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
+                result = context.jobs.AsEnumerable().Where(s => s.status == 2 && !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days))
+                    .OrderByDescending(s => s.create_date)
+                    .Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in result)
                 {
+                    element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
                     {
@@ -452,12 +457,15 @@ namespace Capstone2021.Services
             {
                 listSearchFromDB = context.jobs.AsEnumerable().Where(s => s.status == 2 &&
                 !DateTimeUtils.isOverAfterDays(s.create_date, s.active_days) && !JobUtils.hasThisStudentApplied(studentId, s)).Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
-            }
-            foreach (Job element in listSearchFromDB)
-            {
-                if (element.weightCompareToLastAppliedJob(studentLastAppliedJobString) >= 2)
+
+                foreach (Job element in listSearchFromDB)
                 {
-                    result.Add(element);
+                    if (element.weightCompareToLastAppliedJob(studentLastAppliedJobString) >= 2)
+                    {
+                        element.imgUrl = context.companies.Where(s => s.recruiter_id == element.recruiterId).Select(s => s.avatar).FirstOrDefault();
+                        element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
+                        result.Add(element);
+                    }
                 }
             }
             if (result.Count > 4)
@@ -508,6 +516,7 @@ namespace Capstone2021.Services
                     AppliedJobDTO dto = new AppliedJobDTO();
                     dto.id = element.job_id;
                     var job = context.jobs.Find(dto.id);
+                    dto.cvName = context.cvs.Where(s => s.id == element.cv_id).Select(s => s.cv_name).FirstOrDefault();
                     if (job != null)
                     {
                         dto.name = job.name;

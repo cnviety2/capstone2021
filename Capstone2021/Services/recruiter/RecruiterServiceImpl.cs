@@ -445,6 +445,14 @@ namespace Capstone2021.Services
                                     }
                                     context.SaveChanges();
                                 }
+                                if (job.manager_deny_job != null && job.manager_deny_job.Count != 0)
+                                {
+                                    foreach (manager_deny_job relationship in job.manager_deny_job.ToList())
+                                    {
+                                        context.manager_deny_job.Remove(relationship);
+                                    }
+                                    context.SaveChanges();
+                                }
                                 context.jobs.Remove(job);
                                 context.SaveChanges();
                                 contextTransaction.Commit();

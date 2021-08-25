@@ -79,6 +79,7 @@ namespace Capstone2021.DTO
         [JsonIgnore]
         public ICollection<student_apply_job> relationShipWithStudent { get; set; }
 
+        public String companyUrl { get; set; }
         public Boolean isOver { get; set; }
 
         /// <summary>

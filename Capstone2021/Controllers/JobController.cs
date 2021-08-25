@@ -4,6 +4,7 @@ using Capstone2021.Services.Student;
 using Capstone2021.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
@@ -539,7 +540,11 @@ namespace Capstone2021.Controllers
                 ModelState.AddModelError("dto.categories", "Ít nhất 1 category");
                 return BadRequest(ModelState);
             }
-            else if (dto.categories.Length > 5)
+            else
+            {
+                dto.categories = dto.categories.Distinct().ToArray();
+            } 
+            if (dto.categories.Length > 5)
             {
                 ModelState.AddModelError("dto.categories", "Không quá 5 category");
                 return BadRequest(ModelState);

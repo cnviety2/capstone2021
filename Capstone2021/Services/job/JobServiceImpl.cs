@@ -47,6 +47,17 @@ namespace Capstone2021.Services
                 else result.isOver = false;
                 result.endDate = result.createDate2.AddDays(result.activeDays).ToString("dd/MM/yyyy");
                 result.categories = new List<Category>();
+                var company = context.companies.Where(s => s.recruiter_id == result.recruiterId).FirstOrDefault();
+                if (company != null)
+                {
+                    result.companyName = company.name;
+                    result.companyUrl = company.website;
+                }
+                else
+                {
+                    result.companyUrl = "";
+                    result.companyName = "";
+                }
                 result.price = (int) context.active_days_price.Where(s => s.active_days == result.activeDays).Select(s => s.price).FirstOrDefault();
                 foreach (job_has_category relationship in result.relationship)
                 {
@@ -263,6 +274,12 @@ namespace Capstone2021.Services
                         {
                             using (var dbTransaction = context.Database.BeginTransaction())
                             {
+                                manager_deny_job relationshipBefore = context.manager_deny_job.Where(s => s.job_id == jobId).FirstOrDefault();
+                                if (relationshipBefore != null)
+                                {
+                                    context.manager_deny_job.Remove(relationshipBefore);
+                                    context.SaveChanges();
+                                }
                                 manager_deny_job relationship = new manager_deny_job();
                                 relationship.deny_message = message;
                                 relationship.job_id = jobId;

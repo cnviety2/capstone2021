@@ -448,6 +448,15 @@ namespace Capstone2021.Services
                     .Select(s => JobUtils.mapFromDbContext(s)).ToList<Job>();
                 foreach (Job element in result)
                 {
+                    var company = context.companies.Where(s => s.recruiter_id == element.recruiterId).FirstOrDefault();
+                    if (company != null)
+                    {
+                        element.imgUrl = company.avatar;
+                    }
+                    else
+                    {
+                        element.imgUrl = "";
+                    }
                     element.endDate = element.createDate2.AddDays(element.activeDays).ToString("dd/MM/yyyy");
                     element.categories = new List<Category>();
                     foreach (job_has_category relationship in element.relationship)
